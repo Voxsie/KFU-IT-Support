@@ -60,4 +60,8 @@ extension TicketsListPresenter: TicketsListViewOutput {
     func getState() -> TicketsListViewState {
         state
     }
+
+    func viewDidSelectItem() {
+        moduleOutput.mapOrLog { $0.moduleWantsToOpenDetails(self) }
+    }
 }

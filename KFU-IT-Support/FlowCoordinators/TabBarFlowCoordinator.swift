@@ -8,30 +8,41 @@
 import Swinject
 import UIKit
 
+protocol TabBarFlowCoordinatorInput: AnyObject {}
+
+protocol TabBarFlowCoordinatorOutput: AnyObject {
+    func flowCoordinatorWantsToOpenUnathorizedZone()
+}
+
 final class TabBarFlowCoordinator: WindowableFlowCoordinator {
 
     // MARK: Private propeties
-
-//    private var resolver: Resolver
 
     private var window: UIWindow?
 
     private var windowsManager: WindowsManagerProtocol
 
-    // MARK: Public Properties
+    private let output: TabBarFlowCoordinatorOutput
 
-    var viewController: UITabBarController?
+    private var finishHandlers: [() -> Void] = []
+
+    private var viewController: UITabBarController?
+
+    // MARK: Public Properties
 
     var childFlowCoordinators: [FlowCoordinatorProtocol] = []
 
     // MARK: Lifecycle
 
     public init(
-        windowsManager: WindowsManagerProtocol
-//        resolver: Resolver
+        windowsManager: WindowsManagerProtocol,
+        output: TabBarFlowCoordinatorOutput,
+        finishHandler: @escaping () -> Void
     ) {
         self.windowsManager = windowsManager
-//        self.resolver = resolver
+        self.output = output
+
+        finishHandlers.append(finishHandler)
     }
 
     // MARK: Public Methods
@@ -53,13 +64,29 @@ final class TabBarFlowCoordinator: WindowableFlowCoordinator {
             viewController,
             in: window,
             animated: animated,
-            completion: {}
+            completion: { [weak self] in
+                self?.didFinish()
+            }
         )
     }
 
     func finish(animated: Bool, completion: (() -> Void)?) {
-        viewController?.dismiss(animated: animated)
-        viewController = nil
+        if let completion {
+            finishHandlers.append(completion)
+        }
+
+        if let viewController {
+            viewController.dismissIfPresenting(animated: false)
+        } else {
+            didFinish()
+        }
+    }
+
+    // MARK: Private methods
+
+    private func didFinish() {
+        finishHandlers.forEach { $0() }
+        finishHandlers.removeAll()
     }
 }
 
@@ -69,14 +96,41 @@ private extension TabBarFlowCoordinator {
 
     func configureTabs() {
         addTicketModule()
+        addSettingsModule()
     }
 
     func addTicketModule() {
         guard let viewController else { return }
         let ticketFlowCoordinator = TicketsListFlowCoordinator(
-            parentTabbarViewController: viewController
-//            resolver: resolver
+            parentTabbarViewController: viewController,
+            output: self,
+            finishHandler: { [weak self] in
+                self?.childFlowCoordinators.remove(TicketsListFlowCoordinator.self)
+            }
         )
+        childFlowCoordinators.append(ticketFlowCoordinator)
         ticketFlowCoordinator.start(animated: false)
+    }
+
+    func addSettingsModule() {
+        guard let viewController else { return }
+        let settingsFlowCoordinator = SettingsFlowCoordinator(
+            parentTabbarViewController: viewController, 
+            output: self,
+            finishHandler: { [weak self] in
+                self?.childFlowCoordinators.remove(SettingsFlowCoordinator.self)
+            }
+        )
+        childFlowCoordinators.append(settingsFlowCoordinator)
+        settingsFlowCoordinator.start(animated: false)
+    }
+}
+
+extension TabBarFlowCoordinator: 
+    TicketsListFlowCoordinatorOutput,
+    SettingsFlowCoordinatorOutput
+{
+    func flowCoordinatorWantsToOpenUnathorizedZone() {
+        output.flowCoordinatorWantsToOpenUnathorizedZone()
     }
 }

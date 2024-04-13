@@ -68,6 +68,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.12.0):
     - GoogleUtilities/Logger
+  - LetterAvatarKit (1.2.5)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
@@ -86,6 +87,7 @@ PODS:
 
 DEPENDENCIES:
   - FirebaseAnalytics
+  - LetterAvatarKit (= 1.2.5)
   - Moya (~> 15.0)
   - SkeletonView
   - SnapKit (~> 5.6.0)
@@ -102,6 +104,7 @@ SPEC REPOS:
     - FirebaseInstallations
     - GoogleAppMeasurement
     - GoogleUtilities
+    - LetterAvatarKit
     - Moya
     - nanopb
     - PromisesObjC
@@ -119,6 +122,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 558b1da7d65afeb996fd5c814332f013234ece4e
   GoogleAppMeasurement: bb3c564c3efb933136af0e94899e0a46167466a8
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
+  LetterAvatarKit: a1d64fc3699e399890e3c3ed5daa507c83bb3ca2
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
@@ -128,6 +132,6 @@ SPEC CHECKSUMS:
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
   Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
 
-PODFILE CHECKSUM: c1ee58eab8ffe0751de4eb6d7d24beed4f77b1ad
+PODFILE CHECKSUM: 3ca7f7fd8584638aa07fdc2a0815ee508af6b04d
 
 COCOAPODS: 1.14.3

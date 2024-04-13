@@ -50,15 +50,3 @@ final class GreyZoneFlowCoordinator: FlowCoordinatorProtocol {
         // unused
     }
 }
-
-//extension GreyZoneFlowCoordinator: GreyZoneModuleOutput {
-//    func showTabBarModule() {
-//        guard let window else { return }
-//        let coordinator = TabBarFlowCoordinator(
-//            windowsManager: windowsManager,
-//            resolver: resolver
-//        )
-//        childFlowCoordinators.append(coordinator)
-//        coordinator.start(animated: true, in: window)
-//    }
-//}

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol RepositoryProtocol {
-//    func getTicketList(completion: ((Result<[MenuItem], Error>) -> Void))
+//    func getTicketsList(completion: ((Result<[MenuItem], Error>) -> Void))
 }
 
 final class Repository: RepositoryProtocol {

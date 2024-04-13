@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol TicketsListInteractorInput: AnyObject {}
 
 protocol TicketsListInteractorOutput: AnyObject {}

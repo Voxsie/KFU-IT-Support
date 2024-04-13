@@ -10,17 +10,14 @@ import UIKit
 public final class TicketsListModuleBuilder {
 
     // MARK: Private Properties
-    
-//    private let resolver: TCSResolver
+
     private weak var moduleOutput: TicketsListModuleOutput?
 
     // MARK: Lifecycle
 
     public init(
-//        resolver: TCSResolver,
         moduleOutput: TicketsListModuleOutput?
     ) {
-//        self.resolver = resolver
         self.moduleOutput = moduleOutput
     }
 

@@ -10,7 +10,12 @@ import Foundation
 protocol TicketsListViewInput: AnyObject {}
 
 protocol TicketsListViewOutput: AnyObject {
+
     func viewDidLoadEvent()
+
     func viewDidUnloadEvent()
+
     func getState() -> TicketsListViewState
+    
+    func viewDidSelectItem()
 }

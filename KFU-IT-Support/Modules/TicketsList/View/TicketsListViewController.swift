@@ -26,11 +26,16 @@ final class TicketsListViewController: UIViewController {
             collectionViewLayout: createCollectionViewLayout()
         )
         collectionView.dataSource = self
-        collectionView.dataSource = self
+        collectionView.delegate = self
 
         collectionView.register(
-            TicketListCollectionViewCell.self,
-            forCellWithReuseIdentifier: TicketListCollectionViewCell.reusableIdentifier
+            TicketsListCollectionViewCell.self,
+            forCellWithReuseIdentifier: TicketsListCollectionViewCell.reusableIdentifier
+        )
+        collectionView.register(
+            TicketListChipsCollectionHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: TicketListChipsCollectionHeaderView.reusableIdentifier
         )
 
         return collectionView
@@ -129,13 +134,15 @@ private extension TicketsListViewController {
 
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(112)
+            heightDimension: .estimated(46)
         )
-        let headerElement = NSCollectionLayoutBoundarySupplementaryItem(
+
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
+        section.boundarySupplementaryItems = [header]
 
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
@@ -172,9 +179,9 @@ extension TicketsListViewController:
         switch state {
         case .display:
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: TicketListCollectionViewCell.reusableIdentifier,
+                withReuseIdentifier: TicketsListCollectionViewCell.reusableIdentifier,
                 for: indexPath
-            ) as? TicketListCollectionViewCell else {
+            ) as? TicketsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configure()
@@ -186,5 +193,33 @@ extension TicketsListViewController:
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        output.viewDidSelectItem()
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+
+        let state = output.getState()
+
+        guard
+              let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: TicketListChipsCollectionHeaderView.reusableIdentifier,
+                for: indexPath
+              ) as? TicketListChipsCollectionHeaderView
+        else { return UICollectionReusableView() }
+
+//        header.configure(headerDisplayData)
+
+        return header
     }
 }

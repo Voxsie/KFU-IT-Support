@@ -10,4 +10,24 @@ import UIKit
 @frozen public enum NavigationFlow {
     case present(Weak<UIViewController>)
     case push(Weak<UINavigationController>)
+
+    var isPushed: Bool {
+        switch self {
+        case .present:
+            return false
+
+        case .push:
+            return true
+        }
+    }
+
+    var isPresented: Bool {
+        switch self {
+        case .present:
+            return true
+
+        case .push:
+            return false
+        }
+    }
 }

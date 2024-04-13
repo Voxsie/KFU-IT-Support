@@ -8,35 +8,54 @@
 import Swinject
 import UIKit
 
+protocol TicketsListFlowCoordinatorInput {}
+
+protocol TicketsListFlowCoordinatorOutput: AuthrozitionFlowCoordinatorProtocol {}
+
 final class TicketsListFlowCoordinator: FlowCoordinatorProtocol {
 
     // MARK: Private propeties
 
-//    private var resolver: Resolver
+    private var parentTabbarViewController: UITabBarController?
+    private weak var rootViewController: UIViewController?
+    private weak var rootNavigationController: UINavigationController?
 
-    private weak var parentTabbarViewController: UITabBarController?
+    private var finishHandlers: [() -> Void] = []
+
+    private let output: TicketsListFlowCoordinatorOutput
+
+    // MARK: Public properties
 
     var childFlowCoordinators: [FlowCoordinatorProtocol] = []
 
+    // MARK: Lifecycle
+
     init(
-        parentTabbarViewController: UITabBarController
+        parentTabbarViewController: UITabBarController,
+        output: TicketsListFlowCoordinatorOutput,
+        finishHandler: @escaping () -> Void
     ) {
         self.parentTabbarViewController = parentTabbarViewController
-//        self.resolver = resolver
+        self.output = output
+
+        finishHandlers.append(finishHandler)
     }
 
     func start(animated: Bool) {
         let builder = TicketsListModuleBuilder(
             moduleOutput: self
-//            resolver: resolver
         )
         let ticketsListViewController = builder.build()
+        rootViewController = ticketsListViewController
         ticketsListViewController.tabBarItem = UITabBarItem(
             title: "Заявки",
-            image: UIImage(),
+            image: UIImage(systemName: "list.dash"),
             tag: 0
         )
-        let navigationController = UINavigationController(rootViewController: ticketsListViewController)
+        let navigationController = UINavigationController(
+            rootViewController: ticketsListViewController
+        )
+        rootNavigationController = navigationController
         parentTabbarViewController?.appendViewController(
             navigationController,
             animated: false
@@ -44,11 +63,46 @@ final class TicketsListFlowCoordinator: FlowCoordinatorProtocol {
     }
 
     func finish(animated: Bool, completion: (() -> Void)?) {
-        //
+        if let completion {
+            finishHandlers.append(completion)
+        }
+
+        if let rootViewController {
+            rootViewController.dismissIfPresenting(animated: false)
+        } else {
+            didFinish()
+        }
+    }
+
+    // MARK: Private methods
+
+    private func didFinish() {
+        finishHandlers.forEach { $0() }
+        finishHandlers.removeAll()
     }
 }
 
+// MARK: - TicketsListModuleOutput
+
 extension TicketsListFlowCoordinator: TicketsListModuleOutput {
+    func moduleWantsToOpenDetails(_ module: TicketsListModuleInput) {
+        guard let rootNavigationController,
+              !childFlowCoordinators.isContains(ofType: TicketDetailsFlowCoordinator.self)
+        else { return }
+
+        let detailsFlowCoordinator = TicketDetailsFlowCoordinator(
+            navigationFlow: .present(Weak(wrappedValue: rootNavigationController)),
+            output: self,
+            parentRootViewController: rootViewController!,
+            parentRootNavigationController: rootNavigationController,
+            finishHandler: { [weak self] in
+                self?.childFlowCoordinators.remove(TicketDetailsFlowCoordinator.self)
+            }
+        )
+        childFlowCoordinators.append(detailsFlowCoordinator)
+        detailsFlowCoordinator.start(animated: true)
+    }
+    
     func moduleDidLoad(_ module: TicketsListModuleInput) {
         //
     }
@@ -56,4 +110,10 @@ extension TicketsListFlowCoordinator: TicketsListModuleOutput {
     func moduleDidClose(_ module: TicketsListModuleInput) {
         //
     }
+}
+
+// MARK: - TicketDetailsFlowCoordinatorOutput
+
+extension TicketsListFlowCoordinator: TicketDetailsFlowCoordinatorOutput {
+
 }

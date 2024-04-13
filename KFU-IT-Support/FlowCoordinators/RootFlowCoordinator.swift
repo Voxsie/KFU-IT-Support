@@ -13,6 +13,9 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
 
     private var window: UIWindow?
 
+    private var isExample = true
+    private var isAuthorized = false
+
     // MARK: Public properties
 
     var childFlowCoordinators: [FlowCoordinatorProtocol] = []
@@ -29,23 +32,92 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
     // TODO: Исправить инициализацию WindowsManager
 
     func start(animated: Bool) {
-        guard let window else { return }
-
-        let coordinator = TabBarFlowCoordinator(
-            windowsManager: WindowsManager()
-        )
-        childFlowCoordinators.append(coordinator)
-        coordinator.start(animated: true, in: window)
-
-//        let greyZoneFlowCoordinator = GreyZoneFlowCoordinator(
-//            window: window,
-//            windowsManager: WindowsManager()
-//        )
-//        childFlowCoordinators.append(greyZoneFlowCoordinator)
-//        greyZoneFlowCoordinator.start(animated: animated)
+        updateZone()
     }
 
     func finish(animated: Bool, completion: (() -> Void)?) {
        // unused
     }
+
+    private func updateZone() {
+        if isExample {
+            openExample()
+        } else {
+            if isAuthorized {
+                openAuthorizedZone()
+            } else {
+                openUnauthorizedZone()
+            }
+        }
+    }
+
+    private func openExample() {
+        guard let window else { return }
+
+        let vc = UINavigationController()
+        vc.view.backgroundColor = .red
+        window.rootViewController = vc
+
+        window.makeKeyAndVisible()
+
+
+        let coordinator = TicketClosingFlowCoordinator(
+            navigationFlow: .present(.init(wrappedValue: window.rootViewController ?? vc)),
+            output: self,
+            parentRootViewController: window.rootViewController!,
+            parentRootNavigationController: window.rootViewController as! UINavigationController,
+            finishHandler: { [weak self] in
+                self?.childFlowCoordinators.remove(TicketClosingFlowCoordinator.self)
+            }
+        )
+        childFlowCoordinators.append(coordinator)
+        coordinator.start(animated: true)
+    }
+
+    private func openAuthorizedZone() {
+        guard let window else { return }
+
+        let coordinator = TabBarFlowCoordinator(
+            windowsManager: WindowsManager(), 
+            output: self,
+            finishHandler: { [weak self] in
+                self?.childFlowCoordinators.remove(TabBarFlowCoordinator.self)
+            }
+        )
+        childFlowCoordinators.append(coordinator)
+        coordinator.start(animated: true, in: window)
+    }
+
+    private func openUnauthorizedZone() {
+        guard let window else { return }
+
+        let coordinator = AuthFlowCoordinator(
+            window: window,
+            windowsManager: WindowsManager(),
+            output: self,
+            finishHandler: { [weak self] in
+                self?.childFlowCoordinators.remove(AuthFlowCoordinator.self)
+            }
+        )
+        childFlowCoordinators.append(coordinator)
+        coordinator.start(animated: true)
+    }
 }
+
+extension RootFlowCoordinator: AuthFlowCoordinatorOutput {
+    func flowCoordinatorWantsToOpenAuthorizedZone() {
+        isAuthorized = true
+        updateZone()
+    }
+}
+
+extension RootFlowCoordinator: TabBarFlowCoordinatorOutput {
+    func flowCoordinatorWantsToOpenUnathorizedZone() {
+        isAuthorized = false
+        updateZone()
+    }
+}
+
+extension RootFlowCoordinator: TicketClosingFlowCoordinatorOutput {}
+
+extension RootFlowCoordinator: SelectListFlowCoordinatorOutput {}

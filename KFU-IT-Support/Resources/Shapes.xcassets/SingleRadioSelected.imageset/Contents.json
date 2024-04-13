@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "radio-button-checked-svgrepo-com.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "original"
+  }
+}

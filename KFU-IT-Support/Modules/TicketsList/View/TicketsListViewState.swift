@@ -11,4 +11,8 @@ enum TicketsListViewState {
     case loading
     case display
     case error
+
+    struct TicketsListShortDisplay {
+        
+    }
 }
