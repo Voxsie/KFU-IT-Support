@@ -114,7 +114,7 @@ extension TicketClosingFlowCoordinator: TicketClosingModuleOutput {
     func moduleDidLoad(_ module: TicketClosingModuleInput) {
         //
     }
-    
+
     func moduleDidClose(_ module: TicketClosingModuleInput) {
         //
     }

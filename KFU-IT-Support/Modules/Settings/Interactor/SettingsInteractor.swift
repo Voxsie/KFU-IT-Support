@@ -19,14 +19,11 @@ final class SettingsInteractor {
 
     weak var output: SettingsInteractorOutput?
 
-
     // MARK: Private Properties
 
     // MARK: Lifecycle
 
-
     // MARK: Public
-
 
     // MARK: Private
 
@@ -37,4 +34,3 @@ final class SettingsInteractor {
 extension SettingsInteractor: SettingsInteractorInput {
 
 }
-

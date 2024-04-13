@@ -8,16 +8,15 @@
 import UIKit
 
 final class SelectListViewController: UIViewController {
-    
+
     // MARK: Private data structures
 
     private enum Constants {
-    
+
     }
-    
+
     // MARK: Public Properties
-    
-    
+
     // MARK: Private Properties
 
     private lazy var collectionView: UICollectionView = {
@@ -53,11 +52,11 @@ final class SelectListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupView()
         output.viewDidLoadEvent()
     }
-    
+
     // MARK: Actions
 
     @objc
@@ -69,7 +68,7 @@ final class SelectListViewController: UIViewController {
     private func didRightButtonPressed() {
         output.viewDidTapSaveButton()
     }
-    
+
     // MARK: Private
 
     private func setupView() {
@@ -106,12 +105,11 @@ final class SelectListViewController: UIViewController {
 // MARK: - SelectListViewInput
 
 extension SelectListViewController: SelectListViewInput {
-    
+
 }
 
-extension SelectListViewController: 
-    UICollectionViewDataSource, UICollectionViewDelegate
-{
+extension SelectListViewController:
+    UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(
         _ collectionView: UICollectionView,
@@ -120,13 +118,12 @@ extension SelectListViewController:
         let items = output.getData()
         return items.count
     }
-    
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard 
+        guard
             let item = output.getData()[safe: indexPath.row],
             let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: TicketClosingRadioViewCell.reusableIdentifier,
@@ -187,4 +184,3 @@ private extension SelectListViewController {
         return layout
     }
 }
-

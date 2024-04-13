@@ -49,4 +49,3 @@ extension UIButton {
         self.imageView?.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -offset).isActive = true
     }
 }
-

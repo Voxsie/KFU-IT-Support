@@ -8,7 +8,7 @@
 import Foundation
 
 extension Optional {
-    
+
     @discardableResult
     func mapOrLog<U>(
         fileID: String = #fileID,
@@ -30,7 +30,7 @@ extension Optional {
             return nil
         }
     }
-    
+
     func unwrap(
         fileID: String = #fileID,
         function: String = "<function>",
@@ -39,7 +39,7 @@ extension Optional {
         switch self {
         case let .some(wrapped):
             return wrapped
-            
+
         case .none:
             throw TechError.unexpectedNil(
                 Wrapped.self,
@@ -49,7 +49,7 @@ extension Optional {
             )
         }
     }
-    
+
     func unwrap<T>(
         fileID: String = #fileID,
         function: String = "<function>",
@@ -61,7 +61,7 @@ extension Optional {
             function: function,
             line: line
         )
-        
+
         return try transform(unwrap)
     }
 }

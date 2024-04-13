@@ -88,7 +88,7 @@ extension AuthFlowCoordinator: AuthModuleOutput {
     func moduleWantsToOpenAuthorizedZone(_ module: AuthModuleInput) {
         output.flowCoordinatorWantsToOpenAuthorizedZone()
     }
-    
+
     func moduleDidLoad(_ module: AuthModuleInput) {
         //
     }
@@ -97,4 +97,3 @@ extension AuthFlowCoordinator: AuthModuleOutput {
         //
     }
 }
-

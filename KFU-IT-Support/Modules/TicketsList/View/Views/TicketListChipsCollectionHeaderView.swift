@@ -94,7 +94,6 @@ extension TicketListChipsCollectionHeaderView: UICollectionViewDelegate, UIColle
     ) -> Int {
         return 10
     }
-    
 
     func collectionView(
         _ collectionView: UICollectionView,

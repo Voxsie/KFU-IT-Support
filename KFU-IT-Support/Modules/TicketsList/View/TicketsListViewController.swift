@@ -9,15 +9,15 @@ import UIKit
 import SnapKit
 
 final class TicketsListViewController: UIViewController {
-    
+
     // MARK: Private data structures
 
     private enum Constants {
         static let ticketsTitle = "Заявки"
     }
-    
+
     // MARK: Public Properties
-    
+
     // MARK: Private Properties
 
     private lazy var collectionView: UICollectionView = {
@@ -49,26 +49,24 @@ final class TicketsListViewController: UIViewController {
         self.output = output
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     deinit {
         output.viewDidUnloadEvent()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupView()
         output.viewDidLoadEvent()
     }
-    
-    
+
     // MARK: Actions
-    
-    
+
     // MARK: Private methods
 
     private func setupView() {
@@ -86,7 +84,7 @@ final class TicketsListViewController: UIViewController {
 // MARK: - TicketsListViewInput
 
 extension TicketsListViewController: TicketsListViewInput {
-    
+
 }
 
 // MARK: UICollectionViewCompositionalLayout

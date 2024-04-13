@@ -8,11 +8,11 @@
 import Foundation
 
 public protocol SelectListModuleInput: AnyObject {
-    
+
 }
 
 public protocol SelectListModuleOutput: AnyObject {
-    
+
     func moduleDidLoad(_ module: SelectListModuleInput)
     func moduleDidClose(_ module: SelectListModuleInput)
 

@@ -10,7 +10,7 @@ import Foundation
 protocol SelectListViewInput: AnyObject {}
 
 protocol SelectListViewOutput: AnyObject {
-    
+
     func viewDidLoadEvent()
     func viewDidUnloadEvent()
     func viewDidTapSaveButton()

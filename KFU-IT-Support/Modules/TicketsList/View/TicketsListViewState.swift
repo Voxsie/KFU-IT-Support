@@ -13,6 +13,6 @@ enum TicketsListViewState {
     case error
 
     struct TicketsListShortDisplay {
-        
+
     }
 }

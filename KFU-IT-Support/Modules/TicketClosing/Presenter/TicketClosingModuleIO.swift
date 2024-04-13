@@ -8,11 +8,11 @@
 import Foundation
 
 public protocol TicketClosingModuleInput: AnyObject {
-    
+
 }
 
 public protocol TicketClosingModuleOutput: AnyObject {
-    
+
     func moduleDidLoad(_ module: TicketClosingModuleInput)
     func moduleDidClose(_ module: TicketClosingModuleInput)
     func moduleWantsToClose(_ module: TicketClosingModuleInput)

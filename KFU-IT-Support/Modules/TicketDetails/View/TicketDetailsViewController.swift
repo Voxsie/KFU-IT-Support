@@ -27,11 +27,11 @@ final class TicketDetailsViewController: UIViewController {
         )
         collectionView.register(
             TicketDetailsHeaderView.self,
-            forSupplementaryViewOfKind:  UICollectionView.elementKindSectionHeader,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: TicketDetailsHeaderView.reusableIdentifier
         )
         collectionView.register(
-            TicketDetailsCollectionViewCell.self, 
+            TicketDetailsCollectionViewCell.self,
             forCellWithReuseIdentifier: TicketDetailsCollectionViewCell.reusableIdentifier
         )
         collectionView.dataSource = self
@@ -66,9 +66,7 @@ final class TicketDetailsViewController: UIViewController {
         output.viewDidLoadEvent()
     }
 
-
     // MARK: Actions
-
 
     // MARK: Private methods
 
@@ -95,7 +93,6 @@ final class TicketDetailsViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
-
 
     @objc
     private func didLeftButtonPressed() {
@@ -226,10 +223,8 @@ extension TicketDetailsViewController:
 
         return header
     }
-    
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 }
-

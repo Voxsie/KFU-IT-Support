@@ -5,18 +5,17 @@
 //  Created by Ilya Zheltikov on 29.03.2024.
 //
 
-
 final class TicketsListPresenter {
-    
+
     // MARK: Private Data Structures
 
     private enum Constants {}
-    
+
     // MARK: Public Properties
 
     weak var view: TicketsListViewInput?
     weak var moduleOutput: TicketsListModuleOutput?
-    
+
     // MARK: Private Properties
 
     private let interactor: TicketsListInteractorInput
@@ -29,9 +28,9 @@ final class TicketsListPresenter {
         self.interactor = interactor
         self.state = .display
     }
-    
+
     // MARK: Private
-    
+
 }
 
 // MARK: - TicketsListModuleInput
@@ -44,7 +43,6 @@ extension TicketsListPresenter: TicketsListModuleInput {
 
 extension TicketsListPresenter: TicketsListInteractorOutput {}
 
-
 // MARK: - TicketsListViewOutput
 
 extension TicketsListPresenter: TicketsListViewOutput {
@@ -52,7 +50,7 @@ extension TicketsListPresenter: TicketsListViewOutput {
     func viewDidLoadEvent() {
         //
     }
-    
+
     func viewDidUnloadEvent() {
         //
     }

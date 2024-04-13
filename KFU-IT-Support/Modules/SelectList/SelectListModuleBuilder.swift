@@ -22,7 +22,6 @@ public final class SelectListModuleBuilder {
         self.output = output
     }
 
-
     // MARK: Public Methods
 
     public func build() -> UIViewController {
@@ -32,7 +31,7 @@ public final class SelectListModuleBuilder {
             interactor: interactor
         )
         let viewController = SelectListViewController(output: presenter)
-        
+
         presenter.view = viewController
         presenter.moduleOutput = output
 

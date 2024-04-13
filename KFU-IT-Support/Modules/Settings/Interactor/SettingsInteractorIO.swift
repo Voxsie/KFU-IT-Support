@@ -10,4 +10,3 @@ import Foundation
 protocol SettingsInteractorInput: AnyObject {}
 
 protocol SettingsInteractorOutput: AnyObject {}
-

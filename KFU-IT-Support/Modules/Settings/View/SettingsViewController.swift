@@ -55,9 +55,7 @@ final class SettingsViewController: UIViewController {
         output.viewDidLoadEvent()
     }
 
-
     // MARK: Actions
-
 
     // MARK: Private methods
 

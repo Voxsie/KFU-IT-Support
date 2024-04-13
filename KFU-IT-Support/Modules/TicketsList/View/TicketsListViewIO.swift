@@ -16,6 +16,6 @@ protocol TicketsListViewOutput: AnyObject {
     func viewDidUnloadEvent()
 
     func getState() -> TicketsListViewState
-    
+
     func viewDidSelectItem()
 }

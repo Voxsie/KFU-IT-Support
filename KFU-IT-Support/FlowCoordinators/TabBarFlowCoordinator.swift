@@ -115,7 +115,7 @@ private extension TabBarFlowCoordinator {
     func addSettingsModule() {
         guard let viewController else { return }
         let settingsFlowCoordinator = SettingsFlowCoordinator(
-            parentTabbarViewController: viewController, 
+            parentTabbarViewController: viewController,
             output: self,
             finishHandler: { [weak self] in
                 self?.childFlowCoordinators.remove(SettingsFlowCoordinator.self)
@@ -126,10 +126,9 @@ private extension TabBarFlowCoordinator {
     }
 }
 
-extension TabBarFlowCoordinator: 
+extension TabBarFlowCoordinator:
     TicketsListFlowCoordinatorOutput,
-    SettingsFlowCoordinatorOutput
-{
+    SettingsFlowCoordinatorOutput {
     func flowCoordinatorWantsToOpenUnathorizedZone() {
         output.flowCoordinatorWantsToOpenUnathorizedZone()
     }

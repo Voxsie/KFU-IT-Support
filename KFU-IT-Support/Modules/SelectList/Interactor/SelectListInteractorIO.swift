@@ -7,11 +7,10 @@
 
 import Foundation
 
-
 protocol SelectListInteractorInput: AnyObject {
-    
+
 }
 
 protocol SelectListInteractorOutput: AnyObject {
-    
+
 }

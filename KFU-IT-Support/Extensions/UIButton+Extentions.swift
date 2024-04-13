@@ -16,17 +16,26 @@ extension UIButton {
         } else {
             contentHorizontalAlignment = .left
             contentVerticalAlignment = .center
-            titleEdgeInsets = UIEdgeInsets(top: insets.top, left: insets.left + layoutMargins.left, bottom: insets.bottom, right: insets.right + layoutMargins.right)
-            contentEdgeInsets = UIEdgeInsets(top: 0, left: -insets.left + layoutMargins.left, bottom: 0, right: -insets.right + layoutMargins.right)
+            titleEdgeInsets = UIEdgeInsets(
+                top: insets.top,
+                left: insets.left + layoutMargins.left,
+                bottom: insets.bottom,
+                right: insets.right + layoutMargins.right
+            )
+            contentEdgeInsets = UIEdgeInsets(
+                top: 0, left: -insets.left + layoutMargins.left,
+                bottom: 0,
+                right: -insets.right + layoutMargins.right
+            )
         }
     }
 }
 
 extension UIControl {
-    func addAction(for controlEvents: UIControl.Event = .touchUpInside, _ closure: @escaping()->()) {
+    func addAction(for controlEvents: UIControl.Event = .touchUpInside, _ closure: @escaping() -> Void) {
         @objc class ClosureSleeve: NSObject {
-            let closure:()->()
-            init(_ closure: @escaping()->()) { self.closure = closure }
+            let closure: () -> Void
+            init(_ closure: @escaping() -> Void) { self.closure = closure }
             @objc func invoke() { closure() }
         }
         let sleeve = ClosureSleeve(closure)

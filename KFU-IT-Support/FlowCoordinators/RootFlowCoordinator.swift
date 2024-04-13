@@ -53,19 +53,22 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
 
     private func openExample() {
         guard let window else { return }
-
-        let vc = UINavigationController()
-        vc.view.backgroundColor = .red
-        window.rootViewController = vc
+        let navigationVC = UINavigationController()
+        navigationVC.view.backgroundColor = .red
+        window.rootViewController = navigationVC
 
         window.makeKeyAndVisible()
 
+        guard
+            let rootVC = window.rootViewController,
+            let navRootVC = rootVC as? UINavigationController
+        else { return }
 
         let coordinator = TicketClosingFlowCoordinator(
-            navigationFlow: .present(.init(wrappedValue: window.rootViewController ?? vc)),
+            navigationFlow: .present(.init(wrappedValue: window.rootViewController ?? navigationVC)),
             output: self,
-            parentRootViewController: window.rootViewController!,
-            parentRootNavigationController: window.rootViewController as! UINavigationController,
+            parentRootViewController: rootVC,
+            parentRootNavigationController: navRootVC,
             finishHandler: { [weak self] in
                 self?.childFlowCoordinators.remove(TicketClosingFlowCoordinator.self)
             }
@@ -78,7 +81,7 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
         guard let window else { return }
 
         let coordinator = TabBarFlowCoordinator(
-            windowsManager: WindowsManager(), 
+            windowsManager: WindowsManager(),
             output: self,
             finishHandler: { [weak self] in
                 self?.childFlowCoordinators.remove(TabBarFlowCoordinator.self)

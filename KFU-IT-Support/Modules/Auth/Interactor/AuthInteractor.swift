@@ -19,25 +19,18 @@ final class AuthInteractor {
 
     weak var output: AuthInteractorOutput?
 
-
     // MARK: Private Properties
 
     // MARK: Lifecycle
 
-
     // MARK: Public
-
 
     // MARK: Private
 
 }
-
-
-
 
 // MARK: - AuthInteractorInput
 
 extension AuthInteractor: AuthInteractorInput {
 
 }
-

@@ -10,6 +10,6 @@ import Foundation
 public protocol TicketsListModuleInput: AnyObject {}
 
 public protocol TicketsListModuleOutput: AnyObject {
-    
+
     func moduleWantsToOpenDetails(_ module: TicketsListModuleInput)
 }

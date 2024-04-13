@@ -45,7 +45,6 @@ extension AuthPresenter: AuthModuleInput {
 
 extension AuthPresenter: AuthInteractorOutput {}
 
-
 // MARK: - AuthViewOutput
 
 extension AuthPresenter: AuthViewOutput {

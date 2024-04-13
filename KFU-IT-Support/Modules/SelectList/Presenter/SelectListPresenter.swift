@@ -5,21 +5,19 @@
 //  Created by Ilya Zheltikov on 12.04.2024.
 //
 
-
 final class SelectListPresenter {
-    
+
     // MARK: Private Data Structures
 
     private enum Constants {
-        
+
     }
-    
+
     // MARK: Public Properties
 
     weak var view: SelectListViewInput?
     weak var moduleOutput: SelectListModuleOutput?
-    
-    
+
     // MARK: Private Properties
 
     private let state: SelectListViewState
@@ -41,13 +39,10 @@ final class SelectListPresenter {
             .init(uuid: "1", title: "Полностью", isSelected: false)
         ])
     }
-    
+
     // MARK: Private
 
 }
-
-
-
 
 // MARK: - SelectListModuleInput
 
@@ -55,17 +50,11 @@ extension SelectListPresenter: SelectListModuleInput {
 
 }
 
-
-
-
 // MARK: - SelectListInteractorOutput
 
 extension SelectListPresenter: SelectListInteractorOutput {
-    
+
 }
-
-
-
 
 // MARK: - SelectListViewOutput
 
@@ -95,4 +84,3 @@ extension SelectListPresenter: SelectListViewOutput {
         moduleOutput?.moduleDidClose(self)
     }
 }
-

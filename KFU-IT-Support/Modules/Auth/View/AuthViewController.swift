@@ -101,7 +101,6 @@ final class AuthViewController: UIViewController {
 
     // MARK: Actions
 
-
     // MARK: Private methods
 
     private func setupView() {
@@ -133,7 +132,7 @@ final class AuthViewController: UIViewController {
             $0.height.equalTo(52)
         }
         loginButton.addTarget(
-            self, 
+            self,
             action: #selector(sendData),
             for: .touchUpInside
         )

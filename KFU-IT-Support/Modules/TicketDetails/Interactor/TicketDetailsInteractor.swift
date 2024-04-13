@@ -5,7 +5,6 @@
 //  Created by Ilya Zheltikov on 07.04.2024.
 //
 
-
 import Foundation
 
 final class TicketDetailsInteractor {
@@ -20,14 +19,11 @@ final class TicketDetailsInteractor {
 
     weak var output: TicketDetailsInteractorOutput?
 
-
     // MARK: Private Properties
 
     // MARK: Lifecycle
 
-
     // MARK: Public
-
 
     // MARK: Private
 }

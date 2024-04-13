@@ -8,11 +8,11 @@
 import Foundation
 
 protocol TicketClosingViewInput: AnyObject {
-    
+
 }
 
 protocol TicketClosingViewOutput: AnyObject {
-    
+
     func viewDidLoadEvent()
     func viewDidUnloadEvent()
 

@@ -21,14 +21,13 @@ public final class TicketsListModuleBuilder {
         self.moduleOutput = moduleOutput
     }
 
-
     // MARK: Public Methods
 
     public func build() -> UIViewController {
         let interactor = TicketsListInteractor()
         let presenter = TicketsListPresenter(interactor: interactor)
         let viewController = TicketsListViewController(output: presenter)
-        
+
         presenter.view = viewController
         presenter.moduleOutput = moduleOutput
 

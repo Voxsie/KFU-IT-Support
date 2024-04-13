@@ -13,7 +13,7 @@ protocol AuthViewOutput: AnyObject {
     func viewDidLoadEvent()
     func viewDidUnloadEvent()
     func getState() -> AuthViewState
-    
+
     func sendData(
         login: String,
         password: String

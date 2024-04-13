@@ -21,7 +21,6 @@ public final class AuthModuleBuilder {
         self.moduleOutput = moduleOutput
     }
 
-
     // MARK: Public Methods
 
     public func build() -> UIViewController {
@@ -37,4 +36,3 @@ public final class AuthModuleBuilder {
         return viewController
     }
 }
-

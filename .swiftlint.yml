@@ -1,0 +1,10 @@
+disabled_rules:
+  - blanket_disable_command
+  - nesting
+  - implicit_getter
+
+excluded:
+  - Carthage
+  - Pods
+  - Source/ExcludedFolder
+  - Source/ExcludedFile.swift

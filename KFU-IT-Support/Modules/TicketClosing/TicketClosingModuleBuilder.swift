@@ -22,14 +22,13 @@ public final class TicketClosingModuleBuilder {
         self.output = output
     }
 
-
     // MARK: Public Methods
 
     public func build() -> UIViewController {
         let interactor = TicketClosingInteractor()
         let presenter = TicketClosingPresenter(interactor: interactor)
         let viewController = TicketClosingViewController(output: presenter)
-        
+
         presenter.view = viewController
         presenter.moduleOutput = output
 

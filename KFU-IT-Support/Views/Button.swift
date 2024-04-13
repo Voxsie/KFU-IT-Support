@@ -56,11 +56,11 @@ final class Button: UIButton {
         self.layer.cornerRadius = 10
         self.backgroundColor = Asset.Colors.primaryKFU.color
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: Public methods
 
     func showLoading() {

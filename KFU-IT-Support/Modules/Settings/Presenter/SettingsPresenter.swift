@@ -45,7 +45,6 @@ extension SettingsPresenter: SettingsModuleInput {
 
 extension SettingsPresenter: SettingsInteractorOutput {}
 
-
 // MARK: - SettingsViewOutput
 
 extension SettingsPresenter: SettingsViewOutput {

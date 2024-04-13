@@ -102,11 +102,11 @@ extension TicketsListFlowCoordinator: TicketsListModuleOutput {
         childFlowCoordinators.append(detailsFlowCoordinator)
         detailsFlowCoordinator.start(animated: true)
     }
-    
+
     func moduleDidLoad(_ module: TicketsListModuleInput) {
         //
     }
-    
+
     func moduleDidClose(_ module: TicketsListModuleInput) {
         //
     }

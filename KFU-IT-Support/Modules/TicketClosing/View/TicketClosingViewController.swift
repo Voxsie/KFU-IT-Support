@@ -17,11 +17,10 @@ final class TicketClosingViewController: UIViewController {
 
     // MARK: Public Properties
 
-
     // MARK: Private Properties
 
     private let output: TicketClosingViewOutput
-    
+
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +55,14 @@ final class TicketClosingViewController: UIViewController {
         let view = TicketClosingTextView()
         view.configure(
             title: "Описание выполненных работ\n(до 2000 символов)",
-            textValue: "Ошибка работы ИАС. в дополнение к заявке 5022 от 05.04.2023 1. Отпуск по беременности и родам с возможностью его продления 2. Отпуск по уходу за ребенком (предусмотреть возможность выбора \"до ____ лет\" (но не более 3-х лет)) 3. Продление отпуска по уходу за ребенком до _____ лет (но не более 3-х лет) п. 1 и п. 2 это совершенно разные отпуска в т.ч. с финансовой точки зрения. По аналогии с работниками: п. 1 - это больничный лист, п.2 - это отпуск без сохранения заработной платы.", 
+            textValue: """
+            Ошибка работы ИАС. в дополнение к заявке 5022 от 05.04.2023
+            1. Отпуск по беременности и родам с возможностью его продления
+            2. Отпуск по уходу за ребенком (предусмотреть возможность выбора \"до ____ лет\" (но не более 3-х лет))
+            3. Продление отпуска по уходу за ребенком до _____ лет (но не более 3-х лет) п. 1 и п. 2
+            это совершенно разные отпуска в т.ч. с финансовой точки зрения.
+            По аналогии с работниками: п. 1 - это больничный лист, п.2 - это отпуск без сохранения заработной платы.
+            """,
             didBecomeActive: {}
         )
         return view
@@ -66,7 +72,7 @@ final class TicketClosingViewController: UIViewController {
         let view = TicketClosingTextView()
         view.configure(
             title: "Техническое описание выполненных работ\n(до 4000 символов)",
-            textValue: "ожидается исполнение отделов управления ИТ-проектами", 
+            textValue: "ожидается исполнение отделов управления ИТ-проектами",
             didBecomeActive: {}
         )
         return view
@@ -151,7 +157,6 @@ final class TicketClosingViewController: UIViewController {
 
         output.viewDidLoadEvent()
     }
-
 
     // MARK: Actions
 

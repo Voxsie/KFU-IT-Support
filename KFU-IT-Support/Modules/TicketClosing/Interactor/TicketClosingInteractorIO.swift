@@ -7,11 +7,10 @@
 
 import Foundation
 
-
 protocol TicketClosingInteractorInput: AnyObject {
-    
+
 }
 
 protocol TicketClosingInteractorOutput: AnyObject {
-    
+
 }

@@ -121,13 +121,13 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         normalString: String
     ) -> NSMutableAttributedString {
         let attributsBold = [
-            NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold),
-            NSAttributedString.Key.backgroundColor: UIColor.secondarySystemBackground,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .semibold),
+            NSAttributedString.Key.backgroundColor: UIColor.secondarySystemBackground
         ]
-        let attributsNormal = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .regular)]
+        let attributsNormal = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular)]
 
-        let title = NSMutableAttributedString(string: boldString, attributes:attributsBold)
-        let attributedString = NSMutableAttributedString(string: normalString, attributes:attributsNormal)
+        let title = NSMutableAttributedString(string: boldString, attributes: attributsBold)
+        let attributedString = NSMutableAttributedString(string: normalString, attributes: attributsNormal)
 
         title.append(attributedString)
 
@@ -136,17 +136,19 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
 
     func configure() {
         self.authorSubtitle.text = "Гумарова Ирина Ивановна (ведущий научный сотрудник, к.н."
-        self.sectionSubtitle.text = "КФУ / Институт физики/ НИЛ Компьютерный дизайн новых материалов и машинное обучениe"
-
-
+        self.sectionSubtitle.text = """
+КФУ / Институт физики/ НИЛ Компьютерный дизайн новых материалов и машинное обучениe
+"""
         self.ticketTitle.attributedText = makeTitle(
             boldString: " №17234 ",
-            normalString: "Нет доступа к почтовому ящику. у одного из сотрудников перестал работать почтовый ящик по старому паролю. Пользователь skaviani (Садех Кавиани). В свой личный кабинет войти он тоже не может, пароль не подходит, а сменить не может, так как кабинет привязан к почте КФУ, к которой также не работает пароль. Спасибо"
+            normalString: """
+            Нет доступа к почтовому ящику. у одного из сотрудников перестал работать почтовый ящик по старому \
+            паролю. Пользователь skaviani (Садех Кавиани). \
+            В свой личный кабинет войти он тоже не может, пароль не подходит, а сменить не может, \
+так как кабинет привязан к почте КФУ, к которой также не работает пароль. Спасибо
+"""
         )
-
         self.expireSubtitle.text = "Cрок выполнения: 17.11.2023 18:00"
-
         self.imageView.image = UIImage()
     }
 }
-

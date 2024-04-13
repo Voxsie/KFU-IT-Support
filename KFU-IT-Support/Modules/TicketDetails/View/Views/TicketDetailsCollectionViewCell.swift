@@ -48,7 +48,7 @@ final class TicketDetailsCollectionViewCell:
 
     private lazy var generalStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [captionLabel])
-        captionLabel.snp.makeConstraints { 
+        captionLabel.snp.makeConstraints {
             $0.height.equalTo(18)
         }
          stack.axis = .vertical
@@ -62,7 +62,6 @@ final class TicketDetailsCollectionViewCell:
         super.prepareForReuse()
         sectionTitle.removeFromSuperview()
     }
-
 
     // MARK: Lifecycle
 
@@ -79,12 +78,12 @@ final class TicketDetailsCollectionViewCell:
     func setupView() {
         backgroundColor = .systemBackground
         contentView.addSubview(generalStack)
-        generalStack.snp.makeConstraints { 
+        generalStack.snp.makeConstraints {
             $0.leading.equalTo(contentView.snp.leading).offset(16)
             $0.top.equalTo(contentView.snp.top).offset(14)
         }
         contentView.addSubview(stackView)
-        stackView.snp.makeConstraints { 
+        stackView.snp.makeConstraints {
             $0.leading.equalTo(captionLabel.snp.leading)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-16)
             $0.top.equalTo(captionLabel.snp.bottom).offset(4)

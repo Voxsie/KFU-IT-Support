@@ -62,7 +62,6 @@ final class TicketClosingDateRangeView: UIView {
         return button
     }()
 
-
     private lazy var horizontalStackView: UIStackView = {
        let stack = UIStackView(arrangedSubviews: [
         startDateRangeButton,

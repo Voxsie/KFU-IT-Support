@@ -16,4 +16,3 @@ protocol TicketDetailsViewOutput: AnyObject {
     func getState() -> TicketDetailsViewState
     func viewDidTapCloseTicket()
 }
-

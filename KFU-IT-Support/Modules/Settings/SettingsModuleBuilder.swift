@@ -21,7 +21,6 @@ public final class SettingsModuleBuilder {
         self.moduleOutput = moduleOutput
     }
 
-
     // MARK: Public Methods
 
     public func build() -> UIViewController {
