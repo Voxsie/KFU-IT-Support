@@ -16,4 +16,11 @@ public protocol TicketClosingModuleOutput: AnyObject {
     func moduleDidLoad(_ module: TicketClosingModuleInput)
     func moduleDidClose(_ module: TicketClosingModuleInput)
     func moduleWantsToClose(_ module: TicketClosingModuleInput)
+
+    func moduleWantsToOpenSelectList(
+        _ module: TicketClosingModuleInput,
+        title: String,
+        items: [SelectListViewState.DisplayData],
+        type: SelectListViewState.SelectType
+    )
 }

@@ -33,7 +33,14 @@ final class TicketDetailsPresenter {
             title: "№17234",
             subtitle: "Гумарова Ирина Ивановна (ведущий научный сотрудник, к.н.)"
         )
-        let infoDisplayData: [TicketDetailsViewState.TicketDetailsCellDisplayData] = [
+        let infoDisplayData = TicketDetailsPresenter.prepareExample()
+        self.state = .display(headerDisplayData, infoDisplayData)
+    }
+
+    // MARK: Private
+
+    static func prepareExample() -> [TicketDetailsViewState.TicketDetailsCellDisplayData] {
+        [
             .init(
                 order: 0,
                 caption: "Текст заявки",
@@ -91,11 +98,7 @@ final class TicketDetailsPresenter {
                 value: "Перейти по ссылке"
             )
         ]
-        self.state = .display(headerDisplayData, infoDisplayData)
     }
-
-    // MARK: Private
-
 }
 
 // MARK: - TicketDetailsModuleInput

@@ -35,70 +35,73 @@ final class TicketClosingViewController: UIViewController {
         return view
     }()
 
+    private lazy var imagePicker: ImagePickerViewController = {
+        let imagePicker = ImagePickerViewController(
+            presentationController: self,
+            delegate: self
+        )
+        return imagePicker
+    }()
+
     private let dateRangeView: TicketClosingDateRangeView = {
         let view = TicketClosingDateRangeView()
         view.configure(
             title: "Срок выполнения",
             startDate: .init(
-                value: "18.05.2024",
+                value: .adding(years: -1, months: -1, days: -1) ?? Date(),
                 action: { print("start pressed") }
             ),
             endDate: .init(
-                value: "22.05.2024",
+                value: Date(),
                 action: { print("end pressed") }
             )
         )
         return view
     }()
 
-    private let completedWorkTextView: TicketClosingTextView = {
+    private lazy var completedWorkTextView: TicketClosingTextView = {
         let view = TicketClosingTextView()
-        view.configure(
-            title: "Описание выполненных работ\n(до 2000 символов)",
-            textValue: """
-            Ошибка работы ИАС. в дополнение к заявке 5022 от 05.04.2023
-            1. Отпуск по беременности и родам с возможностью его продления
-            2. Отпуск по уходу за ребенком (предусмотреть возможность выбора \"до ____ лет\" (но не более 3-х лет))
-            3. Продление отпуска по уходу за ребенком до _____ лет (но не более 3-х лет) п. 1 и п. 2
-            это совершенно разные отпуска в т.ч. с финансовой точки зрения.
-            По аналогии с работниками: п. 1 - это больничный лист, п.2 - это отпуск без сохранения заработной платы.
-            """,
-            didBecomeActive: {}
-        )
+        view.setupAction { [weak self] in
+            guard let self else { return }
+            self.scrollView.scrollToView(
+                view: completedWorkTextView,
+                position: .top,
+                animated: true
+            )
+        }
+        view.configure(title: "Описание выполненных работ\n(до 2000 символов)")
         return view
     }()
 
-    private let completedTechWorkTextView: TicketClosingTextView = {
+    private lazy var completedTechWorkTextView: TicketClosingTextView = {
         let view = TicketClosingTextView()
-        view.configure(
-            title: "Техническое описание выполненных работ\n(до 4000 символов)",
-            textValue: "ожидается исполнение отделов управления ИТ-проектами",
-            didBecomeActive: {}
-        )
+        view.setupAction { [weak self] in
+            guard let self else { return }
+            self.scrollView.scrollToView(
+                view: completedTechWorkTextView,
+                position: .top,
+                animated: true
+            )
+        }
+        view.configure(title: "Техническое описание выполненных работ\n(до 4000 символов)")
         return view
     }()
 
     private let workCategoriesSelectorView: TicketClosingSelectorView = {
         let view = TicketClosingSelectorView()
-        view.configure(
-            title: "Категории выполненных работ"
-        )
+        view.configure(title: "Категории выполненных работ")
         return view
     }()
 
     private let workStatusSelectorView: TicketClosingSelectorView = {
         let view = TicketClosingSelectorView()
-        view.configure(
-            title: "Работы выполнены"
-        )
+        view.configure(title: "Работы выполнены")
         return view
     }()
 
     private let workerSelectorView: TicketClosingSelectorView = {
         let view = TicketClosingSelectorView()
-        view.configure(
-            title: "Исполнитель"
-        )
+        view.configure(title: "Исполнитель")
         return view
     }()
 
@@ -122,8 +125,12 @@ final class TicketClosingViewController: UIViewController {
         return label
     }()
 
-    private let uploadFileView: UploadFile = {
-        let uploadFileView = UploadFile()
+    private lazy var uploadFileView: UploadFileView = {
+        let uploadFileView = UploadFileView()
+        uploadFileView.addAction { [weak self] in
+            guard let self else { return }
+            self.imagePicker.present(from: uploadFileView)
+        }
         return uploadFileView
     }()
 
@@ -153,8 +160,8 @@ final class TicketClosingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupNavigationBar()
         setupView()
-
         output.viewDidLoadEvent()
     }
 
@@ -167,15 +174,43 @@ final class TicketClosingViewController: UIViewController {
 
     @objc
     private func didRightButtonPressed() {
-        output.viewDidTapSaveButton()
+        let displayData = output.getState().displayData
+        output.viewDidTapSaveButton(
+            with: .content(
+                .init(
+                    startDate: dateRangeView.getValues().0,
+                    endDate: dateRangeView.getValues().1,
+                    completedWorkText: completedWorkTextView.getText(),
+                    completedTechWorkText: completedTechWorkTextView.getText(),
+                    workCategories:
+                            .init(
+                                string: workCategoriesSelectorView.getTitle(),
+                                items: displayData.workCategories.items,
+                                type: displayData.workCategories.type, 
+                                action: displayData.workCategories.action
+                            ),
+                    workStatus:
+                            .init(
+                                string: workCategoriesSelectorView.getTitle(),
+                                items: displayData.workCategories.items,
+                                type: displayData.workCategories.type,
+                                action: displayData.workStatus.action
+                            ),
+                    selectedWorkers:
+                            .init(
+                                string: workCategoriesSelectorView.getTitle(),
+                                items: displayData.workCategories.items,
+                                type: displayData.workCategories.type,
+                                action: displayData.selectedWorkers.action
+                            )
+                )
+            )
+        )
     }
 
     // MARK: Private
 
-    private func setupView() {
-        view.backgroundColor = .systemBackground
-        observeKeyboardTappingAround()
-
+    private func setupNavigationBar() {
         navigationItem.title = "Закрытие заявки"
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -191,6 +226,11 @@ final class TicketClosingViewController: UIViewController {
             target: self,
             action: #selector(didRightButtonPressed)
         )
+    }
+
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+        observeKeyboardTappingAround()
 
         view.addSubview(scrollView)
         scrollView.addSubview(scrollViewContainer)
@@ -220,5 +260,72 @@ final class TicketClosingViewController: UIViewController {
 // MARK: - TicketClosingViewInput
 
 extension TicketClosingViewController: TicketClosingViewInput {
+    func updateView(with state: TicketClosingViewState) {
+        let displayData = state.displayData
+        dateRangeView.configure(
+            title: "Срок выполнения",
+            startDate: .init(
+                value: displayData.startDate,
+                action: { [weak self] in
+                    guard let self else { return }
+                    print("start pressed")
+                }
+            ),
+            endDate: .init(
+                value: displayData.endDate,
+                action: { [weak self] in
+                    guard let self else { return }
+                    print("end pressed")
+                }
+            )
+        )
+        completedWorkTextView.configure(
+            title: "Описание выполненных работ\n(до 2000 символов)",
+            textValue: displayData.completedWorkText
+        )
 
+        completedTechWorkTextView.configure(
+            title: "Техническое описание выполненных работ\n(до 4000 символов)",
+            textValue: state.displayData.completedTechWorkText
+        )
+
+        workCategoriesSelectorView.configure(
+            title: "Категории выполненных работ",
+            value: displayData.workCategories.string
+        )
+        workCategoriesSelectorView.addAction { [weak self] in
+            guard let self else { return }
+            displayData.workCategories.action()
+        }
+
+        workStatusSelectorView.configure(
+            title: "Работы выполнены",
+            value: displayData.workStatus.string
+        )
+        workStatusSelectorView.addAction { [weak self] in
+            guard let self else { return }
+            displayData.workStatus.action()
+        }
+
+        workerSelectorView.configure(
+            title: "Исполнитель",
+            value: displayData.selectedWorkers.string
+        )
+        workerSelectorView.addAction { [weak self] in
+            guard let self else { return }
+            displayData.selectedWorkers.action()
+        }
+    }
+}
+
+extension TicketClosingViewController: ImagePickerDelegate {
+    func didSelect(image: UIImage?) {
+        if let image {
+            print(image.scale)
+            uploadFileView.setPreviewImage(image)
+        } else {
+
+        }
+
+    }
 }

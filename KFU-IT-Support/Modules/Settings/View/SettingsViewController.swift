@@ -132,16 +132,6 @@ private extension SettingsViewController {
         )
         section.interGroupSpacing = spacing
 
-        let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(112)
-        )
-        let headerElement = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }

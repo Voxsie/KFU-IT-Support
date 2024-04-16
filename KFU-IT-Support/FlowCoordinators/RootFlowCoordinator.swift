@@ -13,7 +13,7 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
 
     private var window: UIWindow?
 
-    private var isExample = true
+    private var isExample = false
     private var isAuthorized = false
 
     // MARK: Public properties

@@ -12,7 +12,7 @@ target 'KFU-IT-Support' do
   pod 'Moya', '~> 15.0'
   pod 'FirebaseAnalytics'
   pod 'Swinject'
-  pod "LetterAvatarKit", "1.2.5" 
+  pod "LetterAvatarKit", "1.2.5"
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

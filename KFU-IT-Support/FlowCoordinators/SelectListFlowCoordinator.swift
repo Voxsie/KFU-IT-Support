@@ -18,6 +18,10 @@ final class SelectListFlowCoordinator: FlowCoordinatorProtocol {
 
     private let navigationFlow: NavigationFlow
 
+    private let title: String
+    private let items: [SelectListViewState.DisplayData]
+    private let type: SelectListViewState.SelectType
+
     private let output: SelectListFlowCoordinatorOutput
 
     private var finishHandlers: [() -> Void] = []
@@ -33,12 +37,18 @@ final class SelectListFlowCoordinator: FlowCoordinatorProtocol {
     init(
         navigationFlow: NavigationFlow,
         output: SelectListFlowCoordinatorOutput,
+        title: String,
+        items: [SelectListViewState.DisplayData],
+        type: SelectListViewState.SelectType,
         parentRootViewController: UIViewController,
         parentRootNavigationController: UINavigationController,
         finishHandler: @escaping () -> Void
     ) {
         self.navigationFlow = navigationFlow
         self.output = output
+        self.title = title
+        self.items = items
+        self.type = type
         self.parentRootViewController = parentRootViewController
         self.parentRootNavigationController = parentRootNavigationController
 
@@ -47,7 +57,10 @@ final class SelectListFlowCoordinator: FlowCoordinatorProtocol {
 
     func start(animated: Bool) {
         let builder = SelectListModuleBuilder(
-            output: self
+            output: self,
+            title: title,
+            items: items,
+            type: type
         )
         let viewController = builder.build()
         rootViewController = viewController

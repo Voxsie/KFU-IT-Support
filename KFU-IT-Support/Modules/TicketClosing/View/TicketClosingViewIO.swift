@@ -8,7 +8,7 @@
 import Foundation
 
 protocol TicketClosingViewInput: AnyObject {
-
+    func updateView(with state: TicketClosingViewState)
 }
 
 protocol TicketClosingViewOutput: AnyObject {
@@ -17,5 +17,7 @@ protocol TicketClosingViewOutput: AnyObject {
     func viewDidUnloadEvent()
 
     func viewDidTapCloseButton()
-    func viewDidTapSaveButton()
+
+    func getState() -> TicketClosingViewState
+    func viewDidTapSaveButton(with state: TicketClosingViewState)
 }

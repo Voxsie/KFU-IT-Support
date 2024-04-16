@@ -1,5 +1,5 @@
 //
-//  TicketClosingRadioViewCell.swift
+//  SelectListRadioViewCell.swift
 //  KFU-IT-Support
 //
 //  Created by Ilya Zheltikov on 12.04.2024.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class TicketClosingRadioViewCell: UICollectionViewCell {
+final class SelectListRadioViewCell: UICollectionViewCell {
 
     // MARK: Private properties
 
@@ -83,7 +83,8 @@ final class TicketClosingRadioViewCell: UICollectionViewCell {
     private func setupView() {
         addSubview(horizontalStackView)
         horizontalStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.top.bottom.equalToSuperview().inset(8)
         }
 
         imageView.snp.makeConstraints {
@@ -100,6 +101,8 @@ final class TicketClosingRadioViewCell: UICollectionViewCell {
     func configure(title: String, isSelected: Bool) {
         textLabel.text = title
         self.isSelected = isSelected
+
+        addSeparator()
     }
 
     func changeValue() {

@@ -36,6 +36,14 @@ final class Selector: UIButton {
             $0.height.equalTo(48)
         }
     }
+
+    override func setTitle(_ title: String?, for state: UIControl.State) {
+        if let title {
+            super.setTitle(title, for: state)
+        } else {
+            super.setTitle("Не выбрано...", for: state)
+        }
+    }
 }
 
 extension UIButton {

@@ -111,6 +111,31 @@ final class TicketClosingFlowCoordinator: FlowCoordinatorProtocol {
 
 extension TicketClosingFlowCoordinator: TicketClosingModuleOutput {
 
+    func moduleWantsToOpenSelectList(
+        _ module: TicketClosingModuleInput,
+        title: String,
+        items: [SelectListViewState.DisplayData],
+        type: SelectListViewState.SelectType
+    ) {
+        guard
+            let rootViewController, let rootNavigationController else { return }
+
+        let coordinator = SelectListFlowCoordinator(
+            navigationFlow: .present(.init(wrappedValue: rootViewController)),
+            output: self,
+            title: title,
+            items: items,
+            type: type,
+            parentRootViewController: rootViewController,
+            parentRootNavigationController: rootNavigationController,
+            finishHandler: { [weak self] in
+                self?.childFlowCoordinators.remove(TicketClosingFlowCoordinator.self)
+            }
+        )
+        childFlowCoordinators.append(coordinator)
+        coordinator.start(animated: true)
+    }
+
     func moduleDidLoad(_ module: TicketClosingModuleInput) {
         //
     }
@@ -132,4 +157,10 @@ extension TicketClosingFlowCoordinator: TicketClosingModuleOutput {
             }
         }
     }
+}
+
+// MARK: - TicketClosingFlowCoordinatorOutput
+
+extension TicketClosingFlowCoordinator: SelectListFlowCoordinatorOutput {
+
 }

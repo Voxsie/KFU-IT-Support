@@ -92,17 +92,6 @@ final class TicketDetailsCollectionViewCell:
         addSeparator()
     }
 
-    private func addSeparator() {
-        let separatorView = UIView()
-        separatorView.backgroundColor = .separator
-        addSubview(separatorView)
-        separatorView.snp.makeConstraints {
-            $0.height.equalTo(1)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview()
-        }
-    }
-
     // MARK: Public methods
 
     func configure(

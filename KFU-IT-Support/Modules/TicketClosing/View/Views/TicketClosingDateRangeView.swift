@@ -11,7 +11,7 @@ import UIKit
 final class TicketClosingDateRangeView: UIView {
 
     struct DateDisplayData {
-        var value: String
+        var value: Date
         var action: () -> Void
     }
 
@@ -26,17 +26,20 @@ final class TicketClosingDateRangeView: UIView {
         return label
     }()
 
-    private let startDateRangeButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .secondarySystemBackground
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
-        button.setTitle("19.05.2024", for: .normal)
-        button.setTitleColor(.label, for: .normal)
-        button.layer.cornerRadius = 16
-        button.setContentInsets(
-            .init(top: 8, left: 16, bottom: 8, right: 16)
-        )
-        return button
+    private let startDateRangeDatePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.minimumDate = Date.from(year: 2000, month: 1, day: 1)
+        datePicker.maximumDate = Date.adding(years: 1, months: 1, days: 1)
+        datePicker.datePickerMode = .date
+        return datePicker
+    }()
+
+    private let endDateRangeDatePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.minimumDate = Date.from(year: 2000, month: 1, day: 1)
+        datePicker.maximumDate = Date.adding(years: 1, months: 1, days: 1)
+        datePicker.datePickerMode = .date
+        return datePicker
     }()
 
     private let betweenLabel: UILabel = {
@@ -46,27 +49,11 @@ final class TicketClosingDateRangeView: UIView {
         return label
     }()
 
-    private let endDateRangeButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .secondarySystemBackground
-        button.titleLabel?.font = .systemFont(
-            ofSize: 16,
-            weight: .regular
-        )
-        button.setTitle("22.05.2024", for: .normal)
-        button.setTitleColor(.label, for: .normal)
-        button.layer.cornerRadius = 16
-        button.setContentInsets(
-            .init(top: 8, left: 16, bottom: 8, right: 16)
-        )
-        return button
-    }()
-
     private lazy var horizontalStackView: UIStackView = {
        let stack = UIStackView(arrangedSubviews: [
-        startDateRangeButton,
+        startDateRangeDatePicker,
         betweenLabel,
-        endDateRangeButton
+        endDateRangeDatePicker
        ])
         stack.axis = .horizontal
         stack.spacing = 4
@@ -105,18 +92,8 @@ final class TicketClosingDateRangeView: UIView {
         endDate: DateDisplayData
     ) {
         captionLabel.text = title
-        startDateRangeButton.setTitle(
-            startDate.value,
-            for: .normal
-        )
-
-        startDateRangeButton.addAction {
-            startDate.action()
-        }
-
-        endDateRangeButton.addAction {
-            endDate.action()
-        }
+        startDateRangeDatePicker.setDate(startDate.value, animated: false)
+        endDateRangeDatePicker.setDate(endDate.value, animated: false)
     }
 
     private func setupView() {
@@ -126,12 +103,16 @@ final class TicketClosingDateRangeView: UIView {
             $0.top.bottom.equalToSuperview().inset(16)
         }
 
-        startDateRangeButton.snp.makeConstraints {
+        startDateRangeDatePicker.snp.makeConstraints {
             $0.height.equalTo(32)
         }
 
-        endDateRangeButton.snp.makeConstraints {
+        endDateRangeDatePicker.snp.makeConstraints {
             $0.height.equalTo(32)
         }
+    }
+
+    func getValues() -> (Date, Date) {
+        (startDateRangeDatePicker.date, endDateRangeDatePicker.date)
     }
 }

@@ -11,13 +11,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
 
     // MARK: Private Properties
 
-    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView(
-            image: UIImage()
-        )
-        imageView.layer.cornerRadius = 20
-        return imageView
-    }()
+    private lazy var capsuleView = CapsuleView()
 
     private lazy var ticketTitle: UILabel = {
         let label = UILabel()
@@ -52,7 +46,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
 
     private lazy var topStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
-            ticketTitle, expireSubtitle
+            capsuleView, ticketTitle, expireSubtitle
         ])
         stackView.axis = .vertical
         stackView.spacing = 4
@@ -103,52 +97,25 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
             $0.bottom.equalToSuperview().inset(12)
         }
 
+        capsuleView.snp.makeConstraints { make in
+            make.height.equalTo(30)
+        }
+
         addSeparator()
     }
 
-    private func addSeparator() {
-        let separatorView = UIView()
-        separatorView.backgroundColor = .separator
-        addSubview(separatorView)
-        separatorView.snp.makeConstraints {
-            $0.height.equalTo(1)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-    }
-
-    private func makeTitle(
-        boldString: String,
-        normalString: String
-    ) -> NSMutableAttributedString {
-        let attributsBold = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .semibold),
-            NSAttributedString.Key.backgroundColor: UIColor.secondarySystemBackground
-        ]
-        let attributsNormal = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .regular)]
-
-        let title = NSMutableAttributedString(string: boldString, attributes: attributsBold)
-        let attributedString = NSMutableAttributedString(string: normalString, attributes: attributsNormal)
-
-        title.append(attributedString)
-
-        return title
-    }
-
     func configure() {
+        self.capsuleView.setText("№17234")
         self.authorSubtitle.text = "Гумарова Ирина Ивановна (ведущий научный сотрудник, к.н."
         self.sectionSubtitle.text = """
-КФУ / Институт физики/ НИЛ Компьютерный дизайн новых материалов и машинное обучениe
-"""
-        self.ticketTitle.attributedText = makeTitle(
-            boldString: " №17234 ",
-            normalString: """
-            Нет доступа к почтовому ящику. у одного из сотрудников перестал работать почтовый ящик по старому \
+        КФУ / Институт физики/ НИЛ Компьютерный дизайн новых материалов и машинное обучениe
+        """
+        self.ticketTitle.text = """
+        Нет доступа к почтовому ящику. у одного из сотрудников перестал работать почтовый ящик по старому \
             паролю. Пользователь skaviani (Садех Кавиани). \
             В свой личный кабинет войти он тоже не может, пароль не подходит, а сменить не может, \
-так как кабинет привязан к почте КФУ, к которой также не работает пароль. Спасибо
-"""
-        )
+        так как кабинет привязан к почте КФУ, к которой также не работает пароль. Спасибо
+        """
         self.expireSubtitle.text = "Cрок выполнения: 17.11.2023 18:00"
-        self.imageView.image = UIImage()
     }
 }

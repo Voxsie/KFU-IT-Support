@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class UploadFile: UIView {
+final class UploadFileView: UIView {
 
     // MARK: Lifecycle
 
@@ -44,11 +44,20 @@ final class UploadFile: UIView {
         return label
     }()
 
+    private let previewFileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        imageView.isHidden = true
+        return imageView
+    }()
+
     private lazy var contentStackStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [
             titleLabel,
             uploadFileButton,
-            fileLabel
+            fileLabel,
+            previewFileImageView
         ])
         stack.axis = .vertical
         stack.spacing = 16
@@ -81,20 +90,23 @@ final class UploadFile: UIView {
         uploadFileButton.snp.makeConstraints {
             $0.width.equalTo(120)
         }
-    }
 
-    // MARK: Actions
-
-    @objc private func didUploadButtonPressed() {
-
+        previewFileImageView.snp.makeConstraints {
+            $0.height.width.equalTo(64)
+        }
     }
 
     // MARK: Public methods
 
-    func configure(
-        action: () -> Void,
-        fileName: String = "Файл не выбран"
-    ) {
+    func addAction(_ action: @escaping () -> Void) {
+        uploadFileButton.addAction {
+            action()
+        }
+    }
 
+    func setPreviewImage(_ image: UIImage) {
+        previewFileImageView.isHidden = false
+        fileLabel.isHidden = true
+        previewFileImageView.image = image
     }
 }

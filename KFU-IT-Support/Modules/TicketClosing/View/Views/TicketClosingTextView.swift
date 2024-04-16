@@ -21,7 +21,7 @@ final class TicketClosingTextView: UIView {
         return label
     }()
 
-    private let textView: UITextView = {
+    private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .secondarySystemBackground
         textView.layer.cornerRadius = 16
@@ -31,6 +31,7 @@ final class TicketClosingTextView: UIView {
         textView.font = .systemFont(ofSize: 16)
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.isEditable = true
+        textView.delegate = self
         return textView
     }()
 
@@ -45,6 +46,8 @@ final class TicketClosingTextView: UIView {
          stack.alignment = .leading
          return stack
      }()
+
+    private var action: (() -> Void)?
 
     // MARK: Lifecycle
 
@@ -61,11 +64,14 @@ final class TicketClosingTextView: UIView {
 
     func configure(
         title: String,
-        textValue: String,
-        didBecomeActive: () -> Void
+        textValue: String? = nil
     ) {
         captionLabel.text = title
         textView.text = textValue
+    }
+
+    func setupAction(didBecomeActive: @escaping () -> Void) {
+        action = didBecomeActive
     }
 
     // MARK: Private methods
@@ -81,5 +87,15 @@ final class TicketClosingTextView: UIView {
             $0.height.equalTo(200)
             $0.leading.trailing.equalToSuperview()
         }
+    }
+
+    func getText() -> String {
+        textView.text
+    }
+}
+
+extension TicketClosingTextView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        action?()
     }
 }

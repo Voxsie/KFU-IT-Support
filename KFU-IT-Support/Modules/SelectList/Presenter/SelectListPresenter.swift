@@ -30,14 +30,12 @@ final class SelectListPresenter {
 
     init(
         type: SelectListViewState.SelectType,
+        items: [SelectListViewState.DisplayData],
         interactor: SelectListInteractorInput
     ) {
         self.type = type
         self.interactor = interactor
-        self.state = .content([
-            .init(uuid: "0", title: "Частично", isSelected: true),
-            .init(uuid: "1", title: "Полностью", isSelected: false)
-        ])
+        self.state = .content(items)
     }
 
     // MARK: Private

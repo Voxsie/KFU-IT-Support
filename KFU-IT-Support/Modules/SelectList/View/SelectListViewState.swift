@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SelectListViewState {
+public enum SelectListViewState {
     case content([DisplayData])
 
     var items: [DisplayData] {
@@ -17,13 +17,13 @@ enum SelectListViewState {
         }
     }
 
-    struct DisplayData {
+    public struct DisplayData {
         let uuid: String
         let title: String
         let isSelected: Bool
     }
 
-    enum SelectType {
+    public enum SelectType {
         case single
         case multi
     }

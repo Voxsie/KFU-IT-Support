@@ -62,9 +62,15 @@ final class TicketClosingSelectorView: UIView {
     // MARK: Public methods
 
     func configure(
-        title: String
+        title: String,
+        value: String? = nil
     ) {
         captionLabel.text = title
+        selector.setTitle(value, for: .normal)
+    }
+
+    func addAction(_ action: @escaping () -> Void) {
+        selector.addAction { action() }
     }
 
     // MARK: Private methods
@@ -79,5 +85,13 @@ final class TicketClosingSelectorView: UIView {
         selector.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(0)
         }
+    }
+
+    func getTitle() -> String {
+        selector.titleLabel?.text ?? ""
+    }
+
+    func getValues() -> [Bool] {
+        [true]
     }
 }

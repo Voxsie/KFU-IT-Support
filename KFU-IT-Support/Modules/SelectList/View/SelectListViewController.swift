@@ -27,8 +27,8 @@ final class SelectListViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(
-            TicketClosingRadioViewCell.self,
-            forCellWithReuseIdentifier: TicketClosingRadioViewCell.reusableIdentifier
+            SelectListRadioViewCell.self,
+            forCellWithReuseIdentifier: SelectListRadioViewCell.reusableIdentifier
         )
         return collectionView
     }()
@@ -126,9 +126,9 @@ extension SelectListViewController:
         guard
             let item = output.getData()[safe: indexPath.row],
             let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: TicketClosingRadioViewCell.reusableIdentifier,
+            withReuseIdentifier: SelectListRadioViewCell.reusableIdentifier,
             for: indexPath
-        ) as? TicketClosingRadioViewCell
+        ) as? SelectListRadioViewCell
         else { return UICollectionViewCell() }
         cell.setType(output.getType())
         cell.configure(
