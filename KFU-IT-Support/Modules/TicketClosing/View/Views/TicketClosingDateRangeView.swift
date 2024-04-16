@@ -19,7 +19,8 @@ final class TicketClosingDateRangeView: UIView {
 
     private let captionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .secondaryLabel
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -44,7 +45,8 @@ final class TicketClosingDateRangeView: UIView {
 
     private let betweenLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 16))
+        label.adjustsFontForContentSizeCategory = true
         label.text = "—"
         return label
     }()

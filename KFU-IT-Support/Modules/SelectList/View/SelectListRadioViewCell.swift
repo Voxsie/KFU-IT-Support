@@ -21,7 +21,8 @@ final class SelectListRadioViewCell: UICollectionViewCell {
 
     private let textLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 16))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .label
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0

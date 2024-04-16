@@ -15,7 +15,8 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
 
     private lazy var ticketTitle: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 16)
+        label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 16))
+        label.adjustsFontForContentSizeCategory = true
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.numberOfLines = 2
@@ -25,13 +26,15 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
     private lazy var expireSubtitle: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
-        label.font = .boldSystemFont(ofSize: 13)
+        label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 13))
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
     private lazy var authorSubtitle: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 13)
+        label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 13))
+        label.adjustsFontForContentSizeCategory = true
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
@@ -40,7 +43,8 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
     private lazy var sectionSubtitle: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
-        label.font = .boldSystemFont(ofSize: 13)
+        label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 13))
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
@@ -104,18 +108,22 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         addSeparator()
     }
 
-    func configure() {
-        self.capsuleView.setText("№17234")
-        self.authorSubtitle.text = "Гумарова Ирина Ивановна (ведущий научный сотрудник, к.н."
-        self.sectionSubtitle.text = """
-        КФУ / Институт физики/ НИЛ Компьютерный дизайн новых материалов и машинное обучениe
-        """
-        self.ticketTitle.text = """
-        Нет доступа к почтовому ящику. у одного из сотрудников перестал работать почтовый ящик по старому \
-            паролю. Пользователь skaviani (Садех Кавиани). \
-            В свой личный кабинет войти он тоже не может, пароль не подходит, а сменить не может, \
-        так как кабинет привязан к почте КФУ, к которой также не работает пароль. Спасибо
-        """
-        self.expireSubtitle.text = "Cрок выполнения: 17.11.2023 18:00"
+    func configure(with displayData: TicketsListViewState.ShortDisplayData) {
+        self.capsuleView.setText(displayData.id)
+        self.authorSubtitle.text = displayData.author
+        self.sectionSubtitle.text = displayData.authorSection
+        self.ticketTitle.text = displayData.ticketText
+        self.expireSubtitle.text = displayData.expireText
+
+        switch displayData.type {
+        case .okay:
+            capsuleView.setBackgroundColor(.primaryKFU)
+
+        case .expired:
+            capsuleView.setBackgroundColor(.red)
+
+        case .completed:
+            capsuleView.setBackgroundColor(.green)
+        }
     }
 }

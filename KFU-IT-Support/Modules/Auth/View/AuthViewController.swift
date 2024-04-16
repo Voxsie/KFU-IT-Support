@@ -45,7 +45,8 @@ final class AuthViewController: UIViewController {
     private let titleBlockLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 24)
+        label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 24))
+        label.adjustsFontForContentSizeCategory = true
         label.text = Constants.moduleTitle
         label.textColor = .label
         return label

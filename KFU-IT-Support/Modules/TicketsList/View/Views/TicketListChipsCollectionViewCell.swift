@@ -13,7 +13,8 @@ final class TicketListChipsCollectionViewCell: UICollectionViewCell {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 14))
+        label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 1
         label.textAlignment = .center
         return label

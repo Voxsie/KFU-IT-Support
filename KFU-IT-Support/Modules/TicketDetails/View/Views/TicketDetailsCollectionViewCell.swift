@@ -13,7 +13,8 @@ final class TicketDetailsCollectionViewCell:
 
     private let captionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .secondaryLabel
         label.lineBreakMode = .byWordWrapping
         return label
@@ -21,7 +22,8 @@ final class TicketDetailsCollectionViewCell:
 
     private let sectionTitle: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 16)
+        label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 16))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .label
         label.text = "Подробности"
         label.lineBreakMode = .byWordWrapping
@@ -30,7 +32,8 @@ final class TicketDetailsCollectionViewCell:
 
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 14))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .label
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping

@@ -19,8 +19,8 @@ final class TicketClosingSelectorView: UIView {
 
     private let captionLabel: UILabel = {
         let label = UILabel()
-
-        label.font = .systemFont(ofSize: 12)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .secondaryLabel
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0

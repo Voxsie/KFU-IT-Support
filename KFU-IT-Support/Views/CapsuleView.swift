@@ -13,7 +13,8 @@ final class CapsuleView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = .white
-        label.font = .boldSystemFont(ofSize: 12)
+        label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 12))
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
 
@@ -44,6 +45,10 @@ final class CapsuleView: UIView {
 
     func setText(_ text: String) {
         textLabel.text = text
+    }
+
+    func setBackgroundColor(_ color: UIColor) {
+        self.backgroundColor = color
     }
 
     func setTextWithAttribute(_ attributedString: NSAttributedString) {

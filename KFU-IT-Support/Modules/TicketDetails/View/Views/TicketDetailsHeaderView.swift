@@ -18,7 +18,8 @@ final class TicketDetailsHeaderView: UICollectionReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.adjustsFontSizeToFitWidth = true
-        label.font = .boldSystemFont(ofSize: 24)
+        label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 24))
+        label.adjustsFontForContentSizeCategory = true
         label.minimumScaleFactor = 0.5
         label.textColor = .label
         label.textAlignment = .center
@@ -29,7 +30,8 @@ final class TicketDetailsHeaderView: UICollectionReusableView {
         let label = UILabel()
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
-        label.font = .systemFont(ofSize: 14)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 14))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .secondaryLabel
         label.textAlignment = .center
         label.numberOfLines = 0

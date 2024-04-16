@@ -44,7 +44,8 @@ class TextField: UIView {
         let label = UILabel()
         label.alpha = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .secondaryLabel
         label.numberOfLines = 2
         label.minimumScaleFactor = 0.7
@@ -55,7 +56,8 @@ class TextField: UIView {
     fileprivate lazy var placeholderLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 16))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .secondaryLabel
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true

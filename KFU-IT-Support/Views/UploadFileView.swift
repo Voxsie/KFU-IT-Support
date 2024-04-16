@@ -13,7 +13,8 @@ final class UploadFileView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 14))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .label
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -35,7 +36,8 @@ final class UploadFileView: UIView {
 
     private let fileLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
+        label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12))
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = .secondaryLabel
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0

@@ -160,8 +160,8 @@ extension TicketsListViewController:
         let state = output.getState()
 
         switch state {
-        case .display:
-            return 10
+        case let .display(items):
+            return items.count
         default:
             return 0
         }
@@ -176,13 +176,15 @@ extension TicketsListViewController:
 
         switch state {
         case .display:
-            guard let cell = collectionView.dequeueReusableCell(
+            guard
+                let item = state.displayData?[safe: indexPath.row],
+                let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: TicketsListCollectionViewCell.reusableIdentifier,
                 for: indexPath
             ) as? TicketsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure()
+            cell.configure(with: item)
             return cell
         default:
             return UICollectionViewCell()
