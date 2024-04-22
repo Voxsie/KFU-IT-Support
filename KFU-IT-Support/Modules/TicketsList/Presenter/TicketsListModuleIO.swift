@@ -11,5 +11,8 @@ public protocol TicketsListModuleInput: AnyObject {}
 
 public protocol TicketsListModuleOutput: AnyObject {
 
-    func moduleWantsToOpenDetails(_ module: TicketsListModuleInput)
+    func moduleWantsToOpenDetails(
+        _ module: TicketsListModuleInput,
+        ticketUUID: String
+    )
 }

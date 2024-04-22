@@ -14,19 +14,27 @@ public final class TicketClosingModuleBuilder {
 
     private weak var output: TicketClosingModuleOutput?
 
+    private let ticketID: String
+
     // MARK: Lifecycle
 
     init(
+        ticketID: String,
         output: TicketClosingModuleOutput?
     ) {
+        self.ticketID = ticketID
         self.output = output
     }
 
     // MARK: Public Methods
 
     public func build() -> UIViewController {
-        let interactor = TicketClosingInteractor()
-        let presenter = TicketClosingPresenter(interactor: interactor)
+        let repository = Repository()
+        let interactor = TicketClosingInteractor(repository: repository)
+        let presenter = TicketClosingPresenter(
+            ticketID: ticketID,
+            interactor: interactor
+        )
         let viewController = TicketClosingViewController(output: presenter)
 
         presenter.view = viewController

@@ -15,7 +15,7 @@ final class AuthViewController: UIViewController {
         static let moduleTitle = "Авторизация"
 
         enum TextField {
-            static let loginPlaceholder = "Номер телефона или почта"
+            static let loginPlaceholder = "Номер телефона"
             static let passPlaceholder = "Пароль"
         }
     }
@@ -54,9 +54,9 @@ final class AuthViewController: UIViewController {
 
     private let loginTextField: TextField = {
         let textfield = TextField(
-            type: .standard,
-            textContentType: .emailAddress,
-            keyboardType: .emailAddress,
+            type: .phone,
+            textContentType: .telephoneNumber,
+            keyboardType: .decimalPad,
             placeholder: Constants.TextField.loginPlaceholder
         )
         return textfield
@@ -69,6 +69,7 @@ final class AuthViewController: UIViewController {
             keyboardType: .default,
             placeholder: Constants.TextField.passPlaceholder
         )
+        textfield.isHidden = true
         return textfield
     }()
 
@@ -141,12 +142,40 @@ final class AuthViewController: UIViewController {
 
     @objc func sendData() {
         loginButton.showLoading()
-        output.sendData(login: "", password: "")
+        output.sendData(login: loginTextField.text, password: passwordTextField.text)
     }
 }
 
 // MARK: - TicketsListViewIAuthViewInputnput
 
 extension AuthViewController: AuthViewInput {
+    func updateState(_ state: AuthViewState) {
+        switch state {
+        case .loading:
+            loginButton.showLoading()
 
+        case .display:
+            loginButton.hideLoading()
+
+        case let .error(displayData):
+            loginButton.hideLoading()
+
+            let alert = UIAlertController(
+                title: displayData.title,
+                message: displayData.subtitle,
+                preferredStyle: .alert
+            )
+
+            displayData.actions.forEach { item in
+                let action = UIAlertAction(
+                    title: item.buttonTitle,
+                    style: item.style
+                ) { _ in
+                    item.action()
+                }
+                alert.addAction(action)
+            }
+            self.present(alert, animated: true)
+        }
+    }
 }

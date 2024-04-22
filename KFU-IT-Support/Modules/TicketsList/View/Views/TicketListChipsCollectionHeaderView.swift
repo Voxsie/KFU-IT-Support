@@ -1,5 +1,5 @@
 //
-//  TicketListChipsCollectionView.swift
+//  TicketsListChipsCollectionView.swift
 //  KFU-IT-Support
 //
 //  Created by Ilya Zheltikov on 09.04.2024.
@@ -8,9 +8,19 @@
 import Foundation
 import UIKit
 
-final class TicketListChipsCollectionHeaderView: UICollectionReusableView {
+protocol TicketsListChipsCollectionHeaderViewDelegate: AnyObject {
+    func didSelectItem(_ type: TicketsListViewState.FilterType)
+}
+
+final class TicketsListChipsCollectionHeaderView: UICollectionReusableView {
 
     // MARK: Private properties
+
+    private var items: [TicketsListViewState.ChipsDetailsData] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
@@ -21,11 +31,17 @@ final class TicketListChipsCollectionHeaderView: UICollectionReusableView {
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
         collectionView.register(
-            TicketListChipsCollectionViewCell.self,
-            forCellWithReuseIdentifier: TicketListChipsCollectionViewCell.reusableIdentifier
+            UICollectionViewCell.self,
+            forCellWithReuseIdentifier: UICollectionViewCell.reusableIdentifier
+        )
+        collectionView.register(
+            TicketsListChipsCollectionViewCell.self,
+            forCellWithReuseIdentifier: TicketsListChipsCollectionViewCell.reusableIdentifier
         )
         return collectionView
     }()
+
+    weak var delegate: TicketsListChipsCollectionHeaderViewDelegate?
 
     // MARK: Lifecycle
 
@@ -38,6 +54,15 @@ final class TicketListChipsCollectionHeaderView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: Public methods
+
+    func configure(_ items: [TicketsListViewState.ChipsDetailsData]) {
+        print(items)
+        self.items = items
+    }
+
+    // MARK: Private methods
 
     private func setupView() {
         addSubview(collectionView)
@@ -86,13 +111,13 @@ final class TicketListChipsCollectionHeaderView: UICollectionReusableView {
     }
 }
 
-extension TicketListChipsCollectionHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension TicketsListChipsCollectionHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {
 
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return 10
+        return items.count
     }
 
     func collectionView(
@@ -100,26 +125,33 @@ extension TicketListChipsCollectionHeaderView: UICollectionViewDelegate, UIColle
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
 
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: TicketListChipsCollectionViewCell.reusableIdentifier,
+        guard
+            let item = items[safe: indexPath.row],
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TicketsListChipsCollectionViewCell.reusableIdentifier,
+                for: indexPath
+            ) as? TicketsListChipsCollectionViewCell
+        else { return collectionView.dequeueReusableCell(
+            withReuseIdentifier: UICollectionViewCell.reusableIdentifier,
             for: indexPath
-        ) as? TicketListChipsCollectionViewCell
-        else { return UICollectionViewCell() }
+        )}
 
         cell.configure(
-            title: indexPath.row == 0 ? "Все" : "Недавно созданные",
-            isSelected: indexPath.row == 0
+            title: item.title,
+            isSelected: item.isSelected
         )
 
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = items[safe: indexPath.row] else { return }
 
         collectionView.scrollToItem(
             at: indexPath,
             at: .centeredHorizontally,
             animated: true
         )
+        delegate.mapOrLog { $0.didSelectItem(item.type) }
     }
 }

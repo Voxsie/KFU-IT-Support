@@ -24,7 +24,7 @@ public final class AuthModuleBuilder {
     // MARK: Public Methods
 
     public func build() -> UIViewController {
-        let interactor = AuthInteractor()
+        let interactor = AuthInteractor(repository: Repository())
         let presenter = AuthPresenter(interactor: interactor)
         let viewController = AuthViewController(output: presenter)
 

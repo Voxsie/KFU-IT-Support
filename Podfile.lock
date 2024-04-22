@@ -68,6 +68,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.12.0):
     - GoogleUtilities/Logger
+  - KeychainSwift (22.0.0)
   - LetterAvatarKit (1.2.5)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
@@ -87,6 +88,7 @@ PODS:
 
 DEPENDENCIES:
   - FirebaseAnalytics
+  - KeychainSwift (~> 22.0)
   - LetterAvatarKit (= 1.2.5)
   - Moya (~> 15.0)
   - SkeletonView
@@ -104,6 +106,7 @@ SPEC REPOS:
     - FirebaseInstallations
     - GoogleAppMeasurement
     - GoogleUtilities
+    - KeychainSwift
     - LetterAvatarKit
     - Moya
     - nanopb
@@ -122,6 +125,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 558b1da7d65afeb996fd5c814332f013234ece4e
   GoogleAppMeasurement: bb3c564c3efb933136af0e94899e0a46167466a8
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
+  KeychainSwift: 72f81155e1cb01c1bc4da296e4ce2cfcff556a12
   LetterAvatarKit: a1d64fc3699e399890e3c3ed5daa507c83bb3ca2
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
@@ -132,6 +136,6 @@ SPEC CHECKSUMS:
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
   Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
 
-PODFILE CHECKSUM: f3ce1d691868fe50dcac9bf3a7fcf447ad271a10
+PODFILE CHECKSUM: 53d03ca3df941c9572c27cef014b712373bac5a8
 
 COCOAPODS: 1.14.3

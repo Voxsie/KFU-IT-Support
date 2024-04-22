@@ -7,6 +7,12 @@
 
 import Foundation
 
-protocol TicketDetailsInteractorInput: AnyObject {}
+protocol TicketDetailsInteractorInput: AnyObject {
+
+    func fetchTicket(
+        using uuid: String,
+        completion: @escaping ((Result<TicketItem, Error>) -> Void)
+    )
+}
 
 protocol TicketDetailsInteractorOutput: AnyObject {}

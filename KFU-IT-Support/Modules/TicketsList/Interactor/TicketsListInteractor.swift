@@ -21,7 +21,13 @@ final class TicketsListInteractor {
 
     // MARK: Private Properties
 
+    private let repository: RepositoryProtocol
+
     // MARK: Lifecycle
+
+    init(repository: RepositoryProtocol) {
+        self.repository = repository
+    }
 
     // MARK: Public
 
@@ -33,4 +39,9 @@ final class TicketsListInteractor {
 
 extension TicketsListInteractor: TicketsListInteractorInput {
 
+    func getTicketsList(
+        completion: @escaping ((Result<[TicketItem], Error>) -> Void)
+    ) {
+        repository.getTicketsList(completion: completion)
+    }
 }

@@ -21,6 +21,26 @@ final class TicketClosingViewController: UIViewController {
 
     private let output: TicketClosingViewOutput
 
+    private lazy var rightNavigationBarButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Сохранить", for: .normal)
+        button.setTitleColor(.primaryKFU, for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.hidesWhenStopped = true
+        button.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        button.addTarget(
+            self,
+            action: #selector(didRightButtonPressed),
+            for: .touchUpInside
+        )
+        button.setTitleColor(.clear, for: .selected)
+        return button
+    }()
+
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -175,6 +195,11 @@ final class TicketClosingViewController: UIViewController {
 
     @objc
     private func didRightButtonPressed() {
+        let button = navigationItem.rightBarButtonItem?.customView as? UIButton
+        let activityIndicator = button?.subviews.compactMap { $0 as? UIActivityIndicatorView }.first
+        button?.isSelected = true
+        activityIndicator?.startAnimating()
+
         let displayData = output.getState().displayData
         output.viewDidTapSaveButton(
             with: .content(
@@ -186,33 +211,38 @@ final class TicketClosingViewController: UIViewController {
                     workCategories:
                             .init(
                                 string: workCategoriesSelectorView.getTitle(),
-                                items: displayData.workCategories.items,
-                                type: displayData.workCategories.type, 
-                                action: displayData.workCategories.action
+                                items: displayData.workCategories?.items ?? [],
+                                type: displayData.workCategories?.type ?? .single,
+                                action: displayData.workCategories?.action ?? {}
                             ),
                     workStatus:
                             .init(
                                 string: workCategoriesSelectorView.getTitle(),
-                                items: displayData.workCategories.items,
-                                type: displayData.workCategories.type,
-                                action: displayData.workStatus.action
+                                items: displayData.workStatus?.items ?? [],
+                                type: displayData.workStatus?.type ?? .single,
+                                action: displayData.workStatus?.action ?? {}
                             ),
                     selectedWorkers:
                             .init(
                                 string: workCategoriesSelectorView.getTitle(),
-                                items: displayData.workCategories.items,
-                                type: displayData.workCategories.type,
-                                action: displayData.selectedWorkers.action
+                                items: displayData.selectedWorkers?.items ?? [],
+                                type: displayData.selectedWorkers?.type ?? .single,
+                                action: displayData.selectedWorkers?.action ?? {}
                             )
                 )
             )
         )
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            button?.isSelected = false
+            activityIndicator?.stopAnimating()
+        }
     }
 
     // MARK: Private
 
     private func setupNavigationBar() {
-        navigationItem.title = "Закрытие заявки"
+        navigationItem.title = "Исполнение заявки"
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: Asset.Icons.closeIcon.image,
@@ -221,12 +251,8 @@ final class TicketClosingViewController: UIViewController {
             action: #selector(didLeftButtonPressed)
         )
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Сохранить",
-            style: .plain,
-            target: self,
-            action: #selector(didRightButtonPressed)
-        )
+        let rightBarButtonItem = UIBarButtonItem(customView: rightNavigationBarButton)
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
     private func setupView() {
@@ -261,6 +287,27 @@ final class TicketClosingViewController: UIViewController {
 // MARK: - TicketClosingViewInput
 
 extension TicketClosingViewController: TicketClosingViewInput {
+    func showAlert(
+        _ displayData: TicketClosingViewState.NotificationDisplayData
+    ) {
+        let alert = UIAlertController(
+            title: displayData.title,
+            message: displayData.subtitle,
+            preferredStyle: .alert
+        )
+
+        displayData.actions.forEach { item in
+            let action = UIAlertAction(
+                title: item.buttonTitle,
+                style: item.style
+            ) { _ in
+                item.action()
+            }
+            alert.addAction(action)
+        }
+        self.present(alert, animated: true)
+    }
+
     func updateView(with state: TicketClosingViewState) {
         let displayData = state.displayData
         dateRangeView.configure(
@@ -292,41 +339,35 @@ extension TicketClosingViewController: TicketClosingViewInput {
 
         workCategoriesSelectorView.configure(
             title: "Категории выполненных работ",
-            value: displayData.workCategories.string
+            value: displayData.workCategories?.string
         )
         workCategoriesSelectorView.addAction { [weak self] in
             guard let self else { return }
-            displayData.workCategories.action()
+            displayData.workCategories?.action()
         }
 
         workStatusSelectorView.configure(
             title: "Работы выполнены",
-            value: displayData.workStatus.string
+            value: displayData.workStatus?.string
         )
         workStatusSelectorView.addAction { [weak self] in
             guard let self else { return }
-            displayData.workStatus.action()
+            displayData.workStatus?.action()
         }
 
         workerSelectorView.configure(
             title: "Исполнитель",
-            value: displayData.selectedWorkers.string
+            value: displayData.selectedWorkers?.string
         )
         workerSelectorView.addAction { [weak self] in
             guard let self else { return }
-            displayData.selectedWorkers.action()
+            displayData.selectedWorkers?.action()
         }
     }
 }
 
 extension TicketClosingViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
-        if let image {
-            print(image.scale)
-            uploadFileView.setPreviewImage(image)
-        } else {
-
-        }
-
+        uploadFileView.setPreviewImage(image)
     }
 }

@@ -85,13 +85,17 @@ final class TicketsListFlowCoordinator: FlowCoordinatorProtocol {
 // MARK: - TicketsListModuleOutput
 
 extension TicketsListFlowCoordinator: TicketsListModuleOutput {
-    func moduleWantsToOpenDetails(_ module: TicketsListModuleInput) {
+    func moduleWantsToOpenDetails(
+        _ module: TicketsListModuleInput,
+        ticketUUID: String
+    ) {
         guard let rootNavigationController,
               !childFlowCoordinators.isContains(ofType: TicketDetailsFlowCoordinator.self)
         else { return }
 
         let detailsFlowCoordinator = TicketDetailsFlowCoordinator(
             navigationFlow: .present(Weak(wrappedValue: rootNavigationController)),
+            uuid: ticketUUID,
             output: self,
             parentRootViewController: rootViewController!,
             parentRootNavigationController: rootNavigationController,

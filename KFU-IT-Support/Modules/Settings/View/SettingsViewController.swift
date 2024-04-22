@@ -25,9 +25,12 @@ final class SettingsViewController: UIViewController {
             frame: .zero,
             collectionViewLayout: createCollectionViewLayout()
         )
+        collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.dataSource = self
-
+        collectionView.register(
+            SettingsCollectionViewCell.self,
+            forCellWithReuseIdentifier: SettingsCollectionViewCell.reusableIdentifier
+        )
         return collectionView
     }()
 
@@ -102,14 +105,14 @@ private extension SettingsViewController {
 
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(200)
+            heightDimension: .estimated(80)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = itemsInsets
 
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(200)
+            heightDimension: .estimated(80)
         )
 
         let groupInsets = NSDirectionalEdgeInsets(
@@ -150,8 +153,8 @@ extension SettingsViewController:
         let state = output.getState()
 
         switch state {
-        case .display:
-            return 0
+        case let .display(items):
+            return items.count
         default:
             return 0
         }
@@ -161,10 +164,25 @@ extension SettingsViewController:
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
+        guard let item = output.getState().displayData?[safe: indexPath.row],
+              let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: SettingsCollectionViewCell.reusableIdentifier,
+                for: indexPath
+              ) as? SettingsCollectionViewCell
+        else { return UICollectionViewCell(frame: .zero) }
+        cell.configure(with: item)
+        return cell
+    }
 
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
         let state = output.getState()
 
-        return UICollectionViewCell()
+        if let displayData = state.displayData?[safe: indexPath.row] {
+            displayData.action()
+        }
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {

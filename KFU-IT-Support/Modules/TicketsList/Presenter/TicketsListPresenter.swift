@@ -22,11 +22,21 @@ final class TicketsListPresenter {
 
     private let interactor: TicketsListInteractorInput
 
-    private var state: TicketsListViewState
+    private var state: TicketsListViewState {
+        didSet {
+            view.mapOrLog { $0.updateView() }
+        }
+    }
+
+    private lazy var filters: [TicketsListViewState.ChipsDetailsData] = []
+
+    private var items: [TicketsListViewState.ShortDisplayData]?
 
     // MARK: Lifecycle
 
-    init(interactor: TicketsListInteractorInput) {
+    init(
+        interactor: TicketsListInteractorInput
+    ) {
         self.interactor = interactor
         self.state = .loading
     }
@@ -49,8 +59,45 @@ extension TicketsListPresenter: TicketsListInteractorOutput {}
 
 extension TicketsListPresenter: TicketsListViewOutput {
 
+    func viewDidSelectFilterItem(
+        _ type: TicketsListViewState.FilterType
+    ) {
+        self.updateFilters(selectedType: type)
+        switch type {
+        case .all:
+            self.state = .display(
+                filters,
+                items ?? []
+            )
+
+        case .hot:
+            self.state = .display(
+                filters,
+                items?.filter { $0.type == .hot } ?? []
+            )
+
+        case .okay:
+            self.state = .display(
+                filters,
+                items?.filter { $0.type == .okay } ?? []
+            )
+        }
+    }
+
     func viewDidLoadEvent() {
-        self.state = TicketsListPresenter.prepareExample()
+        interactor.getTicketsList { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case let .success(response):
+                self.items = prepareDisplayData(response)
+                self.updateFilters(selectedType: .all)
+                self.state = .display(filters, items ?? [])
+
+            case .failure:
+                self.state = .error
+            }
+        }
     }
 
     func viewDidUnloadEvent() {
@@ -61,33 +108,66 @@ extension TicketsListPresenter: TicketsListViewOutput {
         state
     }
 
-    func viewDidSelectItem() {
-        moduleOutput.mapOrLog { $0.moduleWantsToOpenDetails(self) }
+    func viewDidSelectItem(index: Int) {
+        guard let uuid = self.state.displayData?[safe: index]?.uuid else { return }
+        moduleOutput.mapOrLog {
+            $0.moduleWantsToOpenDetails(self, ticketUUID: uuid)
+        }
+    }
+
+    func viewDidPullToRefresh() {
+        interactor.getTicketsList { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case let .success(response):
+                self.items = prepareDisplayData(response)
+                self.updateFilters(selectedType: .all)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.view.mapOrLog { $0.finishUpdating() }
+                    self.state = .display(self.filters, self.items ?? [])
+                }
+
+            case .failure:
+                self.state = .error
+            }
+        }
     }
 }
 
 private extension TicketsListPresenter {
-    static func prepareExample() -> TicketsListViewState {
-        var items: [TicketsListViewState.ShortDisplayData] = []
-        (0 ... 20).enumerated().forEach { index, _ in
-            let item = TicketsListViewState.ShortDisplayData.init(
-                uuid: UUID().uuidString,
-                id: "№\(index)\(index)\(index)\(index)\(index)",
-                type: TicketsListViewState.ShortDisplayData.TicketType.random(),
-                ticketText: """
-                Нет доступа к почтовому ящику. у одного из сотрудников перестал работать почтовый ящик по старому \
-                паролю. Пользователь skaviani (Садех Кавиани). \
-                В свой личный кабинет войти он тоже не может, пароль не подходит, а сменить не может, \
-                так как кабинет привязан к почте КФУ, к которой также не работает пароль. Спасибо
-                """,
-                author: "Гумарова Ирина Ивановна (ведущий научный сотрудник, к.н.",
-                authorSection: """
-                КФУ / Институт физики/ НИЛ Компьютерный дизайн новых материалов и машинное обучениe
-                """,
-                expireText: "Cрок выполнения: 17.11.2023 18:00"
+
+    func updateFilters(selectedType: TicketsListViewState.FilterType) {
+        filters = [
+            .init(
+                type: .all,
+                title: "Все",
+                isSelected: selectedType == .all
+            ),
+            .init(
+                type: .hot,
+                title: "Срочные",
+                isSelected: selectedType == .hot
+            ),
+            .init(
+                type: .okay,
+                title: "Обычные",
+                isSelected: selectedType == .okay
             )
-            items.append(item)
+        ]
+    }
+
+    func prepareDisplayData(_ items: [TicketItem]) -> [TicketsListViewState.ShortDisplayData] {
+        return items.map {
+            .init(
+                uuid: $0.id ?? "",
+                id: $0.number ?? "",
+                type: $0.ishot ?? false ? .hot : .okay,
+                ticketText: $0.description ?? "",
+                author: $0.clientName ?? "",
+                authorSection: $0.clientAddress ?? "",
+                expireText: "Срок выполнения: \($0.deadline ?? "Не установлено")"
+            )
         }
-        return .display(items)
     }
 }

@@ -75,14 +75,14 @@ final class TicketDetailsViewController: UIViewController {
         navigationItem.title = Constants.settingsTitle
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Закрыть",
+            image: Asset.Icons.closeIcon.image,
             style: .plain,
             target: self,
             action: #selector(didLeftButtonPressed)
         )
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Дополнить",
+            title: "Исполнить",
             style: .plain,
             target: self,
             action: #selector(didRightButtonPressed)
@@ -107,7 +107,11 @@ final class TicketDetailsViewController: UIViewController {
 
 // MARK: - TicketDetailsViewInput
 
-extension TicketDetailsViewController: TicketDetailsViewInput {}
+extension TicketDetailsViewController: TicketDetailsViewInput {
+    func updateView() {
+        collectionView.reloadData()
+    }
+}
 
 // MARK: UICollectionViewCompositionalLayout
 
@@ -198,6 +202,16 @@ extension TicketDetailsViewController:
               ) as? TicketDetailsCollectionViewCell
         else { return UICollectionViewCell() }
 
+        let cellType: TicketDetailsCollectionViewCell.CornerRadiusType
+        if indexPath.row == 0 {
+            cellType = .firstCell
+        } else if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 1 {
+            cellType = .lastCell
+        } else {
+            cellType = .middleCell
+        }
+
+        cell.setCornerRadius(cellType)
         cell.configure(displayData[indexPath.row])
 
         return cell

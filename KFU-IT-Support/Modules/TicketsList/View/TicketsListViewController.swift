@@ -33,15 +33,29 @@ final class TicketsListViewController: UIViewController {
             forCellWithReuseIdentifier: TicketsListCollectionViewCell.reusableIdentifier
         )
         collectionView.register(
-            TicketListChipsCollectionHeaderView.self,
+            TicketsListChipsCollectionHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: TicketListChipsCollectionHeaderView.reusableIdentifier
+            withReuseIdentifier: TicketsListChipsCollectionHeaderView.reusableIdentifier
         )
-
+        collectionView.register(
+            TicketsListEmptyHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: TicketsListEmptyHeaderView.reusableIdentifier
+        )
         return collectionView
     }()
 
     private let output: TicketsListViewOutput
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            self,
+            action: #selector(didPullToRefresh),
+            for: .valueChanged
+        )
+        return refreshControl
+    }()
 
     // MARK: Lifecycle
 
@@ -77,14 +91,25 @@ final class TicketsListViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        collectionView.refreshControl = refreshControl
     }
 
+    @objc private func didPullToRefresh() {
+        output.viewDidPullToRefresh()
+    }
 }
 
 // MARK: - TicketsListViewInput
 
 extension TicketsListViewController: TicketsListViewInput {
 
+    func finishUpdating() {
+        refreshControl.endRefreshing()
+    }
+
+    func updateView() {
+        collectionView.reloadData()
+    }
 }
 
 // MARK: UICollectionViewCompositionalLayout
@@ -160,7 +185,7 @@ extension TicketsListViewController:
         let state = output.getState()
 
         switch state {
-        case let .display(items):
+        case let .display(_, items):
             return items.count
         default:
             return 0
@@ -199,7 +224,7 @@ extension TicketsListViewController:
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        output.viewDidSelectItem()
+        output.viewDidSelectItem(index: indexPath.row)
     }
 
     func collectionView(
@@ -211,15 +236,32 @@ extension TicketsListViewController:
         let state = output.getState()
 
         guard
-              let header = collectionView.dequeueReusableSupplementaryView(
+            let items = state.filters,
+            let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: TicketListChipsCollectionHeaderView.reusableIdentifier,
+                withReuseIdentifier: TicketsListChipsCollectionHeaderView.reusableIdentifier,
                 for: indexPath
-              ) as? TicketListChipsCollectionHeaderView
-        else { return UICollectionReusableView() }
+            ) as? TicketsListChipsCollectionHeaderView
+        else {
+            return collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: TicketsListEmptyHeaderView.reusableIdentifier,
+                for: indexPath
+            )
+        }
 
-//        header.configure(headerDisplayData)
+        header.configure(items)
+        header.delegate = self
 
         return header
+    }
+}
+
+// MARK: - TicketsListChipsCollectionHeaderViewDelegate
+
+extension TicketsListViewController: TicketsListChipsCollectionHeaderViewDelegate {
+    func didSelectItem(_ type: TicketsListViewState.FilterType) {
+
+        output.viewDidSelectFilterItem(type)
     }
 }

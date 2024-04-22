@@ -13,19 +13,27 @@ public final class TicketDetailsModuleBuilder {
 
     private weak var moduleOutput: TicketDetailsModuleOutput?
 
+    private let uuid: String
+
     // MARK: Lifecycle
 
     public init(
-        moduleOutput: TicketDetailsModuleOutput?
+        moduleOutput: TicketDetailsModuleOutput?,
+        uuid: String
     ) {
         self.moduleOutput = moduleOutput
+        self.uuid = uuid
     }
 
     // MARK: Public Methods
 
     public func build() -> UIViewController {
-        let interactor = TicketDetailsInteractor()
-        let presenter = TicketDetailsPresenter(interactor: interactor)
+        let repository = Repository()
+        let interactor = TicketDetailsInteractor(repository: repository)
+        let presenter = TicketDetailsPresenter(
+            interactor: interactor,
+            uuid: uuid
+        )
         let viewController = TicketDetailsViewController(output: presenter)
 
         presenter.view = viewController

@@ -22,6 +22,8 @@ final class TicketClosingPresenter {
 
     // MARK: Private Properties
 
+    private let ticketID: String
+
     private let interactor: TicketClosingInteractorInput
 
     private var state: TicketClosingViewState {
@@ -32,7 +34,11 @@ final class TicketClosingPresenter {
 
     // MARK: Lifecycle
 
-    init(interactor: TicketClosingInteractorInput) {
+    init(
+        ticketID: String,
+        interactor: TicketClosingInteractorInput
+    ) {
+        self.ticketID = ticketID
         self.interactor = interactor
         self.state = .content(.empty)
     }
@@ -68,14 +74,72 @@ extension TicketClosingPresenter: TicketClosingViewOutput {
     }
 
     func viewDidTapSaveButton(with state: TicketClosingViewState) {
-        self.state = state
-        moduleOutput.mapOrLog {
-            $0.moduleWantsToClose(self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        self.interactor.addCommentToTicket(
+            body: .init(
+                ticketId: ticketID,
+                comment: state.displayData.completedWorkText,
+                techComment: state.displayData.completedTechWorkText,
+                beginDate: dateFormatter.string(from: state.displayData.startDate),
+                endDate: dateFormatter.string(from: state.displayData.endDate)
+            )
+        ) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success:
+                view.mapOrLog {
+                    $0.showAlert(.init(
+                        title: "Закрытие заявки",
+                        subtitle: "Комментарий к заявке успешно добавлен",
+                        actions: [
+                            .init(
+                                buttonTitle: "OK",
+                                action: {
+                                    self.moduleOutput.mapOrLog {
+                                        $0.moduleWantsToClose(self)
+                                    }
+                                },
+                                style: .default
+                            )
+                        ]
+                    ))
+                }
+
+            case .failure:
+                view.mapOrLog {
+                    $0.showAlert(.init(
+                        title: "Закрытие заявки",
+                        subtitle: "Комментарий к заявке успешно добавлен",
+                        actions: [
+                            .init(
+                                buttonTitle: "OK",
+                                action: {},
+                                style: .default
+                            )
+                        ]
+                    ))
+                }
+
+            }
+
         }
     }
 
     func viewDidLoadEvent() {
-        self.state = exampleState
+        print(ticketID)
+        interactor.fetchComment(using: ticketID) { [weak self] in
+            guard let self else { return }
+
+            switch $0 {
+            case let .success(comment):
+                self.state = .content(prepareDisplayData(using: comment))
+
+            case .failure:
+                self.state = .content(.empty)
+            }
+        }
         moduleOutput.mapOrLog {
             $0.moduleDidLoad(self)
         }
@@ -89,6 +153,20 @@ extension TicketClosingPresenter: TicketClosingViewOutput {
 }
 
 private extension TicketClosingPresenter {
+    func prepareDisplayData(
+        using item: CommentItem
+    ) -> TicketClosingViewState.DisplayData {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        let item = TicketClosingViewState.DisplayData.init(
+            startDate: dateFormatter.date(fromOptionalString: item.beginDate),
+            endDate: dateFormatter.date(fromOptionalString: item.endDate),
+            completedWorkText: item.comment,
+            completedTechWorkText: item.techComment
+        )
+        return item
+    }
+
     var exampleState: TicketClosingViewState {
         .content(.init(
             startDate: Date(),

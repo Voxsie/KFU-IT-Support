@@ -8,6 +8,7 @@
 import Foundation
 
 enum TicketDetailsViewState {
+    case initial
     case loading
     case display(TicketDetailsHeaderDisplayData, [TicketDetailsCellDisplayData])
     case error

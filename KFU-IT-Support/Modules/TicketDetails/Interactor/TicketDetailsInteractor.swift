@@ -21,7 +21,13 @@ final class TicketDetailsInteractor {
 
     // MARK: Private Properties
 
+    private let repository: RepositoryProtocol
+
     // MARK: Lifecycle
+
+    init(repository: RepositoryProtocol) {
+        self.repository = repository
+    }
 
     // MARK: Public
 
@@ -32,4 +38,13 @@ final class TicketDetailsInteractor {
 
 extension TicketDetailsInteractor: TicketDetailsInteractorInput {
 
+    func fetchTicket(
+        using uuid: String,
+        completion: @escaping ((Result<TicketItem, Error>) -> Void)
+    ) {
+        repository.fetchTicket(
+            using: uuid,
+            completion: completion
+        )
+    }
 }

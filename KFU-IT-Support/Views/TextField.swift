@@ -28,6 +28,7 @@ class TextField: UIView {
     enum `Type` {
         case standard
         case password
+        case phone
     }
 
     // MARK: - Open Properties
@@ -291,6 +292,27 @@ class TextField: UIView {
     func setTextFieldTag(tag: Int) {
         textField.tag = tag
     }
+
+    private func format(with mask: String, phone: String) -> String {
+        let numbers = phone.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+        var result = ""
+        var index = numbers.startIndex // numbers iterator
+
+        // iterate over the mask characters until the iterator of numbers ends
+        for char in mask where index < numbers.endIndex {
+            if char == "X" {
+                // mask requires a number in this place, so take the next one
+                result.append(numbers[index])
+
+                // move numbers iterator to the next index
+                index = numbers.index(after: index)
+
+            } else {
+                result.append(char) // just append a mask character
+            }
+        }
+        return result
+    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -299,6 +321,7 @@ extension TextField: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         UIView.animate(withDuration: 0.5) {
+            self.placeholderLabel.isHidden = true
             self.bottomLineView.backgroundColor = .label
         }
         return true
@@ -307,6 +330,9 @@ extension TextField: UITextFieldDelegate {
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         delegate?.didEditingWith(text)
         UIView.animate(withDuration: 0.5) {
+            if textField.text == "" {
+                self.placeholderLabel.isHidden = false
+            }
             self.bottomLineView.backgroundColor = .separator
         }
         return true
@@ -324,6 +350,23 @@ extension TextField: UITextFieldDelegate {
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
-        if type == .password && string == " " { return false } else { return true }
+
+        switch type {
+        case .password:
+            if string == " " {
+                return false
+            } else {
+                return true
+            }
+
+        case .phone:
+            guard let text = textField.text else { return false }
+            let newString = (text as NSString).replacingCharacters(in: range, with: string)
+            textField.text = format(with: "+X (XXX) XXX-XXXX", phone: newString)
+            return false
+
+        case .standard:
+            return true
+        }
     }
 }

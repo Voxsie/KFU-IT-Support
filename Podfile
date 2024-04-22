@@ -13,6 +13,7 @@ target 'KFU-IT-Support' do
   pod 'FirebaseAnalytics'
   pod 'Swinject'
   pod "LetterAvatarKit", "1.2.5"
+  pod 'KeychainSwift', '~> 22.0'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

@@ -7,7 +7,9 @@
 
 import Foundation
 
-protocol TicketDetailsViewInput: AnyObject {}
+protocol TicketDetailsViewInput: AnyObject {
+    func updateView()
+}
 
 protocol TicketDetailsViewOutput: AnyObject {
     func viewDidLoadEvent()

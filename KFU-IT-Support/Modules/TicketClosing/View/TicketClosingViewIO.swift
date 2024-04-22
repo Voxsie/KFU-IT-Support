@@ -9,6 +9,8 @@ import Foundation
 
 protocol TicketClosingViewInput: AnyObject {
     func updateView(with state: TicketClosingViewState)
+
+    func showAlert(_ displayData: TicketClosingViewState.NotificationDisplayData)
 }
 
 protocol TicketClosingViewOutput: AnyObject {

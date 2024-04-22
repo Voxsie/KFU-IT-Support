@@ -11,6 +11,8 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
 
     // MARK: Private Properties
 
+    private var uuid: String?
+
     private lazy var capsuleView = CapsuleView()
 
     private lazy var ticketTitle: UILabel = {
@@ -109,7 +111,11 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(with displayData: TicketsListViewState.ShortDisplayData) {
-        self.capsuleView.setText(displayData.id)
+        self.uuid = displayData.uuid
+        if let id = displayData.id {
+            self.capsuleView.setText(id)
+        }
+        self.capsuleView.isHidden = displayData.id == nil
         self.authorSubtitle.text = displayData.author
         self.sectionSubtitle.text = displayData.authorSection
         self.ticketTitle.text = displayData.ticketText
@@ -124,6 +130,9 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
 
         case .completed:
             capsuleView.setBackgroundColor(.green)
+
+        case .hot:
+            capsuleView.setBackgroundColor(.primaryDarkRed)
         }
     }
 }

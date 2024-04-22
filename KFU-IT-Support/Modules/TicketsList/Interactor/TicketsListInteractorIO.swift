@@ -7,6 +7,11 @@
 
 import Foundation
 
-protocol TicketsListInteractorInput: AnyObject {}
+protocol TicketsListInteractorInput: AnyObject {
+
+    func getTicketsList(
+        completion: @escaping ((Result<[TicketItem], Error>) -> Void)
+    )
+}
 
 protocol TicketsListInteractorOutput: AnyObject {}

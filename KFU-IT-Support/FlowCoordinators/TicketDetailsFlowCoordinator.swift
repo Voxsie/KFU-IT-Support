@@ -18,6 +18,8 @@ final class TicketDetailsFlowCoordinator: FlowCoordinatorProtocol {
 
     private let navigationFlow: NavigationFlow
 
+    private let uuid: String
+
     private let output: TicketDetailsFlowCoordinatorOutput
 
     private var finishHandlers: [() -> Void] = []
@@ -32,12 +34,14 @@ final class TicketDetailsFlowCoordinator: FlowCoordinatorProtocol {
 
     init(
         navigationFlow: NavigationFlow,
+        uuid: String,
         output: TicketDetailsFlowCoordinatorOutput,
         parentRootViewController: UIViewController,
         parentRootNavigationController: UINavigationController,
         finishHandler: @escaping () -> Void
     ) {
         self.navigationFlow = navigationFlow
+        self.uuid = uuid
         self.output = output
         self.parentRootViewController = parentRootViewController
         self.parentRootNavigationController = parentRootNavigationController
@@ -47,7 +51,8 @@ final class TicketDetailsFlowCoordinator: FlowCoordinatorProtocol {
 
     func start(animated: Bool) {
         let builder = TicketDetailsModuleBuilder(
-            moduleOutput: self
+            moduleOutput: self,
+            uuid: uuid
         )
         let viewController = builder.build()
         rootViewController = viewController
@@ -131,6 +136,7 @@ extension TicketDetailsFlowCoordinator: TicketDetailsModuleOutput {
         else { return }
 
         let closingFlowCoordinator = TicketClosingFlowCoordinator(
+            ticketID: uuid,
             navigationFlow: .present(Weak(wrappedValue: rootNavigationController)),
             output: self,
             parentRootViewController: rootViewController!,

@@ -22,7 +22,7 @@ final class AuthPresenter {
 
     private let interactor: AuthInteractorInput
 
-    private let state: AuthViewState
+    private var state: AuthViewState
 
     // MARK: Lifecycle
 
@@ -65,6 +65,44 @@ extension AuthPresenter: AuthViewOutput {
         login: String,
         password: String
     ) {
-        moduleOutput.mapOrLog { $0.moduleWantsToOpenAuthorizedZone(self) }
+//        guard login.count > 16, login.count < 18
+//        else {
+//            self.state = .error(prepareInsufficiencyErrorData())
+//            return
+//        }
+        self.state = .loading
+        interactor.tryToAuthorize(
+            login: login,
+            password: password
+        ) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                state = .display
+                moduleOutput.mapOrLog { $0.moduleWantsToOpenAuthorizedZone(self) }
+
+            case .failure:
+                state = .error(prepareErrorData())
+            }
+        }
+    }
+}
+
+private extension AuthPresenter {
+
+    func prepareErrorData() -> AuthViewState.NotificationDisplayData {
+        .init(
+            title: "Ошибка",
+            subtitle: "Возможно введенные данные некорректны.\nПопробуйте еще раз.",
+            actions: [.init(buttonTitle: "OK", action: {}, style: .default)]
+        )
+    }
+
+    func prepareInsufficiencyErrorData() -> AuthViewState.NotificationDisplayData {
+        .init(
+            title: "Ошибка",
+            subtitle: "Некорректный формат номера телефона",
+            actions: [.init(buttonTitle: "OK", action: {}, style: .default)]
+        )
     }
 }

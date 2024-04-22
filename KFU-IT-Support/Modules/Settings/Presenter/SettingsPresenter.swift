@@ -22,13 +22,13 @@ final class SettingsPresenter {
 
     private let interactor: SettingsInteractorInput
 
-    private let state: SettingsViewState
+    private var state: SettingsViewState
 
     // MARK: Lifecycle
 
     init(interactor: SettingsInteractorInput) {
         self.interactor = interactor
-        self.state = .display
+        self.state = .initial
     }
 
     // MARK: Private
@@ -50,7 +50,25 @@ extension SettingsPresenter: SettingsInteractorOutput {}
 extension SettingsPresenter: SettingsViewOutput {
 
     func viewDidLoadEvent() {
-        //
+        self.state = .display([
+            .init(
+                title: "Сбросить кеш и перезапустить приложение",
+                subtitle: nil,
+                action: { [weak self] in
+                    guard let self else { return}
+
+                    // TODO: TASK-0000 - keychain.clear()
+                    // TODO: TASK-0000 - UserDefaults.clear()
+
+                    moduleOutput.mapOrLog { $0.moduleWantsToDeauthorize(self) }
+                    fatalError()
+            }),
+            .init(
+                title: "Версия приложения",
+                subtitle: prepareVersion(),
+                action: {}
+            )
+        ])
     }
 
     func viewDidUnloadEvent() {
@@ -63,5 +81,16 @@ extension SettingsPresenter: SettingsViewOutput {
 
     func viewDidRightButtonPressed() {
         moduleOutput.mapOrLog { $0.moduleWantsToDeauthorize(self) }
+    }
+
+    private func prepareVersion() -> String {
+        var versionString = ""
+        if let releaseVersionNumber = Bundle.main.releaseVersionNumber {
+            versionString += releaseVersionNumber
+        }
+        if let buildVersionNumber = Bundle.main.buildVersionNumber {
+            versionString += " (\(buildVersionNumber))"
+        }
+        return versionString
     }
 }

@@ -7,6 +7,13 @@
 
 import Foundation
 
-protocol AuthInteractorInput: AnyObject {}
+protocol AuthInteractorInput: AnyObject {
+
+    func tryToAuthorize(
+        login: String,
+        password: String,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    )
+}
 
 protocol AuthInteractorOutput: AnyObject {}

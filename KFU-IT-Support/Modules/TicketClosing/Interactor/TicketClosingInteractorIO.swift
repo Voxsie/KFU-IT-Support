@@ -9,8 +9,15 @@ import Foundation
 
 protocol TicketClosingInteractorInput: AnyObject {
 
+    func addCommentToTicket(
+        body: TargetBody.Comment,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    )
+
+    func fetchComment(
+        using uuid: String,
+        completion: @escaping ((Result<CommentItem, Error>) -> Void)
+    )
 }
 
-protocol TicketClosingInteractorOutput: AnyObject {
-
-}
+protocol TicketClosingInteractorOutput: AnyObject {}

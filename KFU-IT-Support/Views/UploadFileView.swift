@@ -106,9 +106,9 @@ final class UploadFileView: UIView {
         }
     }
 
-    func setPreviewImage(_ image: UIImage) {
-        previewFileImageView.isHidden = false
-        fileLabel.isHidden = true
+    func setPreviewImage(_ image: UIImage?) {
+        previewFileImageView.isHidden = image == nil
+        fileLabel.isHidden = image != nil
         previewFileImageView.image = image
     }
 }

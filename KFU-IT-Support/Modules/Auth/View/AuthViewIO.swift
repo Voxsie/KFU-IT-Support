@@ -7,7 +7,9 @@
 
 import Foundation
 
-protocol AuthViewInput: AnyObject {}
+protocol AuthViewInput: AnyObject {
+    func updateState(_ state: AuthViewState)
+}
 
 protocol AuthViewOutput: AnyObject {
     func viewDidLoadEvent()

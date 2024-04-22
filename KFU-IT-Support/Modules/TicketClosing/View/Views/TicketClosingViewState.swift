@@ -18,9 +18,9 @@ enum TicketClosingViewState {
         var completedWorkText: String
         var completedTechWorkText: String
 
-        var workCategories: SelectorDisplayData
-        var workStatus: SelectorDisplayData
-        var selectedWorkers: SelectorDisplayData
+        var workCategories: SelectorDisplayData?
+        var workStatus: SelectorDisplayData?
+        var selectedWorkers: SelectorDisplayData?
 
         var attachment: UIImage?
 
@@ -42,6 +42,18 @@ enum TicketClosingViewState {
                 selectedWorkers: .init(string: "", items: [], type: .single, action: {})
             )
         }
+    }
+
+    struct NotificationDisplayData {
+        var title: String
+        var subtitle: String
+        var actions: [NotificationActionDisplayData]
+    }
+
+    struct NotificationActionDisplayData {
+        var buttonTitle: String
+        var action: () -> Void
+        var style: UIAlertAction.Style
     }
 
     var displayData: DisplayData {

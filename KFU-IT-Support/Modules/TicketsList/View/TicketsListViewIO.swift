@@ -7,7 +7,12 @@
 
 import Foundation
 
-protocol TicketsListViewInput: AnyObject {}
+protocol TicketsListViewInput: AnyObject {
+
+    func updateView()
+
+    func finishUpdating()
+}
 
 protocol TicketsListViewOutput: AnyObject {
 
@@ -17,5 +22,9 @@ protocol TicketsListViewOutput: AnyObject {
 
     func getState() -> TicketsListViewState
 
-    func viewDidSelectItem()
+    func viewDidSelectItem(index: Int)
+
+    func viewDidSelectFilterItem(_ type: TicketsListViewState.FilterType)
+
+    func viewDidPullToRefresh()
 }

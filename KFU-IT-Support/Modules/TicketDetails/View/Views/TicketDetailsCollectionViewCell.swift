@@ -11,6 +11,16 @@ import UIKit
 final class TicketDetailsCollectionViewCell:
     UICollectionViewCell {
 
+    // MARK: Private properties
+
+    enum CornerRadiusType {
+        case firstCell
+        case middleCell
+        case lastCell
+    }
+
+    private var url: URL?
+
     private let captionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12))
@@ -92,10 +102,26 @@ final class TicketDetailsCollectionViewCell:
             $0.top.equalTo(captionLabel.snp.bottom).offset(4)
             $0.bottom.equalTo(contentView.snp.bottom).inset(10)
         }
-        addSeparator()
     }
 
     // MARK: Public methods
+
+    func setCornerRadius(_ cornerRadiusType: CornerRadiusType) {
+        switch cornerRadiusType {
+        case .firstCell:
+            layer.cornerRadius = 10.0
+            layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            addSeparator()
+
+        case .middleCell:
+            layer.cornerRadius = 0.0
+            addSeparator()
+
+        case .lastCell:
+            layer.cornerRadius = 10.0
+            layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+    }
 
     func configure(
         _ displayData: TicketDetailsViewState.TicketDetailsCellDisplayData
@@ -106,6 +132,7 @@ final class TicketDetailsCollectionViewCell:
         captionLabel.text = displayData.caption
 
         if case let .hyperlink(link) = displayData.contentType {
+            self.url = link
             let attributes: [NSAttributedString.Key: Any] = [
                 .link: link ?? URL(string: "https://google.com")!,
                 .foregroundColor: UIColor.blue,
@@ -120,9 +147,23 @@ final class TicketDetailsCollectionViewCell:
 
             valueLabel.attributedText = attributedString
             valueLabel.isUserInteractionEnabled = true
+
+            let tapGesture = UITapGestureRecognizer(
+                target: self,
+                action: #selector(handleLinkTap)
+            )
+            valueLabel.addGestureRecognizer(tapGesture)
+
         } else {
             valueLabel.text = displayData.value
             valueLabel.isUserInteractionEnabled = false
+
+            valueLabel.gestureRecognizers?.removeAll()
         }
+    }
+
+    @objc func handleLinkTap() {
+        guard let url else { return }
+        UIApplication.shared.open(url)
     }
 }

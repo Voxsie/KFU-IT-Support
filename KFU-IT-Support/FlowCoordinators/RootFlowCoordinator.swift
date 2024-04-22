@@ -65,6 +65,7 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
         else { return }
 
         let coordinator = TicketClosingFlowCoordinator(
+            ticketID: "example",
             navigationFlow: .present(.init(wrappedValue: window.rootViewController ?? navigationVC)),
             output: self,
             parentRootViewController: rootVC,

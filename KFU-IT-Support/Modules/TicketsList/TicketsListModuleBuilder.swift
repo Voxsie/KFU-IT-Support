@@ -24,8 +24,11 @@ public final class TicketsListModuleBuilder {
     // MARK: Public Methods
 
     public func build() -> UIViewController {
-        let interactor = TicketsListInteractor()
-        let presenter = TicketsListPresenter(interactor: interactor)
+        let repository = Repository()
+        let interactor = TicketsListInteractor(repository: repository)
+        let presenter = TicketsListPresenter(
+            interactor: interactor
+        )
         let viewController = TicketsListViewController(output: presenter)
 
         presenter.view = viewController
