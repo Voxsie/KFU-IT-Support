@@ -81,10 +81,36 @@ extension TicketsListPresenter: TicketsListViewOutput {
                 filters,
                 items?.filter { $0.type == .okay } ?? []
             )
+        case .medium:
+            self.state = .display(
+                filters,
+                items?.filter { $0.type == .okay } ?? []
+            )
+        case .large:
+            self.state = .display(
+                filters,
+                items?.filter { $0.type == .okay } ?? []
+            )
+        case .small:
+            self.state = .display(
+                filters,
+                items?.filter { $0.type == .okay } ?? []
+            )
+        case .xlarge:
+            self.state = .display(
+                filters,
+                items?.filter { $0.type == .okay } ?? []
+            )
+        case .xxlarge:
+            self.state = .display(
+                filters,
+                items?.filter { $0.type == .okay } ?? []
+            )
         }
     }
 
     func viewDidLoadEvent() {
+        self.state = .loading
         interactor.getTicketsList { [weak self] result in
             guard let self else { return }
 
@@ -95,7 +121,7 @@ extension TicketsListPresenter: TicketsListViewOutput {
                 self.state = .display(filters, items ?? [])
 
             case .failure:
-                self.state = .error
+                self.state = .error(prepareErrorDisplayData())
             }
         }
     }
@@ -129,7 +155,7 @@ extension TicketsListPresenter: TicketsListViewOutput {
                 }
 
             case .failure:
-                self.state = .error
+                self.state = .error(prepareErrorDisplayData())
             }
         }
     }
@@ -153,15 +179,49 @@ private extension TicketsListPresenter {
                 type: .okay,
                 title: "Обычные",
                 isSelected: selectedType == .okay
+            ),
+            .init(
+                type: .small,
+                title: "small",
+                isSelected: selectedType == .small
+            ),
+            .init(
+                type: .large,
+                title: "large",
+                isSelected: selectedType == .large
+            ),
+            .init(
+                type: .medium,
+                title: "medium",
+                isSelected: selectedType == .medium
+            ),
+            .init(
+                type: .xlarge,
+                title: "xlarge",
+                isSelected: selectedType == .xlarge
+            ),
+            .init(
+                type: .xxlarge,
+                title: "xxlarge",
+                isSelected: selectedType == .xxlarge
             )
         ]
     }
 
     func prepareDisplayData(_ items: [TicketItem]) -> [TicketsListViewState.ShortDisplayData] {
         return items.map {
-            .init(
+            var id = ""
+            if let number = $0.number {
+                id.append("№")
+                id.append(number)
+            }
+            if let requestType = $0.requestType {
+                id.append(" | ")
+                id.append(requestType)
+            }
+            return .init(
                 uuid: $0.id ?? "",
-                id: $0.number ?? "",
+                id: id,
                 type: $0.ishot ?? false ? .hot : .okay,
                 ticketText: $0.description ?? "",
                 author: $0.clientName ?? "",
@@ -169,5 +229,19 @@ private extension TicketsListPresenter {
                 expireText: "Срок выполнения: \($0.deadline ?? "Не установлено")"
             )
         }
+    }
+
+    func prepareErrorDisplayData() -> TicketsListViewState.ErrorDisplayData {
+        .init(
+            image: Asset.Icons.errorView.image,
+            title: "Ошибка",
+            subtitle: "Возникла ошибка при получении данных.\nПопробуйте еще раз.",
+            buttonTitle: "Повторить",
+            action: { [weak self] in
+                print("hello")
+                guard let self else { return }
+                self.viewDidLoadEvent()
+            }
+        )
     }
 }

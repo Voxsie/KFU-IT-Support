@@ -66,23 +66,11 @@ final class SettingsViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = Constants.settingsTitle
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "door.left.hand.open"),
-            style: .plain,
-            target: self,
-            action: #selector(didRightButtonPressed)
-        )
-
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-    }
-
-    @objc
-    private func didRightButtonPressed() {
-        output.viewDidRightButtonPressed()
     }
 }
 

@@ -83,7 +83,7 @@ final class LocalService: LocalServiceProtocol {
         if result {
             completion(.success(()))
         } else {
-            completion(.failure(LocalServiceError.unknownError))
+            completion(.failure(LocalServiceError.unknownError()))
         }
     }
 
@@ -96,7 +96,7 @@ final class LocalService: LocalServiceProtocol {
             propertyID: "id",
             value: body.ticketId
         ) as? TicketCommentManagedObject else {
-            completion(.failure(LocalServiceError.notFoundItem))
+            completion(.failure(LocalServiceError.notFoundItem()))
             return
         }
 
@@ -125,7 +125,7 @@ final class LocalService: LocalServiceProtocol {
         ) as? TicketCommentManagedObject {
             completion(.success(.init(from: item)))
         } else {
-            completion(.failure(LocalServiceError.parsingError))
+            completion(.failure(LocalServiceError.parsingError()))
         }
     }
 
@@ -140,7 +140,7 @@ final class LocalService: LocalServiceProtocol {
         ) as? TicketManagedObject {
             completion(.success(.init(from: item)))
         } else {
-            completion(.failure(LocalServiceError.notFoundItem))
+            completion(.failure(LocalServiceError.notFoundItem()))
         }
     }
 
@@ -152,7 +152,7 @@ final class LocalService: LocalServiceProtocol {
         if let result {
             completion(.success(result))
         } else {
-            completion(.failure(LocalServiceError.unknownError))
+            completion(.failure(LocalServiceError.unknownError()))
         }
     }
 }

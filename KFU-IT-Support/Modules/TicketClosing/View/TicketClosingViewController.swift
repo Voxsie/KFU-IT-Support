@@ -341,8 +341,7 @@ extension TicketClosingViewController: TicketClosingViewInput {
             title: "Категории выполненных работ",
             value: displayData.workCategories?.string
         )
-        workCategoriesSelectorView.addAction { [weak self] in
-            guard let self else { return }
+        workCategoriesSelectorView.addAction {
             displayData.workCategories?.action()
         }
 
@@ -350,8 +349,7 @@ extension TicketClosingViewController: TicketClosingViewInput {
             title: "Работы выполнены",
             value: displayData.workStatus?.string
         )
-        workStatusSelectorView.addAction { [weak self] in
-            guard let self else { return }
+        workStatusSelectorView.addAction {
             displayData.workStatus?.action()
         }
 
@@ -359,8 +357,7 @@ extension TicketClosingViewController: TicketClosingViewInput {
             title: "Исполнитель",
             value: displayData.selectedWorkers?.string
         )
-        workerSelectorView.addAction { [weak self] in
-            guard let self else { return }
+        workerSelectorView.addAction {
             displayData.selectedWorkers?.action()
         }
     }

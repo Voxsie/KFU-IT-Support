@@ -34,7 +34,7 @@ extension TicketManagedObject {
         fineMO.clientRoom = responseModel.clientRoom
         fineMO.clientPhone = responseModel.clientPhone
         fineMO.requestDate = responseModel.requestDate
-        fineMO.desc = responseModel.deadline
+        fineMO.deadline = responseModel.deadline
         fineMO.ishot = responseModel.ishot ?? false
         fineMO.coExecutors = responseModel.coExecutors
 

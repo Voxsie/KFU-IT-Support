@@ -32,6 +32,7 @@ internal enum Asset {
   }
   internal enum Icons {
     internal static let closeIcon = ImageAsset(name: "CloseIcon")
+    internal static let errorView = ImageAsset(name: "ErrorView")
     internal static let textFieldPasswordEye = ImageAsset(name: "TextFieldPasswordEye")
     internal static let textFieldPasswordEyeHide = ImageAsset(name: "TextFieldPasswordEyeHide")
     internal static let kpfuLogo = ImageAsset(name: "kpfuLogo")

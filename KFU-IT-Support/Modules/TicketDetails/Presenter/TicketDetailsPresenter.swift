@@ -107,16 +107,23 @@ private extension TicketDetailsPresenter {
         using ticket: TicketItem
     ) -> [TicketDetailsViewState.TicketDetailsCellDisplayData] {
         var items: [TicketDetailsViewState.TicketDetailsCellDisplayData] = []
-        if let description = ticket.description, description.isNotEmptyString {
+        if let requestType = ticket.requestType, requestType.isNotEmptyString {
             items.append(.init(
                 order: 0,
+                caption: "Тип заявки",
+                value: requestType
+            ))
+        }
+        if let description = ticket.description, description.isNotEmptyString {
+            items.append(.init(
+                order: 1,
                 caption: "Текст заявки",
                 value: description
             ))
         }
         if let coExecutors = ticket.coExecutors, coExecutors.isNotEmptyString {
             items.append(.init(
-                order: 1,
+                order: 2,
                 caption: "Ответственные по исполнению заявки",
                 value: coExecutors
             ))
@@ -125,48 +132,48 @@ private extension TicketDetailsPresenter {
            let count = ticket.comments?.count,
            count > 0 {
             items.append(.init(
-                order: 2,
+                order: 3,
                 caption: "Действия по заявке",
                 value: comments
             ))
         }
         if let requestDate = ticket.requestDate, requestDate.isNotEmptyString {
             items.append(.init(
-                order: 3,
+                order: 4,
                 caption: "Дата регистрации",
                 value: requestDate
             ))
         }
         if let deadline = ticket.deadline, deadline.isNotEmptyString {
             items.append(.init(
-                order: 4,
+                order: 5,
                 caption: "Срок исполнения",
                 value: deadline
             ))
         }
         if let clientRoom = ticket.clientRoom, clientRoom.isNotEmptyString {
             items.append(.init(
-                order: 5,
+                order: 6,
                 caption: "Подразделение",
                 value: clientRoom
             ))
         }
         if let clientAddress = ticket.clientAddress, clientAddress.isNotEmptyString {
             items.append(.init(
-                order: 6,
-                caption: "Данные о заявителе",
+                order: 7,
+                caption: "Адрес заявителя",
                 value: clientAddress
             ))
         }
         let clientPhones = ticket.clientPhone?.components(separatedBy: ",")
         clientPhones?.enumerated().forEach { index, phone in
             items.append(.init(
-                order: 7 + index,
+                order: 8 + index,
                 caption: "Контакт заявителя",
                 contentType: .hyperlink(URL(string: "tel://\(phone.digits)")),
                 value: phone
             ))
         }
-        return items
+        return items.sorted { $0.order < $1.order }
     }
 }

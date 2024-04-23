@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol TicketsListChipsCollectionHeaderViewDelegate: AnyObject {
+protocol TicketsListChipsCollectionHeaderDelegate: AnyObject {
     func didSelectItem(_ type: TicketsListViewState.FilterType)
 }
 
@@ -16,8 +16,25 @@ final class TicketsListChipsCollectionHeaderView: UICollectionReusableView {
 
     // MARK: Private properties
 
-    private var items: [TicketsListViewState.ChipsDetailsData] = [] {
+    enum CollectionState {
+        case content([TicketsListViewState.ChipsDetailsData])
+        case loading
+
+        struct DisplayData {
+            let title: String
+            let isSelected: Bool
+        }
+    }
+
+    private var state: CollectionState = .loading {
         didSet {
+            switch state {
+            case .content:
+                collectionView.isUserInteractionEnabled = true
+
+            case .loading:
+                collectionView.isUserInteractionEnabled = false
+            }
             collectionView.reloadData()
         }
     }
@@ -41,7 +58,7 @@ final class TicketsListChipsCollectionHeaderView: UICollectionReusableView {
         return collectionView
     }()
 
-    weak var delegate: TicketsListChipsCollectionHeaderViewDelegate?
+    weak var delegate: TicketsListChipsCollectionHeaderDelegate?
 
     // MARK: Lifecycle
 
@@ -57,9 +74,8 @@ final class TicketsListChipsCollectionHeaderView: UICollectionReusableView {
 
     // MARK: Public methods
 
-    func configure(_ items: [TicketsListViewState.ChipsDetailsData]) {
-        print(items)
-        self.items = items
+    func configure(state: CollectionState) {
+        self.state = state
     }
 
     // MARK: Private methods
@@ -117,7 +133,13 @@ extension TicketsListChipsCollectionHeaderView: UICollectionViewDelegate, UIColl
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return items.count
+        switch state {
+        case .loading:
+            return 10
+
+        case let .content(items):
+            return items.count
+        }
     }
 
     func collectionView(
@@ -126,7 +148,6 @@ extension TicketsListChipsCollectionHeaderView: UICollectionViewDelegate, UIColl
     ) -> UICollectionViewCell {
 
         guard
-            let item = items[safe: indexPath.row],
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: TicketsListChipsCollectionViewCell.reusableIdentifier,
                 for: indexPath
@@ -136,22 +157,38 @@ extension TicketsListChipsCollectionHeaderView: UICollectionViewDelegate, UIColl
             for: indexPath
         )}
 
-        cell.configure(
-            title: item.title,
-            isSelected: item.isSelected
-        )
+        switch state {
+        case .loading:
+            cell.configure(state: .loading)
 
+        case let .content(items):
+            let item = items[indexPath.row]
+            cell.configure(
+                state: .content(.init(
+                    title: item.title,
+                    isSelected: item.isSelected
+                ))
+            )
+            if item.isSelected {
+                collectionView.selectItem(
+                    at: indexPath,
+                    animated: true,
+                    scrollPosition: .centeredHorizontally
+                )
+            }
+        }
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let item = items[safe: indexPath.row] else { return }
 
-        collectionView.scrollToItem(
-            at: indexPath,
-            at: .centeredHorizontally,
-            animated: true
-        )
-        delegate.mapOrLog { $0.didSelectItem(item.type) }
+        switch state {
+        case let .content(items):
+            guard let item = items[safe: indexPath.row] else { return }
+            delegate.mapOrLog { $0.didSelectItem(item.type) }
+
+        default:
+            break
+        }
     }
 }

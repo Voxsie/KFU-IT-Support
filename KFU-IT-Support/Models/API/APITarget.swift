@@ -9,4 +9,5 @@ import Foundation
 
 enum APIType {
     case getTicketsList(phone: String, accessKey: String)
+    case addComment(TargetBody.Comment)
 }

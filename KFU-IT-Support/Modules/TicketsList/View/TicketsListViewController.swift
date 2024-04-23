@@ -42,6 +42,10 @@ final class TicketsListViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: TicketsListEmptyHeaderView.reusableIdentifier
         )
+        collectionView.register(
+            TicketsListBlockCollectionViewCell.self,
+            forCellWithReuseIdentifier: TicketsListBlockCollectionViewCell.reusableIdentifier
+        )
         return collectionView
     }()
 
@@ -108,6 +112,15 @@ extension TicketsListViewController: TicketsListViewInput {
     }
 
     func updateView() {
+        let state = output.getState()
+        switch state {
+        case .loading, .display:
+            collectionView.collectionViewLayout = createCollectionViewLayout()
+
+        case .error:
+            collectionView.collectionViewLayout = createFullscreenLayout()
+        }
+
         collectionView.reloadData()
     }
 }
@@ -170,6 +183,28 @@ private extension TicketsListViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
+
+    func createFullscreenLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .fractionalHeight(1)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1),
+            heightDimension: .fractionalHeight(1)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: item,
+            count: 1
+        )
+        let section = NSCollectionLayoutSection(group: group)
+
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 }
 
 // MARK: UICollectionViewDelegate, UICollectionViewDataSource
@@ -187,8 +222,12 @@ extension TicketsListViewController:
         switch state {
         case let .display(_, items):
             return items.count
-        default:
-            return 0
+
+        case .loading:
+            return 10
+
+        case .error:
+            return 1
         }
     }
 
@@ -209,10 +248,36 @@ extension TicketsListViewController:
             ) as? TicketsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(with: item)
+            cell.configure(with: .content(item))
+            collectionView.isScrollEnabled = true
+            collectionView.isUserInteractionEnabled = true
             return cell
-        default:
-            return UICollectionViewCell()
+
+        case .loading:
+            guard
+                let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TicketsListCollectionViewCell.reusableIdentifier,
+                for: indexPath
+            ) as? TicketsListCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configure(with: .loading)
+            collectionView.isScrollEnabled = false
+            collectionView.isUserInteractionEnabled = false
+            return cell
+
+        case let .error(displayData):
+            guard
+                let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TicketsListBlockCollectionViewCell.reusableIdentifier,
+                for: indexPath
+            ) as? TicketsListBlockCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configure(with: displayData)
+            collectionView.isScrollEnabled = false
+            collectionView.isUserInteractionEnabled = true
+            return cell
         }
     }
 
@@ -234,9 +299,7 @@ extension TicketsListViewController:
     ) -> UICollectionReusableView {
 
         let state = output.getState()
-
         guard
-            let items = state.filters,
             let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
                 withReuseIdentifier: TicketsListChipsCollectionHeaderView.reusableIdentifier,
@@ -250,7 +313,16 @@ extension TicketsListViewController:
             )
         }
 
-        header.configure(items)
+        switch state {
+        case .loading:
+            header.configure(state: .loading)
+
+        case let .display(filters, _):
+            header.configure(state: .content(filters))
+
+        case .error:
+            break
+        }
         header.delegate = self
 
         return header
@@ -259,9 +331,8 @@ extension TicketsListViewController:
 
 // MARK: - TicketsListChipsCollectionHeaderViewDelegate
 
-extension TicketsListViewController: TicketsListChipsCollectionHeaderViewDelegate {
+extension TicketsListViewController: TicketsListChipsCollectionHeaderDelegate {
     func didSelectItem(_ type: TicketsListViewState.FilterType) {
-
         output.viewDidSelectFilterItem(type)
     }
 }

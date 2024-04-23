@@ -6,22 +6,35 @@
 //
 
 import UIKit
+import SkeletonView
 
 class TicketsListCollectionViewCell: UICollectionViewCell {
 
     // MARK: Private Properties
 
+    enum CellState {
+        case loading
+        case content(TicketsListViewState.ShortDisplayData)
+    }
+
     private var uuid: String?
 
-    private lazy var capsuleView = CapsuleView()
+    private lazy var capsuleView: CapsuleView = {
+        let capsuleView = CapsuleView()
+        capsuleView.isSkeletonable = true
+        return capsuleView
+    }()
 
     private lazy var ticketTitle: UILabel = {
         let label = UILabel()
         label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 16))
         label.adjustsFontForContentSizeCategory = true
-        label.setContentHuggingPriority(.required, for: .horizontal)
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.numberOfLines = 2
+        label.isSkeletonable = true
+        label.skeletonTextNumberOfLines = 2
+        label.skeletonLineSpacing = 4
+        label.lastLineFillPercent = 30
+        label.linesCornerRadius = 8
         return label
     }()
 
@@ -30,6 +43,8 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         label.textColor = .secondaryLabel
         label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 13))
         label.adjustsFontForContentSizeCategory = true
+        label.isSkeletonable = true
+        label.linesCornerRadius = 8
         return label
     }()
 
@@ -37,8 +52,8 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 13))
         label.adjustsFontForContentSizeCategory = true
-        label.setContentHuggingPriority(.required, for: .horizontal)
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.isSkeletonable = true
+        label.linesCornerRadius = 8
         return label
     }()
 
@@ -47,6 +62,8 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         label.textColor = .secondaryLabel
         label.font = UIFontMetrics.default.scaledFont(for: .boldSystemFont(ofSize: 13))
         label.adjustsFontForContentSizeCategory = true
+        label.isSkeletonable = true
+        label.linesCornerRadius = 8
         return label
     }()
 
@@ -58,6 +75,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         stackView.spacing = 4
         stackView.alignment = .top
         stackView.distribution = .fill
+        stackView.isSkeletonable = true
         return stackView
     }()
 
@@ -68,6 +86,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.spacing = 4
         stackView.alignment = .fill
+        stackView.isSkeletonable = true
         return stackView
     }()
 
@@ -78,6 +97,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         stackView.axis = .vertical
         stackView.spacing = 16
         stackView.alignment = .fill
+        stackView.isSkeletonable = true
         return stackView
     }()
 
@@ -89,6 +109,11 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         setupView()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.layoutSkeletonIfNeeded()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -96,11 +121,24 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
     // MARK: Private Properties
 
     private func setupView() {
-        addSubview(contentStackView)
+        contentView.isSkeletonable = true
+        contentView.addSubview(contentStackView)
         contentStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(0)
             $0.top.equalToSuperview().inset(0)
             $0.bottom.equalToSuperview().inset(12)
+        }
+
+        topStackView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+        }
+
+        expireSubtitle.snp.makeConstraints {
+            $0.height.equalTo(18)
+        }
+
+        ticketTitle.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
         }
 
         capsuleView.snp.makeConstraints { make in
@@ -110,29 +148,44 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         addSeparator()
     }
 
-    func configure(with displayData: TicketsListViewState.ShortDisplayData) {
-        self.uuid = displayData.uuid
-        if let id = displayData.id {
-            self.capsuleView.setText(id)
-        }
-        self.capsuleView.isHidden = displayData.id == nil
-        self.authorSubtitle.text = displayData.author
-        self.sectionSubtitle.text = displayData.authorSection
-        self.ticketTitle.text = displayData.ticketText
-        self.expireSubtitle.text = displayData.expireText
+    func configure(with state: CellState) {
 
-        switch displayData.type {
-        case .okay:
-            capsuleView.setBackgroundColor(.primaryKFU)
+        switch state {
+        case .loading:
+            let animation = GradientDirection.leftRight.slidingAnimation()
+            self.capsuleView.setText("***********")
+            self.ticketTitle.text = "***********************"
+            self.expireSubtitle.text = "************"
+            self.authorSubtitle.text = "************"
+            self.sectionSubtitle.text = "********"
+            self.contentView.showAnimatedGradientSkeleton(animation: animation)
 
-        case .expired:
-            capsuleView.setBackgroundColor(.red)
+        case let .content(displayData):
+            contentView.hideSkeleton()
 
-        case .completed:
-            capsuleView.setBackgroundColor(.green)
+            self.uuid = displayData.uuid
+            if let id = displayData.id {
+                self.capsuleView.setText(id)
+            }
+            self.capsuleView.isHidden = displayData.id == nil
+            self.authorSubtitle.text = displayData.author
+            self.sectionSubtitle.text = displayData.authorSection
+            self.ticketTitle.text = displayData.ticketText
+            self.expireSubtitle.text = displayData.expireText
 
-        case .hot:
-            capsuleView.setBackgroundColor(.primaryDarkRed)
+            switch displayData.type {
+            case .okay:
+                capsuleView.setBackgroundColor(.primaryKFU)
+
+            case .expired:
+                capsuleView.setBackgroundColor(.red)
+
+            case .completed:
+                capsuleView.setBackgroundColor(.green)
+
+            case .hot:
+                capsuleView.setBackgroundColor(.primaryDarkRed)
+            }
         }
     }
 }

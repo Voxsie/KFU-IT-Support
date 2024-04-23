@@ -8,7 +8,11 @@
 import Foundation
 
 enum AppError: Error {
-    case unknownError
+    case unknownError(
+        fileID: String = #fileID,
+        function: String = "<function>",
+        line: UInt = #line
+    )
 
     var localizedDescription: String {
         switch self {
@@ -19,9 +23,23 @@ enum AppError: Error {
 }
 
 enum LocalServiceError: Error {
-    case unknownError
-    case notFoundItem
-    case parsingError
+    case unknownError(
+        fileID: String = #fileID,
+        function: String = "<function>",
+        line: UInt = #line
+    )
+
+    case notFoundItem(
+        fileID: String = #fileID,
+        function: String = "<function>",
+        line: UInt = #line
+    )
+
+    case parsingError(
+        fileID: String = #fileID,
+        function: String = "<function>",
+        line: UInt = #line
+    )
 
     var localizedDescription: String {
         switch self {
@@ -38,5 +56,9 @@ enum LocalServiceError: Error {
 }
 
 enum RemoteServiceError: Error {
-    case offline
+    case offline(
+        fileID: String = #fileID,
+        function: String = "<function>",
+        line: UInt = #line
+    )
 }

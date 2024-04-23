@@ -64,6 +64,14 @@ extension SettingsPresenter: SettingsViewOutput {
                     fatalError()
             }),
             .init(
+                title: "Выход из аккаунта",
+                subtitle: nil,
+                action: { [weak self] in
+                    guard let self else { return}
+
+                    moduleOutput.mapOrLog { $0.moduleWantsToDeauthorize(self) }
+            }),
+            .init(
                 title: "Версия приложения",
                 subtitle: prepareVersion(),
                 action: {}

@@ -14,6 +14,7 @@ target 'KFU-IT-Support' do
   pod 'Swinject'
   pod "LetterAvatarKit", "1.2.5"
   pod 'KeychainSwift', '~> 22.0'
+  pod 'SkeletonView'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

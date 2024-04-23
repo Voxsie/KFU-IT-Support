@@ -73,7 +73,24 @@ final class Repository: RepositoryProtocol {
     func getTicketsList(
         completion: @escaping ((Result<[TicketItem], Error>) -> Void)
     ) {
-        apiService.getTicketsList(phone: "", accessKey: "") { [weak self] result in
+        var phone: String?
+        var accessKey: String?
+        fetchAuthToken { result in
+            switch result {
+            case let .success(authToken):
+                phone = authToken.components(separatedBy: ";").first
+                accessKey = authToken.components(separatedBy: ";").last
+
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+        guard let phone, let accessKey else { return }
+
+        apiService.getTicketsList(
+            phone: phone,
+            accessKey: accessKey
+        ) { [weak self] result in
             guard let self else { return }
             switch result {
             case let .success(response):

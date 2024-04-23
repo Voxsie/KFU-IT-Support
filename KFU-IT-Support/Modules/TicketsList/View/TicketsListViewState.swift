@@ -6,16 +6,22 @@
 //
 
 import Foundation
+import UIKit
 
 enum TicketsListViewState {
     case loading
     case display([ChipsDetailsData], [ShortDisplayData])
-    case error
+    case error(ErrorDisplayData)
 
     enum FilterType: CaseIterable {
         case all
         case hot
         case okay
+        case medium
+        case large
+        case small
+        case xlarge
+        case xxlarge
 
         static func random() -> FilterType {
             Self.allCases.randomElement() ?? .okay
@@ -31,6 +37,14 @@ enum TicketsListViewState {
         static func random() -> TicketType {
             Self.allCases.randomElement() ?? .okay
         }
+    }
+
+    struct ErrorDisplayData {
+        let image: UIImage?
+        let title: String?
+        let subtitle: String?
+        let buttonTitle: String?
+        let action: () -> Void
     }
 
     struct ChipsDetailsData {

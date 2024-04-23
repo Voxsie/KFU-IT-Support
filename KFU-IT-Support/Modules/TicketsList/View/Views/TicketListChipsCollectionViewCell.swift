@@ -11,6 +11,16 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
 
     // MARK: Private Properties
 
+    enum CellState {
+        case content(DisplayData)
+        case loading
+
+        struct DisplayData {
+            let title: String
+            let isSelected: Bool
+        }
+    }
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 14))
@@ -49,6 +59,7 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupView() {
+        contentView.isSkeletonable = true
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
@@ -57,14 +68,21 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(22)
         }
 
+        contentView.layer.masksToBounds = true
         layer.cornerRadius = 16
+        contentView.layer.cornerRadius = 16
     }
 
-    func configure(
-        title: String,
-        isSelected: Bool
-    ) {
-        self.isSelected = isSelected
-        titleLabel.text = title
+    func configure(state: CellState) {
+        switch state {
+        case let .content(displayData):
+            contentView.hideSkeleton()
+            titleLabel.text = displayData.title
+            self.isSelected = displayData.isSelected
+
+        case .loading:
+            contentView.showSkeleton()
+            titleLabel.text = "*********"
+        }
     }
 }
