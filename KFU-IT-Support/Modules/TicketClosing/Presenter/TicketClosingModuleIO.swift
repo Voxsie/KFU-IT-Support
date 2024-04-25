@@ -17,6 +17,8 @@ public protocol TicketClosingModuleOutput: AnyObject {
     func moduleDidClose(_ module: TicketClosingModuleInput)
     func moduleWantsToClose(_ module: TicketClosingModuleInput)
 
+    func moduleWantsToUpdateData(_ module: TicketClosingModuleInput)
+
     func moduleWantsToOpenSelectList(
         _ module: TicketClosingModuleInput,
         title: String,

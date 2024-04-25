@@ -33,6 +33,10 @@ final class AuthInteractor {
 
     // MARK: Private
 
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 0) { [weak self] in
+//        guard let self else { return }
+//        repository.saveAuthToken("\(login);1001", completion: completion)
+//    }
 }
 
 // MARK: - AuthInteractorInput
@@ -40,9 +44,10 @@ final class AuthInteractor {
 extension AuthInteractor: AuthInteractorInput {
 
     func tryToAuthorize(login: String, password: String, completion: @escaping ((Result<Void, Error>) -> Void)) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0) { [weak self] in
-            guard let self else { return }
-            repository.saveAuthToken("\(login);1001", completion: completion)
-        }
+        repository.tryToAuthorize(
+            login: login,
+            password: password,
+            completion: completion
+        )
     }
 }

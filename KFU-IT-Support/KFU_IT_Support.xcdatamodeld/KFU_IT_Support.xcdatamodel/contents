@@ -4,6 +4,7 @@
         <attribute name="beginDate" optional="YES" attributeType="String"/>
         <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="endDate" optional="YES" attributeType="String"/>
+        <attribute name="hasSent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="techComment" optional="YES" attributeType="String"/>
     </entity>

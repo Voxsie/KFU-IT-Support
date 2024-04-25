@@ -12,7 +12,6 @@ final class TicketClosingDateRangeView: UIView {
 
     struct DateDisplayData {
         var value: Date
-        var action: () -> Void
     }
 
     // MARK: Private properties

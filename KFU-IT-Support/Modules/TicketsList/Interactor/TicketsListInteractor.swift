@@ -44,4 +44,11 @@ extension TicketsListInteractor: TicketsListInteractorInput {
     ) {
         repository.getTicketsList(completion: completion)
     }
+
+    func setOfflineModeState(
+        _ bool: Bool,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    ) {
+        repository.setOfflineModeState(bool, completion: completion)
+    }
 }

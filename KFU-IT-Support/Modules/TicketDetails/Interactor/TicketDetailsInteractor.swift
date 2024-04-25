@@ -47,4 +47,8 @@ extension TicketDetailsInteractor: TicketDetailsInteractorInput {
             completion: completion
         )
     }
+
+    func fetchOfflineModeState() -> Bool {
+        repository.getOfflineModeState()
+    }
 }

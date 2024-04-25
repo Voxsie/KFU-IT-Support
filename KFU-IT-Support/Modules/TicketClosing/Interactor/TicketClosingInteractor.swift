@@ -37,6 +37,10 @@ final class TicketClosingInteractor {
 
 extension TicketClosingInteractor: TicketClosingInteractorInput {
 
+    func fetchOfflineModeState() -> Bool {
+        repository.getOfflineModeState()
+    }
+
     func addCommentToTicket(
         body: TargetBody.Comment,
         completion: @escaping ((Result<Void, Error>) -> Void)

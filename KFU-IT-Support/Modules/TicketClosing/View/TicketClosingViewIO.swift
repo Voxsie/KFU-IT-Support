@@ -10,10 +10,12 @@ import Foundation
 protocol TicketClosingViewInput: AnyObject {
     func updateView(with state: TicketClosingViewState)
 
-    func showAlert(_ displayData: TicketClosingViewState.NotificationDisplayData)
+    func showAlert(_ displayData: NotificationDisplayData)
 }
 
 protocol TicketClosingViewOutput: AnyObject {
+
+    func isOfflineMode() -> Bool
 
     func viewDidLoadEvent()
     func viewDidUnloadEvent()

@@ -22,6 +22,8 @@ final class TicketsListFlowCoordinator: FlowCoordinatorProtocol {
 
     private var finishHandlers: [() -> Void] = []
 
+    private weak var moduleInput: TicketsListModuleInput?
+
     private let output: TicketsListFlowCoordinatorOutput
 
     // MARK: Public properties
@@ -85,6 +87,11 @@ final class TicketsListFlowCoordinator: FlowCoordinatorProtocol {
 // MARK: - TicketsListModuleOutput
 
 extension TicketsListFlowCoordinator: TicketsListModuleOutput {
+
+    func moduleUnload(_ module: any TicketsListModuleInput) {
+        didFinish()
+    }
+
     func moduleWantsToOpenDetails(
         _ module: TicketsListModuleInput,
         ticketUUID: String
@@ -119,5 +126,9 @@ extension TicketsListFlowCoordinator: TicketsListModuleOutput {
 // MARK: - TicketDetailsFlowCoordinatorOutput
 
 extension TicketsListFlowCoordinator: TicketDetailsFlowCoordinatorOutput {
-
+    func flowCoordinatorWantsToUpdateData(
+        _ flowInput: TicketDetailsFlowCoordinatorInput
+    ) {
+        moduleInput.mapOrLog { $0.updateData() }
+    }
 }

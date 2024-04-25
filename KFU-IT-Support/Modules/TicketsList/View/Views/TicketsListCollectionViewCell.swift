@@ -22,6 +22,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
     private lazy var capsuleView: CapsuleView = {
         let capsuleView = CapsuleView()
         capsuleView.isSkeletonable = true
+        capsuleView.isHiddenWhenSkeletonIsActive = true
         return capsuleView
     }()
 
@@ -158,7 +159,10 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
             self.expireSubtitle.text = "************"
             self.authorSubtitle.text = "************"
             self.sectionSubtitle.text = "********"
-            self.contentView.showAnimatedGradientSkeleton(animation: animation)
+            self.contentView.showAnimatedGradientSkeleton(
+                usingGradient: .init(baseColor: .tertiarySystemFill),
+                animation: animation
+            )
 
         case let .content(displayData):
             contentView.hideSkeleton()

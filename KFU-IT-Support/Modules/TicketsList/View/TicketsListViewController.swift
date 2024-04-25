@@ -13,7 +13,7 @@ final class TicketsListViewController: UIViewController {
     // MARK: Private data structures
 
     private enum Constants {
-        static let ticketsTitle = "Заявки"
+        static let ticketsTitle = "Список заявок"
     }
 
     // MARK: Public Properties
@@ -89,7 +89,10 @@ final class TicketsListViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = Constants.ticketsTitle
+        navigationItem.titleView = OfflineTitle(
+            title: Constants.ticketsTitle,
+            showOffline: false
+        )
 
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
@@ -107,6 +110,27 @@ final class TicketsListViewController: UIViewController {
 
 extension TicketsListViewController: TicketsListViewInput {
 
+    func showAlert(
+        _ displayData: NotificationDisplayData
+    ) {
+        let alert = UIAlertController(
+            title: displayData.title,
+            message: displayData.subtitle,
+            preferredStyle: .alert
+        )
+
+        displayData.actions.forEach { item in
+            let action = UIAlertAction(
+                title: item.buttonTitle,
+                style: item.style
+            ) { _ in
+                item.action()
+            }
+            alert.addAction(action)
+        }
+        self.present(alert, animated: true)
+    }
+
     func finishUpdating() {
         refreshControl.endRefreshing()
     }
@@ -122,6 +146,12 @@ extension TicketsListViewController: TicketsListViewInput {
         }
 
         collectionView.reloadData()
+    }
+
+    func updateOfflineView(_ isOffline: Bool) {
+        if let navTitle = navigationItem.titleView as? OfflineTitle {
+            navTitle.updateState(isOffline: isOffline)
+        }
     }
 }
 

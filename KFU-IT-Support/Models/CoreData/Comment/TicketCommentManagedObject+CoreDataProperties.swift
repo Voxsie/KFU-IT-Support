@@ -20,5 +20,6 @@ extension TicketCommentManagedObject {
     @NSManaged public var comment: String?
     @NSManaged public var techComment: String?
     @NSManaged public var id: String?
+    @NSManaged public var hasSent: NSNumber?
 
 }

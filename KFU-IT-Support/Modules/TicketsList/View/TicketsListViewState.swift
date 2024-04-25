@@ -43,8 +43,13 @@ enum TicketsListViewState {
         let image: UIImage?
         let title: String?
         let subtitle: String?
-        let buttonTitle: String?
-        let action: () -> Void
+        let firstButton: ButtonDisplayData?
+        let secondButton: ButtonDisplayData?
+
+        struct ButtonDisplayData {
+            let buttonTitle: String?
+            let action: () -> Void
+        }
     }
 
     struct ChipsDetailsData {

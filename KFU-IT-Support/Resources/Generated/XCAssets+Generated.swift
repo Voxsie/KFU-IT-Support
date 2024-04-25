@@ -36,6 +36,7 @@ internal enum Asset {
     internal static let textFieldPasswordEye = ImageAsset(name: "TextFieldPasswordEye")
     internal static let textFieldPasswordEyeHide = ImageAsset(name: "TextFieldPasswordEyeHide")
     internal static let kpfuLogo = ImageAsset(name: "kpfuLogo")
+    internal static let offlineModeIcon = ImageAsset(name: "offlineModeIcon")
   }
   internal enum Shapes {
     internal static let arrowDown = ImageAsset(name: "ArrowDown")

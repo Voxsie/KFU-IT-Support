@@ -17,4 +17,5 @@ protocol TicketDetailsViewOutput: AnyObject {
     func viewDidTapCloseButton()
     func getState() -> TicketDetailsViewState
     func viewDidTapCloseTicket()
+    func getOfflineState() -> Bool
 }

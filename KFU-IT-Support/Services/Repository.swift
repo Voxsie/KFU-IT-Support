@@ -11,6 +11,12 @@ protocol RepositoryProtocol {
 
     // MARK: Create
 
+    func tryToAuthorize(
+        login: String,
+        password: String,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    )
+
     func addCommentToTicket(
         body: TargetBody.Comment,
         completion: @escaping ((Result<Void, Error>) -> Void)
@@ -18,6 +24,11 @@ protocol RepositoryProtocol {
 
     func saveAuthToken(
         _ token: String,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    )
+
+    func setOfflineModeState(
+        _ bool: Bool,
         completion: @escaping ((Result<Void, Error>) -> Void)
     )
 
@@ -40,6 +51,8 @@ protocol RepositoryProtocol {
         using uuid: String,
         completion: @escaping ((Result<CommentItem, Error>) -> Void)
     )
+
+    func getOfflineModeState() -> Bool
 }
 
 final class Repository: RepositoryProtocol {
@@ -54,15 +67,22 @@ final class Repository: RepositoryProtocol {
 
     // MARK: Remote
 
-    func addCommentToTicket(
-        body: TargetBody.Comment,
+    func tryToAuthorize(
+        login: String,
+        password: String,
         completion: @escaping ((Result<Void, Error>) -> Void)
     ) {
-        apiService.addCommentToTicket(body: body) { [weak self] in
+        apiService.getUserInfo(
+            phone: login,
+            accessKey: password
+        ) { [weak self] result in
             guard let self else { return }
-            switch $0 {
+            switch result {
             case .success:
-                localService.updateComment(body: body, completion: completion)
+                self.localService.setAuthorizedState(
+                    isAuthorized: true,
+                    completion: completion
+                )
 
             case let .failure(error):
                 completion(.failure(error))
@@ -70,9 +90,52 @@ final class Repository: RepositoryProtocol {
         }
     }
 
+    func addCommentToTicket(
+        body: TargetBody.Comment,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    ) {
+        if localService.fetchOfflineModeState() {
+            localService.updateComment(
+                body: body,
+                hasSent: false,
+                completion: completion
+            )
+        } else {
+            apiService.addCommentToTicket(body: body) { [weak self] in
+                guard let self else { return }
+                switch $0 {
+                case .success:
+                    localService.updateComment(
+                        body: body,
+                        hasSent: true,
+                        completion: completion
+                    )
+
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    func setOfflineModeState(
+        _ bool: Bool,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    ) {
+        localService.saveOfflineModeState(
+            isEnabled: bool,
+            completion: completion
+        )
+    }
+
     func getTicketsList(
         completion: @escaping ((Result<[TicketItem], Error>) -> Void)
     ) {
+        guard localService.fetchOfflineModeState() == false
+        else {
+            localService.fetchTicketList(completion: completion)
+            return
+        }
         var phone: String?
         var accessKey: String?
         fetchAuthToken { result in
@@ -138,5 +201,9 @@ final class Repository: RepositoryProtocol {
         completion: @escaping ((Result<CommentItem, Error>) -> Void)
     ) {
         localService.fetchComment(using: uuid, completion: completion)
+    }
+
+    func getOfflineModeState() -> Bool {
+        localService.fetchOfflineModeState()
     }
 }

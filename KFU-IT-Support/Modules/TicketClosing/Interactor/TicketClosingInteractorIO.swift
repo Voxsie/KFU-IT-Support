@@ -18,6 +18,8 @@ protocol TicketClosingInteractorInput: AnyObject {
         using uuid: String,
         completion: @escaping ((Result<CommentItem, Error>) -> Void)
     )
+
+    func fetchOfflineModeState() -> Bool
 }
 
 protocol TicketClosingInteractorOutput: AnyObject {}
