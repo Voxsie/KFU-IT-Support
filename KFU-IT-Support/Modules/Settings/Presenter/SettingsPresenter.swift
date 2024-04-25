@@ -80,7 +80,7 @@ extension SettingsPresenter: SettingsViewOutput {
     }
 
     func viewDidUnloadEvent() {
-        //
+        moduleOutput.mapOrLog { $0.moduleUnload(self) }
     }
 
     func getState() -> SettingsViewState {

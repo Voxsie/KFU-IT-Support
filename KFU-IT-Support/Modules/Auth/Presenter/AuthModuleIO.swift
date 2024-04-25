@@ -10,7 +10,10 @@ import Foundation
 public protocol AuthModuleInput: AnyObject {}
 
 public protocol AuthModuleOutput: AnyObject {
+
     func moduleDidLoad(_ module: AuthModuleInput)
     func moduleDidClose(_ module: AuthModuleInput)
     func moduleWantsToOpenAuthorizedZone(_ module: AuthModuleInput)
+
+    func moduleUnload(_ module: AuthModuleInput)
 }

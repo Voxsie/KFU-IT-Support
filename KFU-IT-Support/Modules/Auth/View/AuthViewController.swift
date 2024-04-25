@@ -142,7 +142,10 @@ final class AuthViewController: UIViewController {
 
     @objc func sendData() {
         loginButton.showLoading()
-        output.sendData(login: loginTextField.text, password: passwordTextField.text)
+        output.sendData(
+            login: loginTextField.getValue().digits,
+            password: passwordTextField.getValue().removingWhitespaces()
+        )
     }
 }
 

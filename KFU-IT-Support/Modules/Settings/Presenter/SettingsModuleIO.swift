@@ -11,4 +11,6 @@ public protocol SettingsModuleInput: AnyObject {}
 
 public protocol SettingsModuleOutput: AnyObject {
     func moduleWantsToDeauthorize(_ module: SettingsModuleInput)
+
+    func moduleUnload(_ module: SettingsModuleInput)
 }

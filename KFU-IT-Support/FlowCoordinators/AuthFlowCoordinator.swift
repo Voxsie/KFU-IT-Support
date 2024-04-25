@@ -85,6 +85,11 @@ final class AuthFlowCoordinator: FlowCoordinatorProtocol {
 // MARK: - AuthModuleOutput
 
 extension AuthFlowCoordinator: AuthModuleOutput {
+
+    func moduleUnload(_ module: AuthModuleInput) {
+        didFinish()
+    }
+
     func moduleWantsToOpenAuthorizedZone(_ module: AuthModuleInput) {
         output.flowCoordinatorWantsToOpenAuthorizedZone()
     }

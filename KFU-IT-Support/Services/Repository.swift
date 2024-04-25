@@ -11,6 +11,12 @@ protocol RepositoryProtocol {
 
     // MARK: Create
 
+    func tryToAuthorize(
+        login: String,
+        password: String,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    )
+
     func addCommentToTicket(
         body: TargetBody.Comment,
         completion: @escaping ((Result<Void, Error>) -> Void)
@@ -60,6 +66,29 @@ final class Repository: RepositoryProtocol {
     private let localService: LocalServiceProtocol = LocalService()
 
     // MARK: Remote
+
+    func tryToAuthorize(
+        login: String,
+        password: String,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    ) {
+        apiService.getUserInfo(
+            phone: login,
+            accessKey: password
+        ) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                self.localService.setAuthorizedState(
+                    isAuthorized: true,
+                    completion: completion
+                )
+
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
 
     func addCommentToTicket(
         body: TargetBody.Comment,

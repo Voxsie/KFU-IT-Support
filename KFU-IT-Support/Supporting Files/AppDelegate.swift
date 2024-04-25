@@ -17,7 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let resolver = Container(defaultObjectScope: .container)
 
-    private lazy var rootFlowCoordinator = RootFlowCoordinator()
+    private lazy var rootFlowCoordinator = RootFlowCoordinator(
+        userDefaults: UserDefaultManager.shared
+    )
 
     // MARK: Public properties
 

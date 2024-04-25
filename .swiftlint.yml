@@ -3,6 +3,7 @@ disabled_rules:
   - nesting
   - implicit_getter
   - opening_brace
+  - duplicate_conditions
 
 excluded:
   - Carthage

@@ -17,9 +17,15 @@ import Moya
 
 /*
 Добавление комментария
- https://portal-dis.kpfu.ru/pls/tech_center/chatbot_api.set_comment?p_user_id=0&p_request_id=209960&p_begin_date=23.10.2023&p_end_date=30.10.2023&p_comment=Test3&p_check=1&p_access_key=1001
+ https://portal-dis.kpfu.ru/pls/tech_center/chatbot_api.set_comment
+ ?p_user_id=0&p_request_id=209960&p_begin_date=23.10.2023&p_end_date=30.10.2023&
+ p_comment=Test3&p_check=1&p_access_key=1001
  */
 
+/*
+Получение информации о пользователе
+ https://portal-dis.kpfu.ru/pls/tech_center/chatbot_api.get_user?p_phone=+7(917)269-58-37&p_access_key=1001
+ */
 
 extension APIType: TargetType {
     var baseURL: URL { URL(string: "https://portal-dis.kpfu.ru/pls/tech_center")! }
@@ -30,17 +36,17 @@ extension APIType: TargetType {
 
         case .addComment:
             return "/chatbot_api.set_comment"
+
+        case .getUserInfo:
+            return "/chatbot_api.get_user"
         }
     }
     var method: Moya.Method {
         switch self {
-        case .getTicketsList:
+        case .getTicketsList, .getUserInfo:
             return .get
 
         case .addComment:
-            return .post
-
-        default:
             return .post
         }
     }
@@ -67,6 +73,16 @@ extension APIType: TargetType {
                         "p_comment": data.comment,
                         "p_check": "1",
                         "p_access_key": "1001"
+                    ],
+                encoding: URLEncoding.queryString
+            )
+
+        case let .getUserInfo(phone, accessKey):
+            return .requestParameters(
+                parameters:
+                    [
+                        "p_phone": phone,
+                        "p_access_key": accessKey
                     ],
                 encoding: URLEncoding.queryString
             )

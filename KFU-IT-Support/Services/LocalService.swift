@@ -26,6 +26,11 @@ protocol LocalServiceProtocol {
         completion: @escaping ((Result<Void, Error>) -> Void)
     )
 
+    func setAuthorizedState(
+        isAuthorized: Bool,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    )
+
     func updateComment(
         body: TargetBody.Comment,
         hasSent: Bool,
@@ -114,6 +119,14 @@ final class LocalService: LocalServiceProtocol {
         completion: @escaping ((Result<Void, Error>) -> Void)
     ) {
         userDefault.set(isEnabled, for: UserDefaultsKey.offlineMode)
+        completion(.success(()))
+    }
+
+    func setAuthorizedState(
+        isAuthorized: Bool,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    ) {
+        userDefault.set(isAuthorized, for: UserDefaultsKey.isAuthorized)
         completion(.success(()))
     }
 

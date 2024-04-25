@@ -21,6 +21,9 @@ final class SettingsFlowCoordinator: FlowCoordinatorProtocol {
 
     private var finishHandlers: [() -> Void] = []
 
+    private weak var rootViewController: UIViewController?
+    private weak var rootNavigationController: UINavigationController?
+
     // MARK: Public properties
 
     var childFlowCoordinators: [FlowCoordinatorProtocol] = []
@@ -49,6 +52,8 @@ final class SettingsFlowCoordinator: FlowCoordinatorProtocol {
             tag: 1
         )
         let navigationController = UINavigationController(rootViewController: settingsViewController)
+        rootViewController = settingsViewController
+        rootNavigationController = navigationController
         parentTabbarViewController?.appendViewController(
             navigationController,
             animated: false
@@ -56,13 +61,32 @@ final class SettingsFlowCoordinator: FlowCoordinatorProtocol {
     }
 
     func finish(animated: Bool, completion: (() -> Void)?) {
-        //
+        if let completion {
+            finishHandlers.append(completion)
+        }
+
+        if let rootViewController {
+            rootViewController.dismissIfPresenting(animated: false)
+        } else {
+            didFinish()
+        }
+    }
+
+    // MARK: Private methods
+
+    private func didFinish() {
+        finishHandlers.forEach { $0() }
+        finishHandlers.removeAll()
     }
 }
 
 // MARK: - SettingsModuleOutput
 
 extension SettingsFlowCoordinator: SettingsModuleOutput {
+
+    func moduleUnload(_ module: SettingsModuleInput) {
+        didFinish()
+    }
 
     func moduleWantsToDeauthorize(_ module: SettingsModuleInput) {
         output.flowCoordinatorWantsToOpenUnathorizedZone()

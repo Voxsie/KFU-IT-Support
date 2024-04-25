@@ -134,7 +134,7 @@ extension TicketsListPresenter: TicketsListViewOutput {
     }
 
     func viewDidUnloadEvent() {
-        //
+        moduleOutput.mapOrLog { $0.moduleUnload(self) }
     }
 
     func getState() -> TicketsListViewState {

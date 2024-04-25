@@ -87,6 +87,11 @@ final class TicketsListFlowCoordinator: FlowCoordinatorProtocol {
 // MARK: - TicketsListModuleOutput
 
 extension TicketsListFlowCoordinator: TicketsListModuleOutput {
+
+    func moduleUnload(_ module: any TicketsListModuleInput) {
+        didFinish()
+    }
+
     func moduleWantsToOpenDetails(
         _ module: TicketsListModuleInput,
         ticketUUID: String

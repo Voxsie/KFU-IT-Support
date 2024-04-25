@@ -17,4 +17,6 @@ public protocol TicketsListModuleOutput: AnyObject {
         _ module: TicketsListModuleInput,
         ticketUUID: String
     )
+
+    func moduleUnload(_ module: TicketsListModuleInput)
 }

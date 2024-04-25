@@ -13,6 +13,8 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
 
     private var window: UIWindow?
 
+    private let userDefaults: UserDefaultManager
+
     private var isExample = false
     private var isAuthorized = false
 
@@ -21,6 +23,13 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
     var childFlowCoordinators: [FlowCoordinatorProtocol] = []
 
     // MARK: Lifecycle
+
+    init(
+        userDefaults: UserDefaultManager
+    ) {
+        self.userDefaults = userDefaults
+        isAuthorized = userDefaults.getBool(for: .isAuthorized)
+    }
 
     // MARK: Public methods
 

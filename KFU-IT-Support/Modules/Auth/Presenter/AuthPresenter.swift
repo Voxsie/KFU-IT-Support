@@ -54,7 +54,7 @@ extension AuthPresenter: AuthViewOutput {
     }
 
     func viewDidUnloadEvent() {
-        //
+        moduleOutput.mapOrLog { $0.moduleUnload(self) }
     }
 
     func getState() -> AuthViewState {
@@ -65,11 +65,6 @@ extension AuthPresenter: AuthViewOutput {
         login: String,
         password: String
     ) {
-//        guard login.count > 16, login.count < 18
-//        else {
-//            self.state = .error(prepareInsufficiencyErrorData())
-//            return
-//        }
         self.state = .loading
         interactor.tryToAuthorize(
             login: login,
