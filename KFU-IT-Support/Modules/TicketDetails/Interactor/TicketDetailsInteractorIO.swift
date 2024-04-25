@@ -13,6 +13,8 @@ protocol TicketDetailsInteractorInput: AnyObject {
         using uuid: String,
         completion: @escaping ((Result<TicketItem, Error>) -> Void)
     )
+
+    func fetchOfflineModeState() -> Bool
 }
 
 protocol TicketDetailsInteractorOutput: AnyObject {}

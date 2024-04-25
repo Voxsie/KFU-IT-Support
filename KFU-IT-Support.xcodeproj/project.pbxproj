@@ -92,6 +92,10 @@
 		416285022BC72A45001EB7AE /* UIButton+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416285012BC72A45001EB7AE /* UIButton+Extentions.swift */; };
 		416285042BC72C95001EB7AE /* TicketClosingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416285032BC72C95001EB7AE /* TicketClosingTextView.swift */; };
 		419C025F2BD7EB1D001AD688 /* TicketsListBlockCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419C025E2BD7EB1D001AD688 /* TicketsListBlockCollectionViewCell.swift */; };
+		419C02612BD8DC9D001AD688 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419C02602BD8DC9D001AD688 /* UserDefaultsManager.swift */; };
+		419C1FA72BD90645001AD688 /* TicketCommentManagedObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419C1FA62BD90645001AD688 /* TicketCommentManagedObject+Extensions.swift */; };
+		419C5C6C2BD955F9001AD688 /* NotificationDisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419C5C6B2BD955F9001AD688 /* NotificationDisplayData.swift */; };
+		419C5C6E2BD98FED001AD688 /* OfflineTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419C5C6D2BD98FED001AD688 /* OfflineTitle.swift */; };
 		419F6ED22BCC2F3800EFD189 /* UICollectionViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F6ED12BCC2F3800EFD189 /* UICollectionViewCell+Extensions.swift */; };
 		419F6ED42BCC345C00EFD189 /* CapsuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F6ED32BCC345C00EFD189 /* CapsuleView.swift */; };
 		419F901F2BCFED7200EFD189 /* SettingsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419F901E2BCFED7200EFD189 /* SettingsCollectionViewCell.swift */; };
@@ -224,6 +228,10 @@
 		416285012BC72A45001EB7AE /* UIButton+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extentions.swift"; sourceTree = "<group>"; };
 		416285032BC72C95001EB7AE /* TicketClosingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketClosingTextView.swift; sourceTree = "<group>"; };
 		419C025E2BD7EB1D001AD688 /* TicketsListBlockCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsListBlockCollectionViewCell.swift; sourceTree = "<group>"; };
+		419C02602BD8DC9D001AD688 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		419C1FA62BD90645001AD688 /* TicketCommentManagedObject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TicketCommentManagedObject+Extensions.swift"; sourceTree = "<group>"; };
+		419C5C6B2BD955F9001AD688 /* NotificationDisplayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDisplayData.swift; sourceTree = "<group>"; };
+		419C5C6D2BD98FED001AD688 /* OfflineTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineTitle.swift; sourceTree = "<group>"; };
 		419F6ED12BCC2F3800EFD189 /* UICollectionViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		419F6ED32BCC345C00EFD189 /* CapsuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleView.swift; sourceTree = "<group>"; };
 		419F901E2BCFED7200EFD189 /* SettingsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -298,6 +306,7 @@
 			children = (
 				4104724F2BD548E70011885C /* TicketCommentManagedObject+CoreDataProperties.swift */,
 				410472502BD548E70011885C /* TicketCommentManagedObject+CoreDataClass.swift */,
+				419C1FA62BD90645001AD688 /* TicketCommentManagedObject+Extensions.swift */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -358,6 +367,7 @@
 				411956192BB757E40046CCE0 /* Weak.swift */,
 				416239C82BC2F511001EB7AE /* TechError.swift */,
 				419FDDDB2BD1727000EFD189 /* Error.swift */,
+				419C5C6B2BD955F9001AD688 /* NotificationDisplayData.swift */,
 			);
 			path = CommonStructures;
 			sourceTree = "<group>";
@@ -371,6 +381,7 @@
 				419FD3F62BD1255000EFD189 /* RemoteService.swift */,
 				419FDDD92BD1715C00EFD189 /* LocalService.swift */,
 				410454A02BD3C2610011885C /* KeychainSwift.swift */,
+				419C02602BD8DC9D001AD688 /* UserDefaultsManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -589,6 +600,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		419C1FA82BD9064E001AD688 /* Ticket */ = {
+			isa = PBXGroup;
+			children = (
+				410472472BD544460011885C /* TicketManagedObject+CoreDataClass.swift */,
+				410472462BD544450011885C /* TicketManagedObject+CoreDataProperties.swift */,
+				410472442BD543FD0011885C /* TicketManagedObject+Extensions.swift */,
+			);
+			path = Ticket;
+			sourceTree = "<group>";
+		};
 		419FD3ED2BD1245E00EFD189 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -622,10 +643,8 @@
 		419FDDDD2BD193D900EFD189 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				419C1FA82BD9064E001AD688 /* Ticket */,
 				4104724E2BD548E70011885C /* Comment */,
-				410472472BD544460011885C /* TicketManagedObject+CoreDataClass.swift */,
-				410472462BD544450011885C /* TicketManagedObject+CoreDataProperties.swift */,
-				410472442BD543FD0011885C /* TicketManagedObject+Extensions.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -719,6 +738,7 @@
 				41E52B4D2BCA96A3002F203E /* UploadFileView.swift */,
 				41E826372BCBE00D008ED0DA /* PhotoPicker.swift */,
 				419F6ED32BCC345C00EFD189 /* CapsuleView.swift */,
+				419C5C6D2BD98FED001AD688 /* OfflineTitle.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1009,6 +1029,7 @@
 				41622D762BC171FA001EB7AE /* SettingsViewController.swift in Sources */,
 				411956402BB765A70046CCE0 /* UITabBarController+Extensions.swift in Sources */,
 				41E52B3F2BC97D03002F203E /* SelectListPresenter.swift in Sources */,
+				419C5C6C2BD955F9001AD688 /* NotificationDisplayData.swift in Sources */,
 				410472592BD552E90011885C /* DateFormatter+Extensions.swift in Sources */,
 				411956472BB76BB70046CCE0 /* UIView+Extensions.swift in Sources */,
 				410472522BD548E70011885C /* TicketCommentManagedObject+CoreDataClass.swift in Sources */,
@@ -1036,6 +1057,7 @@
 				416239B22BC2D3F3001EB7AE /* TicketDetailsModuleBuilder.swift in Sources */,
 				411956392BB75CCB0046CCE0 /* TicketsListPresenter.swift in Sources */,
 				410472452BD543FD0011885C /* TicketManagedObject+Extensions.swift in Sources */,
+				419C02612BD8DC9D001AD688 /* UserDefaultsManager.swift in Sources */,
 				41E52B482BC981FC002F203E /* SelectListFlowCoordinator.swift in Sources */,
 				416239C92BC2F511001EB7AE /* TechError.swift in Sources */,
 				416239BF2BC2D7E5001EB7AE /* TicketDetailsInteractor.swift in Sources */,
@@ -1044,6 +1066,7 @@
 				4119564D2BB899B00046CCE0 /* AuthFlowCoordinator.swift in Sources */,
 				416285022BC72A45001EB7AE /* UIButton+Extentions.swift in Sources */,
 				419FDDDA2BD1715C00EFD189 /* LocalService.swift in Sources */,
+				419C1FA72BD90645001AD688 /* TicketCommentManagedObject+Extensions.swift in Sources */,
 				41E52B432BC97D03002F203E /* SelectListInteractorIO.swift in Sources */,
 				41E52B4A2BC98BBC002F203E /* Collection+Extensions.swift in Sources */,
 				416257432BC44DBF001EB7AE /* TicketClosingFlowCoordinator.swift in Sources */,
@@ -1061,6 +1084,7 @@
 				41E8263A2BCBF15D008ED0DA /* TicketClosingViewState.swift in Sources */,
 				41E52B462BC97DCC002F203E /* SelectListViewState.swift in Sources */,
 				4119563B2BB75CCB0046CCE0 /* TicketsListViewController.swift in Sources */,
+				419C5C6E2BD98FED001AD688 /* OfflineTitle.swift in Sources */,
 				416239C52BC2D910001EB7AE /* TicketDetailsFlowCoordinator.swift in Sources */,
 				41F4D69B2BBC8D5100BFE4D0 /* TextField.swift in Sources */,
 				416239B72BC2D6D7001EB7AE /* TicketDetailsViewController.swift in Sources */,

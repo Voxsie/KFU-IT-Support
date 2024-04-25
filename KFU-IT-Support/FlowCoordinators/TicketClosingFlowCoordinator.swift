@@ -10,7 +10,11 @@ import UIKit
 
 protocol TicketClosingFlowCoordinatorInput: AnyObject {}
 
-protocol TicketClosingFlowCoordinatorOutput: AnyObject {}
+protocol TicketClosingFlowCoordinatorOutput: AnyObject {
+    func flowCoordinatorWantsToUpdateData(
+        _ flowInput: TicketClosingFlowCoordinatorInput
+    )
+}
 
 final class TicketClosingFlowCoordinator: FlowCoordinatorProtocol {
 
@@ -112,9 +116,19 @@ final class TicketClosingFlowCoordinator: FlowCoordinatorProtocol {
     }
 }
 
+// MARK: - TicketClosingFlowCoordinatorInput
+
+extension TicketClosingFlowCoordinator: TicketClosingFlowCoordinatorInput {}
+
 // MARK: - TicketClosingModuleOutput
 
 extension TicketClosingFlowCoordinator: TicketClosingModuleOutput {
+
+    func moduleWantsToUpdateData(
+        _ module: TicketClosingModuleInput
+    ) {
+        output.flowCoordinatorWantsToUpdateData(self)
+    }
 
     func moduleWantsToOpenSelectList(
         _ module: TicketClosingModuleInput,

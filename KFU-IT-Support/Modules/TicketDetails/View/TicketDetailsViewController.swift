@@ -72,7 +72,10 @@ final class TicketDetailsViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = .secondarySystemBackground
-        navigationItem.title = Constants.settingsTitle
+        navigationItem.titleView = OfflineTitle(
+            title: Constants.settingsTitle,
+            showOffline: output.getOfflineState()
+        )
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: Asset.Icons.closeIcon.image,

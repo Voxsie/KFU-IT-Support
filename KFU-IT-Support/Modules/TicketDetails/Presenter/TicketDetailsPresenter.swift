@@ -60,7 +60,6 @@ extension TicketDetailsPresenter: TicketDetailsInteractorOutput {}
 extension TicketDetailsPresenter: TicketDetailsViewOutput {
 
     func viewDidLoadEvent() {
-        print(uuid)
         interactor.fetchTicket(
             using: uuid
         ) { [weak self] result in
@@ -88,6 +87,10 @@ extension TicketDetailsPresenter: TicketDetailsViewOutput {
 
     func getState() -> TicketDetailsViewState {
         state
+    }
+
+    func getOfflineState() -> Bool {
+        interactor.fetchOfflineModeState()
     }
 
     func viewDidTapCloseTicket() {

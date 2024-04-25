@@ -2,6 +2,7 @@ disabled_rules:
   - blanket_disable_command
   - nesting
   - implicit_getter
+  - opening_brace
 
 excluded:
   - Carthage

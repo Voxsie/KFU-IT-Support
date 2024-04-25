@@ -12,7 +12,7 @@ final class TicketClosingViewController: UIViewController {
     // MARK: Private data structures
 
     private enum Constants {
-
+        static let navigationTitle = "Исполнение заявки"
     }
 
     // MARK: Public Properties
@@ -22,8 +22,9 @@ final class TicketClosingViewController: UIViewController {
     private let output: TicketClosingViewOutput
 
     private lazy var rightNavigationBarButton: UIButton = {
+        let isOffline = output.isOfflineMode()
         let button = UIButton(type: .custom)
-        button.setTitle("Сохранить", for: .normal)
+        button.setTitle(isOffline ? "Сохранить" : "Отправить", for: .normal)
         button.setTitleColor(.primaryKFU, for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         let activityIndicator = UIActivityIndicatorView(style: .medium)
@@ -68,12 +69,10 @@ final class TicketClosingViewController: UIViewController {
         view.configure(
             title: "Срок выполнения",
             startDate: .init(
-                value: .adding(years: -1, months: -1, days: -1) ?? Date(),
-                action: { print("start pressed") }
+                value: Date()
             ),
             endDate: .init(
-                value: Date(),
-                action: { print("end pressed") }
+                value: Date()
             )
         )
         return view
@@ -242,7 +241,10 @@ final class TicketClosingViewController: UIViewController {
     // MARK: Private
 
     private func setupNavigationBar() {
-        navigationItem.title = "Исполнение заявки"
+        navigationItem.titleView = OfflineTitle(
+            title: Constants.navigationTitle,
+            showOffline: output.isOfflineMode()
+        )
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: Asset.Icons.closeIcon.image,
@@ -288,7 +290,7 @@ final class TicketClosingViewController: UIViewController {
 
 extension TicketClosingViewController: TicketClosingViewInput {
     func showAlert(
-        _ displayData: TicketClosingViewState.NotificationDisplayData
+        _ displayData: NotificationDisplayData
     ) {
         let alert = UIAlertController(
             title: displayData.title,
@@ -312,20 +314,8 @@ extension TicketClosingViewController: TicketClosingViewInput {
         let displayData = state.displayData
         dateRangeView.configure(
             title: "Срок выполнения",
-            startDate: .init(
-                value: displayData.startDate,
-                action: { [weak self] in
-                    guard let self else { return }
-                    print("start pressed")
-                }
-            ),
-            endDate: .init(
-                value: displayData.endDate,
-                action: { [weak self] in
-                    guard let self else { return }
-                    print("end pressed")
-                }
-            )
+            startDate: .init(value: displayData.startDate),
+            endDate: .init(value: displayData.endDate)
         )
         completedWorkTextView.configure(
             title: "Описание выполненных работ\n(до 2000 символов)",

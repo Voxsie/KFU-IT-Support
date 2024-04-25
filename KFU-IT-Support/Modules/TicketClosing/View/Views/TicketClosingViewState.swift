@@ -44,18 +44,6 @@ enum TicketClosingViewState {
         }
     }
 
-    struct NotificationDisplayData {
-        var title: String
-        var subtitle: String
-        var actions: [NotificationActionDisplayData]
-    }
-
-    struct NotificationActionDisplayData {
-        var buttonTitle: String
-        var action: () -> Void
-        var style: UIAlertAction.Style
-    }
-
     var displayData: DisplayData {
         switch self {
         case let .content(displayData):

@@ -29,9 +29,8 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
         start(animated: animated)
     }
 
-    // TODO: Исправить инициализацию WindowsManager
-
     func start(animated: Bool) {
+        UserDefaultManager.shared.set(false, for: .offlineMode)
         updateZone()
     }
 
@@ -122,6 +121,12 @@ extension RootFlowCoordinator: TabBarFlowCoordinatorOutput {
     }
 }
 
-extension RootFlowCoordinator: TicketClosingFlowCoordinatorOutput {}
+extension RootFlowCoordinator: TicketClosingFlowCoordinatorOutput {
+    func flowCoordinatorWantsToUpdateData(
+        _ flowInput: TicketClosingFlowCoordinatorInput
+    ) {
+        // unused
+    }
+}
 
 extension RootFlowCoordinator: SelectListFlowCoordinatorOutput {}

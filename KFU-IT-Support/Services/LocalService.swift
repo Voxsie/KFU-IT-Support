@@ -21,8 +21,14 @@ protocol LocalServiceProtocol {
         completion: @escaping ((Result<Void, Error>) -> Void)
     )
 
+    func saveOfflineModeState(
+        isEnabled: Bool,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    )
+
     func updateComment(
         body: TargetBody.Comment,
+        hasSent: Bool,
         completion: @escaping ((Result<Void, Error>) -> Void)
     )
 
@@ -36,9 +42,15 @@ protocol LocalServiceProtocol {
         completion: @escaping ((Result<TicketItem, Error>) -> Void)
     )
 
+    func fetchTicketList(
+        completion: @escaping((Result<[TicketItem], Error>) -> Void)
+    )
+
     func fetchAuthToken(
         completion: @escaping ((Result<String, Error>) -> Void)
     )
+
+    func fetchOfflineModeState() -> Bool
 }
 
 final class LocalService: LocalServiceProtocol {
@@ -47,6 +59,8 @@ final class LocalService: LocalServiceProtocol {
 
     private let keychain: KeychainSwift
 
+    private let userDefault: UserDefaultManager
+
     init() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError("Unable to access AppDelegate")
@@ -54,6 +68,8 @@ final class LocalService: LocalServiceProtocol {
         self.context = appDelegate.persistentContainer.viewContext
         self.keychain = KeychainSwift()
         keychain.synchronizable = false
+
+        self.userDefault = UserDefaultManager.shared
     }
 
     func saveTicketsList(
@@ -62,7 +78,13 @@ final class LocalService: LocalServiceProtocol {
     ) {
         context.perform {
             do {
-                items.forEach { ticket in
+                let sortedArray = items.sorted {
+                    guard let numA = Int($0.number ?? ""), let numB = Int($1.number ?? "") else {
+                        return false
+                    }
+                    return numA > numB
+                }
+                sortedArray.forEach { ticket in
                     _ = try? TicketManagedObject.import(from: ticket, in: self.context)
                 }
                 try self.context.save()
@@ -87,30 +109,31 @@ final class LocalService: LocalServiceProtocol {
         }
     }
 
-    func updateComment(
-        body: TargetBody.Comment,
+    func saveOfflineModeState(
+        isEnabled: Bool,
         completion: @escaping ((Result<Void, Error>) -> Void)
     ) {
-        guard let commentManagedObject = context.findOrCreateManagedObjectByID(
-            entityName: "TicketCommentManagedObject",
-            propertyID: "id",
-            value: body.ticketId
-        ) as? TicketCommentManagedObject else {
-            completion(.failure(LocalServiceError.notFoundItem()))
-            return
-        }
+        userDefault.set(isEnabled, for: UserDefaultsKey.offlineMode)
+        completion(.success(()))
+    }
 
-        commentManagedObject.id = body.ticketId
-        commentManagedObject.beginDate = body.beginDate
-        commentManagedObject.endDate = body.endDate
-        commentManagedObject.comment = body.comment
-        commentManagedObject.techComment = body.techComment
-
-        do {
-            try context.save()
-            completion(.success(()))
-        } catch {
-            completion(.failure(error))
+    func updateComment(
+        body: TargetBody.Comment,
+        hasSent: Bool,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    ) {
+        context.perform {
+            do {
+                _ = try? TicketCommentManagedObject.import(
+                    from: body,
+                    hasSent: hasSent,
+                    in: self.context
+                )
+                try self.context.save()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
 
@@ -144,6 +167,25 @@ final class LocalService: LocalServiceProtocol {
         }
     }
 
+    func fetchTicketList(
+        completion: @escaping((Result<[TicketItem], Error>) -> Void)
+    ) {
+        if let items = context.findAllManagedObjects(
+            entityName: "TicketManagedObject"
+        ) as? [TicketManagedObject] {
+            let formattedItems: [TicketItem] = items.map { .init(from: $0) }
+            let sortedArray = formattedItems.sorted {
+                guard let numA = Int($0.number ?? ""), let numB = Int($1.number ?? "") else {
+                    return false
+                }
+                return numA > numB
+            }
+            completion(.success(sortedArray))
+        } else {
+            completion(.failure(LocalServiceError.notFoundItem()))
+        }
+    }
+
     func fetchAuthToken(
         completion: @escaping ((Result<String, Error>) -> Void)
     ) {
@@ -154,5 +196,9 @@ final class LocalService: LocalServiceProtocol {
         } else {
             completion(.failure(LocalServiceError.unknownError()))
         }
+    }
+
+    func fetchOfflineModeState() -> Bool {
+        userDefault.getBool(for: UserDefaultsKey.offlineMode)
     }
 }

@@ -76,4 +76,15 @@ extension NSManagedObjectContext {
         }
     }
 
+    func findAllManagedObjects<T: NSManagedObject>(entityName: String) -> [T]? {
+        let fetchRequest = NSFetchRequest<T>(entityName: entityName)
+
+        do {
+            let result = try self.fetch(fetchRequest)
+            return result
+        } catch {
+            print("Error fetching managed objects: \(error)")
+            return nil
+        }
+    }
 }

@@ -10,7 +10,11 @@ import UIKit
 
 protocol TicketDetailsFlowCoordinatorInput: AnyObject {}
 
-protocol TicketDetailsFlowCoordinatorOutput: AnyObject {}
+protocol TicketDetailsFlowCoordinatorOutput: AnyObject {
+    func flowCoordinatorWantsToUpdateData(
+        _ flowInput: TicketDetailsFlowCoordinatorInput
+    )
+}
 
 final class TicketDetailsFlowCoordinator: FlowCoordinatorProtocol {
 
@@ -150,8 +154,16 @@ extension TicketDetailsFlowCoordinator: TicketDetailsModuleOutput {
     }
 }
 
+// MARK: - TicketDetailsFlowCoordinatorInput
+
+extension TicketDetailsFlowCoordinator: TicketDetailsFlowCoordinatorInput {}
+
 // MARK: - TicketClosingFlowCoordinatorOutput
 
 extension TicketDetailsFlowCoordinator: TicketClosingFlowCoordinatorOutput {
-
+    func flowCoordinatorWantsToUpdateData(
+        _ flowInput: TicketClosingFlowCoordinatorInput
+    ) {
+        output.flowCoordinatorWantsToUpdateData(self)
+    }
 }

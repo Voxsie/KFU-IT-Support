@@ -10,8 +10,10 @@ import Foundation
 protocol TicketsListViewInput: AnyObject {
 
     func updateView()
-
+    func showAlert(_ displayData: NotificationDisplayData)
     func finishUpdating()
+
+    func updateOfflineView(_ isOffline: Bool)
 }
 
 protocol TicketsListViewOutput: AnyObject {

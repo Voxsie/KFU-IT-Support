@@ -48,7 +48,9 @@ final class TicketsListPresenter {
 // MARK: - TicketsListModuleInput
 
 extension TicketsListPresenter: TicketsListModuleInput {
-
+    func updateData() {
+        self.viewDidLoadEvent()
+    }
 }
 
 // MARK: - TicketsListInteractorOutput
@@ -120,8 +122,13 @@ extension TicketsListPresenter: TicketsListViewOutput {
                 self.updateFilters(selectedType: .all)
                 self.state = .display(filters, items ?? [])
 
-            case .failure:
-                self.state = .error(prepareErrorDisplayData())
+            case let .failure(error):
+                print(error)
+                if case RemoteServiceError.offline = error {
+                    self.state = .error(prepareOfflineErrorDisplayData())
+                }
+
+//                self.state = .error(prepareErrorDisplayData())
             }
         }
     }
@@ -226,7 +233,7 @@ private extension TicketsListPresenter {
                 ticketText: $0.description ?? "",
                 author: $0.clientName ?? "",
                 authorSection: $0.clientAddress ?? "",
-                expireText: "Срок выполнения: \($0.deadline ?? "Не установлено")"
+                expireText: "Срок выполнения: \($0.deadline?.ifIsEmptyStringSet("Не установлено") ?? "")"
             )
         }
     }
@@ -236,12 +243,54 @@ private extension TicketsListPresenter {
             image: Asset.Icons.errorView.image,
             title: "Ошибка",
             subtitle: "Возникла ошибка при получении данных.\nПопробуйте еще раз.",
-            buttonTitle: "Повторить",
-            action: { [weak self] in
-                print("hello")
-                guard let self else { return }
-                self.viewDidLoadEvent()
-            }
+            firstButton: .init(
+                buttonTitle: "Повторить",
+                action: { [weak self] in
+                    guard let self else { return }
+                    self.viewDidLoadEvent()
+                }
+            ),
+            secondButton: nil
+        )
+    }
+
+    func prepareOfflineErrorDisplayData() -> TicketsListViewState.ErrorDisplayData {
+        .init(
+            image: Asset.Icons.errorView.image,
+            title: "Ошибка",
+            subtitle: """
+            Возникла ошибка при получении данных.
+            Проверьте интернет-соединение и
+            попробуйте еще раз или перейдите в оффлайн-режим
+            """,
+            firstButton: .init(
+                buttonTitle: "Повторить",
+                action: { [weak self] in
+                    guard let self else { return }
+                    self.viewDidLoadEvent()
+                }
+            ),
+            secondButton: .init(
+                buttonTitle: "Оффлайн-режим",
+                action: { [weak self] in
+                    guard let self else { return }
+                    print("hello")
+                    self.interactor.setOfflineModeState(true)
+                    { [weak self] result in
+                        guard let self else { return }
+                        switch result {
+                        case .success:
+                            view.mapOrLog {
+                                $0.updateOfflineView(true)
+                            }
+                            self.viewDidLoadEvent()
+
+                        case .failure:
+                            self.state = .error(prepareErrorDisplayData())
+                        }
+                    }
+                }
+            )
         )
     }
 }

@@ -18,4 +18,12 @@ extension String {
     var isNotEmptyString: Bool {
         self != ""
     }
+
+    func ifIsEmptyStringSet(_ text: String) -> String {
+        if isNotEmptyString {
+            return self
+        } else {
+            return text
+        }
+    }
 }

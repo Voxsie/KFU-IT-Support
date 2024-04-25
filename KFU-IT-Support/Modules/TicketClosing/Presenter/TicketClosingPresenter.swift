@@ -63,6 +63,10 @@ extension TicketClosingPresenter: TicketClosingInteractorOutput {
 
 extension TicketClosingPresenter: TicketClosingViewOutput {
 
+    func isOfflineMode() -> Bool {
+        interactor.fetchOfflineModeState()
+    }
+    
     func getState() -> TicketClosingViewState {
         state
     }
@@ -89,10 +93,16 @@ extension TicketClosingPresenter: TicketClosingViewOutput {
 
             switch result {
             case .success:
+                let subtitle: String
+                if isOfflineMode() {
+                    subtitle = "Комментарий к заявке успешно сохранен как черновик"
+                } else {
+                    subtitle = "Комментарий к заявке успешно добавлен"
+                }
                 view.mapOrLog {
                     $0.showAlert(.init(
-                        title: "Закрытие заявки",
-                        subtitle: "Комментарий к заявке успешно добавлен",
+                        title: "Исполнение заявки",
+                        subtitle: subtitle,
                         actions: [
                             .init(
                                 buttonTitle: "OK",
@@ -110,8 +120,8 @@ extension TicketClosingPresenter: TicketClosingViewOutput {
             case .failure:
                 view.mapOrLog {
                     $0.showAlert(.init(
-                        title: "Закрытие заявки",
-                        subtitle: "Комментарий к заявке успешно добавлен",
+                        title: "Исполнение заявки",
+                        subtitle: "Произошла ошибка. Попробуйте еще раз.",
                         actions: [
                             .init(
                                 buttonTitle: "OK",
@@ -121,9 +131,7 @@ extension TicketClosingPresenter: TicketClosingViewOutput {
                         ]
                     ))
                 }
-
             }
-
         }
     }
 

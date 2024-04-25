@@ -22,6 +22,8 @@ final class TicketsListFlowCoordinator: FlowCoordinatorProtocol {
 
     private var finishHandlers: [() -> Void] = []
 
+    private weak var moduleInput: TicketsListModuleInput?
+
     private let output: TicketsListFlowCoordinatorOutput
 
     // MARK: Public properties
@@ -119,5 +121,9 @@ extension TicketsListFlowCoordinator: TicketsListModuleOutput {
 // MARK: - TicketDetailsFlowCoordinatorOutput
 
 extension TicketsListFlowCoordinator: TicketDetailsFlowCoordinatorOutput {
-
+    func flowCoordinatorWantsToUpdateData(
+        _ flowInput: TicketDetailsFlowCoordinatorInput
+    ) {
+        moduleInput.mapOrLog { $0.updateData() }
+    }
 }

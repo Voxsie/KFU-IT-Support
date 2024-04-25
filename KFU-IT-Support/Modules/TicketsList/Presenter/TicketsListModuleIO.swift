@@ -7,7 +7,9 @@
 
 import Foundation
 
-public protocol TicketsListModuleInput: AnyObject {}
+public protocol TicketsListModuleInput: AnyObject {
+    func updateData()
+}
 
 public protocol TicketsListModuleOutput: AnyObject {
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
 
@@ -27,6 +28,7 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 1
         label.textAlignment = .center
+        label.isHiddenWhenSkeletonIsActive = true
         return label
     }()
 
@@ -78,11 +80,17 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
         case let .content(displayData):
             contentView.hideSkeleton()
             titleLabel.text = displayData.title
+            titleLabel.textColor = .label
             self.isSelected = displayData.isSelected
 
         case .loading:
-            contentView.showSkeleton()
+            let animation = GradientDirection.leftRight.slidingAnimation()
+            self.contentView.showAnimatedGradientSkeleton(
+                usingGradient: .init(baseColor: .tertiarySystemFill),
+                animation: animation
+            )
             titleLabel.text = "*********"
+            titleLabel.textColor = .clear
         }
     }
 }

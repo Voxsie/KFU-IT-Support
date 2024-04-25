@@ -39,12 +39,24 @@ class TicketsListBlockCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    private lazy var button: Button = {
-        let button = Button()
-        button.setTitle("Повторить", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 13)
-        button.isUserInteractionEnabled = true
-        return button
+    private lazy var firstButton: Button = {
+        let firstButton = Button()
+        firstButton.setTitle("Повторить", for: .normal)
+        firstButton.titleLabel?.font = .systemFont(ofSize: 13)
+        firstButton.isUserInteractionEnabled = true
+        return firstButton
+    }()
+
+    private lazy var secondButton: Button = {
+        let secondButton = Button()
+        secondButton.setTitle("Повторить", for: .normal)
+        secondButton.setTitleColor(UIColor.primaryKFU, for: .normal)
+        secondButton.titleLabel?.font = .systemFont(ofSize: 13)
+        secondButton.isUserInteractionEnabled = true
+        secondButton.backgroundColor = .systemBackground
+        secondButton.layer.borderWidth = 1
+        secondButton.layer.borderColor = UIColor.primaryKFU.cgColor
+        return secondButton
     }()
 
     private lazy var textStackView: UIStackView = {
@@ -58,9 +70,20 @@ class TicketsListBlockCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
 
+    private lazy var buttonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            firstButton, secondButton
+        ])
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        return stackView
+    }()
+
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [
-            blockImageView, textStackView, button
+            blockImageView, textStackView, buttonStackView
         ])
         stackView.axis = .vertical
         stackView.spacing = 16
@@ -86,7 +109,7 @@ class TicketsListBlockCollectionViewCell: UICollectionViewCell {
     private func setupView() {
         contentView.addSubview(contentStackView)
         contentStackView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(32)
             $0.centerY.equalToSuperview().offset(-100)
         }
 
@@ -94,9 +117,14 @@ class TicketsListBlockCollectionViewCell: UICollectionViewCell {
             $0.height.width.equalTo(128)
         }
 
-        button.snp.makeConstraints {
+        firstButton.snp.makeConstraints {
             $0.height.equalTo(40)
-            $0.width.equalTo(120)
+            $0.width.equalTo(150)
+        }
+
+        secondButton.snp.makeConstraints {
+            $0.height.equalTo(40)
+            $0.width.equalTo(150)
         }
     }
 
@@ -104,9 +132,17 @@ class TicketsListBlockCollectionViewCell: UICollectionViewCell {
         blockImageView.image = displayData.image
         blockTitle.text = displayData.title
         blockSubtitle.text = displayData.subtitle
-        button.setTitle(displayData.buttonTitle, for: .normal)
-        button.addAction {
-            displayData.action()
+
+        firstButton.isHidden = displayData.firstButton == nil
+        firstButton.setTitle(displayData.firstButton?.buttonTitle, for: .normal)
+        firstButton.addAction {
+            displayData.firstButton?.action()
+        }
+
+        secondButton.isHidden = displayData.secondButton == nil
+        secondButton.setTitle(displayData.secondButton?.buttonTitle, for: .normal)
+        secondButton.addAction {
+            displayData.secondButton?.action()
         }
     }
 }

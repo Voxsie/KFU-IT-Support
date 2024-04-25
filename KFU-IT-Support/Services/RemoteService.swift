@@ -46,9 +46,12 @@ final class RemoteService: RemoteServiceProtocol {
             return
         }
 
+        completion(.failure(RemoteServiceError.offline()))
+        return
+
         let provider = MoyaProvider<APIType>()
-        provider.request(.addComment(body))
-        { result in
+        provider.request(.addComment(body)
+        ) { result in
             switch result {
             case let .success(moyaResponse):
                 let data = moyaResponse.data
@@ -58,7 +61,7 @@ final class RemoteService: RemoteServiceProtocol {
 
                 do {
                     let response: TicketsListResponse = try decoder.decode(TicketsListResponse.self, from: data)
-                    completion(.success(response))
+                    completion(.success(()))
                 } catch {
                     completion(.failure(error))
                 }
@@ -69,9 +72,6 @@ final class RemoteService: RemoteServiceProtocol {
         }
     }
 
-        completion(.success(()))
-    }
-
     func getTicketsList(
         phone: String,
         accessKey: String,
@@ -79,6 +79,11 @@ final class RemoteService: RemoteServiceProtocol {
     ) {
         guard reachibilityService.isConnectedToNetwork()
         else {
+            completion(.failure(RemoteServiceError.offline()))
+            return
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             completion(.failure(RemoteServiceError.offline()))
             return
         }
@@ -93,30 +98,30 @@ final class RemoteService: RemoteServiceProtocol {
 //            }
 //        }
 //    }
-
-        let provider = MoyaProvider<APIType>()
-        provider.request(.getTicketsList(
-            phone: phone,
-            accessKey: accessKey
-        )) { result in
-            switch result {
-            case let .success(moyaResponse):
-                let data = moyaResponse.data
-                let statusCode = moyaResponse.statusCode
-
-                let decoder = JSONDecoder()
-
-                do {
-                    let response: TicketsListResponse = try decoder.decode(TicketsListResponse.self, from: data)
-                    completion(.success(response))
-                } catch {
-                    completion(.failure(error))
-                }
-
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
+//
+//        let provider = MoyaProvider<APIType>()
+//        provider.request(.getTicketsList(
+//            phone: phone,
+//            accessKey: accessKey
+//        )) { result in
+//            switch result {
+//            case let .success(moyaResponse):
+//                let data = moyaResponse.data
+//                let statusCode = moyaResponse.statusCode
+//
+//                let decoder = JSONDecoder()
+//
+//                do {
+//                    let response: TicketsListResponse = try decoder.decode(TicketsListResponse.self, from: data)
+//                    completion(.success(response))
+//                } catch {
+//                    completion(.failure(error))
+//                }
+//
+//            case let .failure(error):
+//                completion(.failure(error))
+//            }
+//        }
     }
 
     private func readLocalJSONFile(forName name: String) -> Data? {
