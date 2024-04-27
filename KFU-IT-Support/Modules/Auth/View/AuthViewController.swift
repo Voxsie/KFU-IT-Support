@@ -16,7 +16,7 @@ final class AuthViewController: UIViewController {
 
         enum TextField {
             static let loginPlaceholder = "Номер телефона"
-            static let passPlaceholder = "Пароль"
+            static let passPlaceholder = "Ключ доступа"
         }
     }
 
@@ -69,7 +69,6 @@ final class AuthViewController: UIViewController {
             keyboardType: .default,
             placeholder: Constants.TextField.passPlaceholder
         )
-        textfield.isHidden = true
         return textfield
     }()
 

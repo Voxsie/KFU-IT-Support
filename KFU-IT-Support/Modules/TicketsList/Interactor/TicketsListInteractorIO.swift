@@ -17,6 +17,8 @@ protocol TicketsListInteractorInput: AnyObject {
         _ bool: Bool,
         completion: @escaping ((Result<Void, Error>) -> Void)
     )
+
+    func getOfflineModeState() -> Bool
 }
 
 protocol TicketsListInteractorOutput: AnyObject {}

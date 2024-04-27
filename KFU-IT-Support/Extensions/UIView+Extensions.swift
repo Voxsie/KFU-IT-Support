@@ -38,3 +38,17 @@ extension UIView {
         return findByID(view: window, identifier)
     }
 }
+
+extension UIView {
+    func addActionByTarget(for controlEvents: UIControl.Event = .touchUpInside, _ closure: @escaping () -> Void) {
+        @objc class ClosureSleeve: NSObject {
+            let closure: () -> Void
+            init(_ closure: @escaping() -> Void) { self.closure = closure }
+            @objc func invoke() { closure() }
+        }
+        let sleeve = ClosureSleeve(closure)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: sleeve, action: #selector(ClosureSleeve.invoke))
+        addGestureRecognizer(tapGestureRecognizer)
+        objc_setAssociatedObject(self, "\(UUID())", sleeve, .OBJC_ASSOCIATION_RETAIN)
+    }
+}

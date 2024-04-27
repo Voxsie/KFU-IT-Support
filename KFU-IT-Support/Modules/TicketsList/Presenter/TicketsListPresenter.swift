@@ -61,6 +61,12 @@ extension TicketsListPresenter: TicketsListInteractorOutput {}
 
 extension TicketsListPresenter: TicketsListViewOutput {
 
+    func viewWantsToChangeOfflineMode() {
+        if interactor.getOfflineModeState() {
+            view.mapOrLog { $0.showAlert(prepareChangeOfflineModeData()) }
+        }
+    }
+
     func viewDidSelectFilterItem(
         _ type: TicketsListViewState.FilterType
     ) {
@@ -120,15 +126,23 @@ extension TicketsListPresenter: TicketsListViewOutput {
             case let .success(response):
                 self.items = prepareDisplayData(response)
                 self.updateFilters(selectedType: .all)
-                self.state = .display(filters, items ?? [])
+                if self.items?.count ?? 0 > 0 {
+                    self.state = .display(filters, items ?? [])
+                } else {
+                    self.state = .error(prepareEmptyDisplayData())
+                }
 
             case let .failure(error):
                 print(error)
                 if case RemoteServiceError.offline = error {
                     self.state = .error(prepareOfflineErrorDisplayData())
+                } else if case RemoteServiceError.noVPN = error  {
+                    self.state = .error(prepareVPNErrorDisplayData())
+                } else if case RemoteServiceError.notAuthenticated = error {
+                    moduleOutput.mapOrLog { $0.moduleWantToDeauthorized(self) }
+                } else {
+                    self.state = .error(prepareErrorDisplayData())
                 }
-
-//                self.state = .error(prepareErrorDisplayData())
             }
         }
     }
@@ -254,9 +268,25 @@ private extension TicketsListPresenter {
         )
     }
 
+    func prepareEmptyDisplayData() -> TicketsListViewState.ErrorDisplayData {
+        .init(
+            image: Asset.Icons.emptyList.image,
+            title: "Список заявок пуст",
+            subtitle: "В данный момент список заявок пуст.\nПопробуйте еще раз позже.",
+            firstButton: .init(
+                buttonTitle: "Обновить",
+                action: { [weak self] in
+                    guard let self else { return }
+                    self.viewDidLoadEvent()
+                }
+            ),
+            secondButton: nil
+        )
+    }
+
     func prepareOfflineErrorDisplayData() -> TicketsListViewState.ErrorDisplayData {
         .init(
-            image: Asset.Icons.errorView.image,
+            image: Asset.Icons.wifiError.image,
             title: "Ошибка",
             subtitle: """
             Возникла ошибка при получении данных.
@@ -291,6 +321,75 @@ private extension TicketsListPresenter {
                     }
                 }
             )
+        )
+    }
+
+    func prepareVPNErrorDisplayData() -> TicketsListViewState.ErrorDisplayData {
+        .init(
+            image: Asset.Icons.vpnError.image,
+            title: "Ошибка",
+            subtitle: """
+            Нет доступа к VPN.
+            Проверьте интернет-соединение, переподключитесь к VPN и
+            попробуйте еще раз или перейдите в оффлайн-режим
+            """,
+            firstButton: .init(
+                buttonTitle: "Повторить",
+                action: { [weak self] in
+                    guard let self else { return }
+                    self.viewDidLoadEvent()
+                }
+            ),
+            secondButton: .init(
+                buttonTitle: "Оффлайн-режим",
+                action: { [weak self] in
+                    guard let self else { return }
+                    print("hello")
+                    self.interactor.setOfflineModeState(true)
+                    { [weak self] result in
+                        guard let self else { return }
+                        switch result {
+                        case .success:
+                            view.mapOrLog {
+                                $0.updateOfflineView(true)
+                            }
+                            self.viewDidLoadEvent()
+
+                        case .failure:
+                            self.state = .error(prepareErrorDisplayData())
+                        }
+                    }
+                }
+            )
+        )
+    }
+
+    func prepareChangeOfflineModeData() -> NotificationDisplayData {
+        .init(
+            title: "Смена режима",
+            subtitle: """
+            Вы действительно хотите зайти в онлайн-режим?.
+            В случае неактуальности данных, Вы будете вынуждены пройти авторизацию повторно.
+            """,
+            actions: [
+                .init(buttonTitle: "Отмена", action: {}, style: .default),
+                .init(buttonTitle: "Сменить", action: { [weak self] in
+                    guard let self else { return }
+                    self.interactor.setOfflineModeState(false) { [weak self] result in
+                        guard let self else { return }
+                        switch result {
+                        case .success:
+                            view.mapOrLog {
+                                $0.updateOfflineView(false)
+                            }
+                            self.viewDidLoadEvent()
+
+                        case .failure:
+                            self.state = .error(prepareErrorDisplayData())
+                        }
+                    }
+                }, style: .default)
+            ]
         )
     }
 }

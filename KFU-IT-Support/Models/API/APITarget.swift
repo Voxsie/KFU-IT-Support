@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum APIType {
+enum MoyaService {
     case getTicketsList(phone: String, accessKey: String)
-    case addComment(TargetBody.Comment)
+    case addComment(TargetBody.Comment, accessKey: String)
     case getUserInfo(phone: String, accessKey: String)
 }

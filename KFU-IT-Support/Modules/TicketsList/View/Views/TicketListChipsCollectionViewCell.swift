@@ -28,7 +28,7 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 1
         label.textAlignment = .center
-        label.isHiddenWhenSkeletonIsActive = true
+        label.isSkeletonable = true
         return label
     }()
 
@@ -84,13 +84,13 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
             self.isSelected = displayData.isSelected
 
         case .loading:
+            titleLabel.text = "*********"
+            titleLabel.textColor = .clear
             let animation = GradientDirection.leftRight.slidingAnimation()
             self.contentView.showAnimatedGradientSkeleton(
                 usingGradient: .init(baseColor: .tertiarySystemFill),
                 animation: animation
             )
-            titleLabel.text = "*********"
-            titleLabel.textColor = .clear
         }
     }
 }

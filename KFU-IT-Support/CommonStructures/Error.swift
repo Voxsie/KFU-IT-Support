@@ -61,4 +61,16 @@ enum RemoteServiceError: Error {
         function: String = "<function>",
         line: UInt = #line
     )
+
+    case noVPN(
+        fileID: String = #fileID,
+        function: String = "<function>",
+        line: UInt = #line
+    )
+
+    case notAuthenticated(
+        fileID: String = #fileID,
+        function: String = "<function>",
+        line: UInt = #line
+    )
 }

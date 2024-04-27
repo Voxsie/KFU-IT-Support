@@ -140,6 +140,8 @@
 		AA6190B32BDA6CBF00E8A78B /* General.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA6190B22BDA6CBF00E8A78B /* General.xcassets */; };
 		AA6190B52BDA6CCA00E8A78B /* TabBar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA6190B42BDA6CCA00E8A78B /* TabBar.xcassets */; };
 		AA6190BA2BDA835800E8A78B /* UserResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6190B92BDA835800E8A78B /* UserResponseModel.swift */; };
+		AA6190BD2BDBA0A200E8A78B /* ErrorResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6190BC2BDBA0A200E8A78B /* ErrorResponseModel.swift */; };
+		AA6190BF2BDD7D4700E8A78B /* File.json in Resources */ = {isa = PBXBuildFile; fileRef = AA6190BE2BDD7D4700E8A78B /* File.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -279,6 +281,8 @@
 		AA6190B22BDA6CBF00E8A78B /* General.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = General.xcassets; sourceTree = "<group>"; };
 		AA6190B42BDA6CCA00E8A78B /* TabBar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TabBar.xcassets; sourceTree = "<group>"; };
 		AA6190B92BDA835800E8A78B /* UserResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseModel.swift; sourceTree = "<group>"; };
+		AA6190BC2BDBA0A200E8A78B /* ErrorResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponseModel.swift; sourceTree = "<group>"; };
+		AA6190BE2BDD7D4700E8A78B /* File.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = File.json; sourceTree = "<group>"; };
 		BC4364558DF5E7C90C77BAB1 /* Pods-KFU-IT-Support.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KFU-IT-Support.debug.xcconfig"; path = "Target Support Files/Pods-KFU-IT-Support/Pods-KFU-IT-Support.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -624,6 +628,7 @@
 		419FD3EE2BD1246800EFD189 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				AA6190BB2BDBA09900E8A78B /* Error */,
 				AA6190B62BDA834500E8A78B /* User */,
 				410472552BD54E890011885C /* TicketClosing */,
 				419FD3EF2BD1246E00EFD189 /* TicketList */,
@@ -639,6 +644,7 @@
 			children = (
 				419FD3F42BD124D400EFD189 /* TicketsListExample.json */,
 				419FD3F02BD1247900EFD189 /* TicketListResponse.swift */,
+				AA6190BE2BDD7D4700E8A78B /* File.json */,
 			);
 			path = TicketList;
 			sourceTree = "<group>";
@@ -814,6 +820,14 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		AA6190BB2BDBA09900E8A78B /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				AA6190BC2BDBA0A200E8A78B /* ErrorResponseModel.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		E036E0B3A58CF740ABC8790D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -885,6 +899,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41F5072C2BB35502001CDDBC /* LaunchScreen.storyboard in Resources */,
+				AA6190BF2BDD7D4700E8A78B /* File.json in Resources */,
 				419FD3F52BD124D400EFD189 /* TicketsListExample.json in Resources */,
 				41191C5F2BB35EAB0046CCE0 /* Colors.xcassets in Resources */,
 				41191C632BB35EBB0046CCE0 /* Shapes.xcassets in Resources */,
@@ -1059,6 +1074,7 @@
 				416257412BC44D2F001EB7AE /* TicketClosingInteractorIO.swift in Sources */,
 				41F4D6962BBC80B500BFE4D0 /* KeyboardHelper.swift in Sources */,
 				411956372BB75CCB0046CCE0 /* TicketsListModuleBuilder.swift in Sources */,
+				AA6190BD2BDBA0A200E8A78B /* ErrorResponseModel.swift in Sources */,
 				41E5F0442BC907FE002F203E /* TicketClosingSelectorView.swift in Sources */,
 				4162573D2BC44D2F001EB7AE /* TicketClosingModuleBuilder.swift in Sources */,
 				4104724A2BD544460011885C /* TicketManagedObject+CoreDataProperties.swift in Sources */,

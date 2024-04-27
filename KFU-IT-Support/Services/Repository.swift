@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol RepositoryProtocol {
 
@@ -79,10 +80,19 @@ final class Repository: RepositoryProtocol {
             guard let self else { return }
             switch result {
             case .success:
-                self.localService.setAuthorizedState(
-                    isAuthorized: true,
-                    completion: completion
-                )
+                let token = login + ";" + password
+                self.localService.saveAuthToken(token) { result in
+                    switch result {
+                    case .success:
+                        self.localService.setAuthorizedState(
+                            isAuthorized: true,
+                            completion: completion
+                        )
+
+                    case .failure:
+                        completion(.failure(AppError.unknownError()))
+                    }
+                }
 
             case let .failure(error):
                 completion(.failure(error))
@@ -101,19 +111,27 @@ final class Repository: RepositoryProtocol {
                 completion: completion
             )
         } else {
-            apiService.addCommentToTicket(body: body) { [weak self] in
-                guard let self else { return }
-                switch $0 {
-                case .success:
-                    localService.updateComment(
-                        body: body,
-                        hasSent: true,
-                        completion: completion
-                    )
 
-                case let .failure(error):
-                    completion(.failure(error))
+            if let accessKey = getAccessKey() {
+                apiService.addCommentToTicket(
+                    body: body,
+                    accessKey: accessKey
+                ) { [weak self] in
+                    guard let self else { return }
+                    switch $0 {
+                    case .success:
+                        localService.updateComment(
+                            body: body,
+                            hasSent: true,
+                            completion: completion
+                        )
+
+                    case let .failure(error):
+                        completion(.failure(error))
+                    }
                 }
+            } else {
+                completion(.failure(AppError.unknownError()))
             }
         }
     }
@@ -205,5 +223,21 @@ final class Repository: RepositoryProtocol {
 
     func getOfflineModeState() -> Bool {
         localService.fetchOfflineModeState()
+    }
+}
+
+private extension Repository {
+    func getAccessKey() -> String? {
+        var accessKey: String?
+        localService.fetchAuthToken { result in
+            switch result {
+            case let .success(authToken):
+                accessKey = authToken.components(separatedBy: ";")[1]
+
+            case .failure:
+                accessKey = nil
+            }
+        }
+        return accessKey
     }
 }

@@ -89,10 +89,15 @@ final class TicketsListViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = .systemBackground
-        navigationItem.titleView = OfflineTitle(
+        let titleView = OfflineTitle(
             title: Constants.ticketsTitle,
             showOffline: false
         )
+        titleView.addActionByTarget { [weak self] in
+            guard let self else { return }
+            self.output.viewWantsToChangeOfflineMode()
+        }
+        navigationItem.titleView = titleView
 
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
@@ -140,6 +145,7 @@ extension TicketsListViewController: TicketsListViewInput {
         switch state {
         case .loading, .display:
             collectionView.collectionViewLayout = createCollectionViewLayout()
+            collectionView.setContentOffset(.init(x: 0, y: -100), animated: false)
 
         case .error:
             collectionView.collectionViewLayout = createFullscreenLayout()

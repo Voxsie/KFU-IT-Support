@@ -16,7 +16,11 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
     private let userDefaults: UserDefaultManager
 
     private var isExample = false
-    private var isAuthorized = false
+    private var isAuthorized = false {
+        didSet {
+            userDefaults.set(isAuthorized, for: .isAuthorized)
+        }
+    }
 
     // MARK: Public properties
 

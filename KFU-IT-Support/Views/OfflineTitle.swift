@@ -38,6 +38,8 @@ final class OfflineTitle: UIView {
     init(title: String, showOffline: Bool) {
         super.init(frame: .zero)
 
+        isUserInteractionEnabled = true
+
         textLabel.text = title
         imageView.isHidden = !showOffline
         setupView()

@@ -51,4 +51,8 @@ extension TicketsListInteractor: TicketsListInteractorInput {
     ) {
         repository.setOfflineModeState(bool, completion: completion)
     }
+
+    func getOfflineModeState() -> Bool {
+        repository.getOfflineModeState()
+    }
 }

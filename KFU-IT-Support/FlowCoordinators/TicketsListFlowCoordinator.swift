@@ -121,6 +121,12 @@ extension TicketsListFlowCoordinator: TicketsListModuleOutput {
     func moduleDidClose(_ module: TicketsListModuleInput) {
         //
     }
+
+    func moduleWantToDeauthorized(
+        _ module: TicketsListModuleInput
+    ) {
+        output.flowCoordinatorWantsToOpenUnathorizedZone()
+    }
 }
 
 // MARK: - TicketDetailsFlowCoordinatorOutput

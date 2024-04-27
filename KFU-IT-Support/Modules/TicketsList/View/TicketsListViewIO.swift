@@ -29,4 +29,6 @@ protocol TicketsListViewOutput: AnyObject {
     func viewDidSelectFilterItem(_ type: TicketsListViewState.FilterType)
 
     func viewDidPullToRefresh()
+
+    func viewWantsToChangeOfflineMode()
 }

@@ -15,6 +15,8 @@ target 'KFU-IT-Support' do
   pod "LetterAvatarKit", "1.2.5"
   pod 'KeychainSwift', '~> 22.0'
   pod 'SkeletonView'
+  pod 'SwiftyJSON', '~> 4.0'
+  pod 'Alamofire'
 
 
 post_install do |installer|

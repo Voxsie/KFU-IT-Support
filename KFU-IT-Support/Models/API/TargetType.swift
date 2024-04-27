@@ -27,8 +27,10 @@ import Moya
  https://portal-dis.kpfu.ru/pls/tech_center/chatbot_api.get_user?p_phone=+7(917)269-58-37&p_access_key=1001
  */
 
-extension APIType: TargetType {
+extension MoyaService: TargetType {
+
     var baseURL: URL { URL(string: "https://portal-dis.kpfu.ru/pls/tech_center")! }
+
     var path: String {
         switch self {
         case .getTicketsList:
@@ -41,15 +43,20 @@ extension APIType: TargetType {
             return "/chatbot_api.get_user"
         }
     }
+
     var method: Moya.Method {
         switch self {
-        case .getTicketsList, .getUserInfo:
+        case .getTicketsList:
             return .get
+
+        case .getUserInfo:
+            return .post
 
         case .addComment:
             return .post
         }
     }
+
     var task: Task {
         switch self {
         case let .getTicketsList(phone, accessKey):
@@ -62,7 +69,7 @@ extension APIType: TargetType {
                 encoding: URLEncoding.queryString
             )
 
-        case let .addComment(data):
+        case let .addComment(data, accessKey):
             return .requestParameters(
                 parameters:
                     [
@@ -72,7 +79,7 @@ extension APIType: TargetType {
                         "p_end_date": data.endDate,
                         "p_comment": data.comment,
                         "p_check": "1",
-                        "p_access_key": "1001"
+                        "p_access_key": accessKey
                     ],
                 encoding: URLEncoding.queryString
             )
@@ -90,7 +97,10 @@ extension APIType: TargetType {
     }
 
     var headers: [String: String]? {
-        return ["Content-type": "application/json"]
+        return [
+            "Content-type": "application/json",
+            "Accept": "application/json"
+        ]
     }
 }
 // MARK: - Helpers

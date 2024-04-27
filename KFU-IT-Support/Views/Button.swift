@@ -64,28 +64,34 @@ final class Button: UIButton {
     // MARK: Public methods
 
     func showLoading() {
-        activityIndicator.startAnimating()
-        var buttonStates: [ButtonState] = []
-        for state in [UIControl.State.disabled] {
-            let buttonState = ButtonState(
-                state: state,
-                title: title(for: state),
-                image: image(for: state)
-            )
-            buttonStates.append(buttonState)
-            setTitle("", for: state)
-            setImage(UIImage(), for: state)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            activityIndicator.startAnimating()
+            var buttonStates: [ButtonState] = []
+            for state in [UIControl.State.disabled] {
+                let buttonState = ButtonState(
+                    state: state,
+                    title: title(for: state),
+                    image: image(for: state)
+                )
+                buttonStates.append(buttonState)
+                setTitle("", for: state)
+                setImage(UIImage(), for: state)
+            }
+            self.buttonStates = buttonStates
+            isEnabled = false
         }
-        self.buttonStates = buttonStates
-        isEnabled = false
     }
 
     func hideLoading() {
-        activityIndicator.stopAnimating()
-        for buttonState in buttonStates {
-            setTitle(buttonState.title, for: buttonState.state)
-            setImage(buttonState.image, for: buttonState.state)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            activityIndicator.stopAnimating()
+            for buttonState in buttonStates {
+                setTitle(buttonState.title, for: buttonState.state)
+                setImage(buttonState.image, for: buttonState.state)
+            }
+            isEnabled = true
         }
-        isEnabled = true
     }
 }

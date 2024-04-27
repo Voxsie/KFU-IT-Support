@@ -22,7 +22,11 @@ final class AuthPresenter {
 
     private let interactor: AuthInteractorInput
 
-    private var state: AuthViewState
+    private var state: AuthViewState {
+        didSet {
+            view.mapOrLog { $0.updateState(state) }
+        }
+    }
 
     // MARK: Lifecycle
 
@@ -65,7 +69,9 @@ extension AuthPresenter: AuthViewOutput {
         login: String,
         password: String
     ) {
+
         self.state = .loading
+        print(login, password)
         interactor.tryToAuthorize(
             login: login,
             password: password
@@ -74,7 +80,9 @@ extension AuthPresenter: AuthViewOutput {
             switch result {
             case .success:
                 state = .display
-                moduleOutput.mapOrLog { $0.moduleWantsToOpenAuthorizedZone(self) }
+                moduleOutput.mapOrLog {
+                    $0.moduleWantsToOpenAuthorizedZone(self)
+                }
 
             case .failure:
                 state = .error(prepareErrorData())

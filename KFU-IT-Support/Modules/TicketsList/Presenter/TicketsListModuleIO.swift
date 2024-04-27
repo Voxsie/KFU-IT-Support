@@ -19,4 +19,6 @@ public protocol TicketsListModuleOutput: AnyObject {
     )
 
     func moduleUnload(_ module: TicketsListModuleInput)
+
+    func moduleWantToDeauthorized(_ module: TicketsListModuleInput)
 }

@@ -11,6 +11,7 @@ import Foundation
 
 struct TicketsListResponse: Codable {
     let data: TicketsListData?
+    let error: String?
 }
 
 // MARK: - TicketsListData
