@@ -150,7 +150,6 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(with state: CellState) {
-
         switch state {
         case .loading:
             let animation = GradientDirection.leftRight.slidingAnimation()

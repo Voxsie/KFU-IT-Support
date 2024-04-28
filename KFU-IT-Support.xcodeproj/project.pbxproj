@@ -137,6 +137,16 @@
 		41F507292BB35502001CDDBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41F507282BB35502001CDDBC /* Assets.xcassets */; };
 		41F5072C2BB35502001CDDBC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41F5072A2BB35502001CDDBC /* LaunchScreen.storyboard */; };
 		6443DD97FD5819812AD9D2E3 /* Pods_KFU_IT_Support.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A6D1451B6239F0E1A842245 /* Pods_KFU_IT_Support.framework */; };
+		AA3694422BDE66670007BCB4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA3694412BDE66670007BCB4 /* GoogleService-Info.plist */; };
+		AA3694482BDE875F0007BCB4 /* RootModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3694472BDE875F0007BCB4 /* RootModuleBuilder.swift */; };
+		AA36944D2BDE87B00007BCB4 /* RootModuleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA36944C2BDE87B00007BCB4 /* RootModuleIO.swift */; };
+		AA36944F2BDE87BB0007BCB4 /* RootPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA36944E2BDE87BB0007BCB4 /* RootPresenter.swift */; };
+		AA3694512BDE87C10007BCB4 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3694502BDE87C10007BCB4 /* RootInteractor.swift */; };
+		AA3694532BDE87CC0007BCB4 /* RootInteractorIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3694522BDE87CC0007BCB4 /* RootInteractorIO.swift */; };
+		AA3694552BDE89B90007BCB4 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3694542BDE89B90007BCB4 /* RootViewController.swift */; };
+		AA3694572BDE93130007BCB4 /* RootViewIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3694562BDE93130007BCB4 /* RootViewIO.swift */; };
+		AA3694592BDEA1C90007BCB4 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3694582BDEA1C90007BCB4 /* Loader.swift */; };
+		AA36945B2BDEABA20007BCB4 /* IndexPath+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA36945A2BDEABA20007BCB4 /* IndexPath+Extensions.swift */; };
 		AA6190B32BDA6CBF00E8A78B /* General.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA6190B22BDA6CBF00E8A78B /* General.xcassets */; };
 		AA6190B52BDA6CCA00E8A78B /* TabBar.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA6190B42BDA6CCA00E8A78B /* TabBar.xcassets */; };
 		AA6190BA2BDA835800E8A78B /* UserResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6190B92BDA835800E8A78B /* UserResponseModel.swift */; };
@@ -278,6 +288,16 @@
 		41F5072B2BB35502001CDDBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		41F5072D2BB35502001CDDBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A6D1451B6239F0E1A842245 /* Pods_KFU_IT_Support.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KFU_IT_Support.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA3694412BDE66670007BCB4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AA3694472BDE875F0007BCB4 /* RootModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootModuleBuilder.swift; sourceTree = "<group>"; };
+		AA36944C2BDE87B00007BCB4 /* RootModuleIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootModuleIO.swift; sourceTree = "<group>"; };
+		AA36944E2BDE87BB0007BCB4 /* RootPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPresenter.swift; sourceTree = "<group>"; };
+		AA3694502BDE87C10007BCB4 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
+		AA3694522BDE87CC0007BCB4 /* RootInteractorIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractorIO.swift; sourceTree = "<group>"; };
+		AA3694542BDE89B90007BCB4 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		AA3694562BDE93130007BCB4 /* RootViewIO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewIO.swift; sourceTree = "<group>"; };
+		AA3694582BDEA1C90007BCB4 /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
+		AA36945A2BDEABA20007BCB4 /* IndexPath+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IndexPath+Extensions.swift"; sourceTree = "<group>"; };
 		AA6190B22BDA6CBF00E8A78B /* General.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = General.xcassets; sourceTree = "<group>"; };
 		AA6190B42BDA6CCA00E8A78B /* TabBar.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TabBar.xcassets; sourceTree = "<group>"; };
 		AA6190B92BDA835800E8A78B /* UserResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseModel.swift; sourceTree = "<group>"; };
@@ -336,6 +356,7 @@
 		411956122BB7578B0046CCE0 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				AA3694442BDE87300007BCB4 /* Root */,
 				41E52B332BC97D03002F203E /* SelectList */,
 				416257302BC44D2F001EB7AE /* TicketClosing */,
 				416239B02BC2D3E2001EB7AE /* TicketDetails */,
@@ -451,6 +472,7 @@
 				419FDDE82BD1AA9700EFD189 /* String+Extensions.swift */,
 				410472532BD54A590011885C /* Array+Extensions.swift */,
 				410472582BD552E90011885C /* DateFormatter+Extensions.swift */,
+				AA36945A2BDEABA20007BCB4 /* IndexPath+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -748,6 +770,7 @@
 				41E826372BCBE00D008ED0DA /* PhotoPicker.swift */,
 				419F6ED32BCC345C00EFD189 /* CapsuleView.swift */,
 				419C5C6D2BD98FED001AD688 /* OfflineTitle.swift */,
+				AA3694582BDEA1C90007BCB4 /* Loader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -784,6 +807,7 @@
 				41F507332BB35659001CDDBC /* Supporting Files */,
 				41F507202BB35500001CDDBC /* ViewController.swift */,
 				41F5072A2BB35502001CDDBC /* LaunchScreen.storyboard */,
+				AA3694412BDE66670007BCB4 /* GoogleService-Info.plist */,
 				41F5072D2BB35502001CDDBC /* Info.plist */,
 				41F507252BB35500001CDDBC /* KFU_IT_Support.xcdatamodeld */,
 			);
@@ -810,6 +834,44 @@
 				AA6190B42BDA6CCA00E8A78B /* TabBar.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		AA3694442BDE87300007BCB4 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				AA36944B2BDE879D0007BCB4 /* Interactor */,
+				AA36944A2BDE87930007BCB4 /* Presenter */,
+				AA3694492BDE878A0007BCB4 /* View */,
+				AA3694472BDE875F0007BCB4 /* RootModuleBuilder.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		AA3694492BDE878A0007BCB4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AA3694542BDE89B90007BCB4 /* RootViewController.swift */,
+				AA3694562BDE93130007BCB4 /* RootViewIO.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AA36944A2BDE87930007BCB4 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				AA36944C2BDE87B00007BCB4 /* RootModuleIO.swift */,
+				AA36944E2BDE87BB0007BCB4 /* RootPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		AA36944B2BDE879D0007BCB4 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				AA3694502BDE87C10007BCB4 /* RootInteractor.swift */,
+				AA3694522BDE87CC0007BCB4 /* RootInteractorIO.swift */,
+			);
+			path = Interactor;
 			sourceTree = "<group>";
 		};
 		AA6190B62BDA834500E8A78B /* User */ = {
@@ -850,6 +912,7 @@
 				41F507162BB35500001CDDBC /* Frameworks */,
 				41F507172BB35500001CDDBC /* Resources */,
 				2B1A63DE73D81DF3FB6157A3 /* [CP] Embed Pods Frameworks */,
+				AA3694432BDE67D30007BCB4 /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -905,6 +968,7 @@
 				41191C632BB35EBB0046CCE0 /* Shapes.xcassets in Resources */,
 				AA6190B32BDA6CBF00E8A78B /* General.xcassets in Resources */,
 				41191C5D2BB35E220046CCE0 /* Icons.xcassets in Resources */,
+				AA3694422BDE66670007BCB4 /* GoogleService-Info.plist in Resources */,
 				41F507292BB35502001CDDBC /* Assets.xcassets in Resources */,
 				AA6190B52BDA6CCA00E8A78B /* TabBar.xcassets in Resources */,
 			);
@@ -967,6 +1031,26 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
+		AA3694432BDE67D30007BCB4 /* Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = Crashlytics;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		E8FD41FE08737D1EA5B058B4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1005,6 +1089,7 @@
 				41622D782BC17220001EB7AE /* SettingsModuleBuilder.swift in Sources */,
 				416239AF2BC2D1BA001EB7AE /* NSMutableAttributedString+Extensions.swift in Sources */,
 				41622D7A2BC17430001EB7AE /* SettingsFlowCoordinator.swift in Sources */,
+				AA3694512BDE87C10007BCB4 /* RootInteractor.swift in Sources */,
 				410454A12BD3C2610011885C /* KeychainSwift.swift in Sources */,
 				41E52B442BC97D03002F203E /* SelectListInteractor.swift in Sources */,
 				410472572BD54E930011885C /* CommentItem.swift in Sources */,
@@ -1021,6 +1106,7 @@
 				419F901F2BCFED7200EFD189 /* SettingsCollectionViewCell.swift in Sources */,
 				416285042BC72C95001EB7AE /* TicketClosingTextView.swift in Sources */,
 				41E826362BCABE25008ED0DA /* Date+Extensions.swift in Sources */,
+				AA3694592BDEA1C90007BCB4 /* Loader.swift in Sources */,
 				419C025F2BD7EB1D001AD688 /* TicketsListBlockCollectionViewCell.swift in Sources */,
 				41F4D6992BBC827400BFE4D0 /* Button.swift in Sources */,
 				41F507272BB35500001CDDBC /* KFU_IT_Support.xcdatamodeld in Sources */,
@@ -1031,6 +1117,7 @@
 				411956552BB89A1F0046CCE0 /* AuthPresenter.swift in Sources */,
 				410472542BD54A590011885C /* Array+Extensions.swift in Sources */,
 				4119565B2BB89A3A0046CCE0 /* AuthInteractorIO.swift in Sources */,
+				AA3694532BDE87CC0007BCB4 /* RootInteractorIO.swift in Sources */,
 				41622D742BC171E7001EB7AE /* SettingsViewState.swift in Sources */,
 				411956172BB757C70046CCE0 /* NavigationFlow.swift in Sources */,
 				41E52B422BC97D03002F203E /* SelectListModuleBuilder.swift in Sources */,
@@ -1054,10 +1141,12 @@
 				416239CC2BC312FC001EB7AE /* TicketDetailsHeaderView.swift in Sources */,
 				41622D762BC171FA001EB7AE /* SettingsViewController.swift in Sources */,
 				411956402BB765A70046CCE0 /* UITabBarController+Extensions.swift in Sources */,
+				AA36945B2BDEABA20007BCB4 /* IndexPath+Extensions.swift in Sources */,
 				41E52B3F2BC97D03002F203E /* SelectListPresenter.swift in Sources */,
 				419C5C6C2BD955F9001AD688 /* NotificationDisplayData.swift in Sources */,
 				410472592BD552E90011885C /* DateFormatter+Extensions.swift in Sources */,
 				411956472BB76BB70046CCE0 /* UIView+Extensions.swift in Sources */,
+				AA3694552BDE89B90007BCB4 /* RootViewController.swift in Sources */,
 				410472522BD548E70011885C /* TicketCommentManagedObject+CoreDataClass.swift in Sources */,
 				41E52B4C2BCA8297002F203E /* Selector.swift in Sources */,
 				4162573B2BC44D2F001EB7AE /* TicketClosingPresenter.swift in Sources */,
@@ -1070,6 +1159,7 @@
 				411956632BBA9CDF0046CCE0 /* UIViewController+Extension.swift in Sources */,
 				41191C682BB35F6B0046CCE0 /* XCAssets+Generated.swift in Sources */,
 				4119563C2BB75CCB0046CCE0 /* TicketsListInteractorIO.swift in Sources */,
+				AA36944F2BDE87BB0007BCB4 /* RootPresenter.swift in Sources */,
 				411956502BB899F80046CCE0 /* AuthModuleBuilder.swift in Sources */,
 				416257412BC44D2F001EB7AE /* TicketClosingInteractorIO.swift in Sources */,
 				41F4D6962BBC80B500BFE4D0 /* KeyboardHelper.swift in Sources */,
@@ -1086,6 +1176,7 @@
 				411956392BB75CCB0046CCE0 /* TicketsListPresenter.swift in Sources */,
 				410472452BD543FD0011885C /* TicketManagedObject+Extensions.swift in Sources */,
 				419C02612BD8DC9D001AD688 /* UserDefaultsManager.swift in Sources */,
+				AA3694572BDE93130007BCB4 /* RootViewIO.swift in Sources */,
 				41E52B482BC981FC002F203E /* SelectListFlowCoordinator.swift in Sources */,
 				416239C92BC2F511001EB7AE /* TechError.swift in Sources */,
 				416239BF2BC2D7E5001EB7AE /* TicketDetailsInteractor.swift in Sources */,
@@ -1097,10 +1188,12 @@
 				419C1FA72BD90645001AD688 /* TicketCommentManagedObject+Extensions.swift in Sources */,
 				41E52B432BC97D03002F203E /* SelectListInteractorIO.swift in Sources */,
 				41E52B4A2BC98BBC002F203E /* Collection+Extensions.swift in Sources */,
+				AA36944D2BDE87B00007BCB4 /* RootModuleIO.swift in Sources */,
 				416257432BC44DBF001EB7AE /* TicketClosingFlowCoordinator.swift in Sources */,
 				41E52B402BC97D03002F203E /* SelectListViewIO.swift in Sources */,
 				416239B92BC2D741001EB7AE /* TicketDetailsModuleIO.swift in Sources */,
 				411956592BB89A2E0046CCE0 /* AuthInteractor.swift in Sources */,
+				AA3694482BDE875F0007BCB4 /* RootModuleBuilder.swift in Sources */,
 				419FD3FB2BD126D800EFD189 /* TargetType.swift in Sources */,
 				416239BD2BC2D7A9001EB7AE /* TicketDetailsViewState.swift in Sources */,
 				41BCFE752BC16E9D00C781EF /* SettingsViewIO.swift in Sources */,
@@ -1265,12 +1358,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 00001;
-				DEVELOPMENT_TEAM = Q88ZQJGDWF;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Z95P383GBF;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "KFU-IT-Support/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "IT Поддержка";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Приложение запрашивает доступ к камере";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "TПриложение запрашивает доступ к галерее";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1280,7 +1376,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "i.zheltikov.KFU-IT-Support";
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.kpfu.KFU-IT-Support";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1299,12 +1395,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 00001;
-				DEVELOPMENT_TEAM = Q88ZQJGDWF;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Z95P383GBF;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "KFU-IT-Support/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "IT Поддержка";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Приложение запрашивает доступ к камере";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "TПриложение запрашивает доступ к галерее";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1314,7 +1413,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "i.zheltikov.KFU-IT-Support";
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.kpfu.KFU-IT-Support";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

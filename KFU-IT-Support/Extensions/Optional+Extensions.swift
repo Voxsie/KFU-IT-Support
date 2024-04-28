@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseCrashlytics
 
 extension Optional {
 
@@ -26,6 +27,7 @@ extension Optional {
                 function: function,
                 line: line
             )
+            Crashlytics.crashlytics().record(error: error)
             print("Error: \(error)")
             return nil
         }

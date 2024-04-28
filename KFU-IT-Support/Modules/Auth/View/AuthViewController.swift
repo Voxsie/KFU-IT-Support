@@ -23,7 +23,8 @@ final class AuthViewController: UIViewController {
     private let output: AuthViewOutput
 
     private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(image: Asset.Icons.kpfuLogo.image)
+        let imageView = UIImageView(image: Asset.General.kpfuLogo.image)
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
@@ -35,8 +36,8 @@ final class AuthViewController: UIViewController {
             passwordTextField,
             loginButton
         ])
-        stackView.alignment = .center
-        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.distribution = .equalCentering
         stackView.spacing = 32
         stackView.axis = .vertical
         return stackView
@@ -59,6 +60,7 @@ final class AuthViewController: UIViewController {
             keyboardType: .decimalPad,
             placeholder: Constants.TextField.loginPlaceholder
         )
+        textfield.setPlaceholder(text: Constants.TextField.loginPlaceholder)
         return textfield
     }()
 
@@ -69,6 +71,7 @@ final class AuthViewController: UIViewController {
             keyboardType: .default,
             placeholder: Constants.TextField.passPlaceholder
         )
+        textfield.setPlaceholder(text: Constants.TextField.passPlaceholder)
         return textfield
     }()
 
@@ -115,7 +118,7 @@ final class AuthViewController: UIViewController {
         }
 
         logoImageView.snp.makeConstraints {
-            $0.height.equalTo(81)
+            $0.height.equalTo(100)
         }
 
         loginTextField.snp.makeConstraints {

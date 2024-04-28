@@ -57,7 +57,7 @@ enum UserDefaultsKey: String, CaseIterable {
 
     case offlineMode
     case isAuthorized
-    
+
     // no need to purge
     case voidKey = "void"
 

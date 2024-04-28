@@ -24,7 +24,7 @@ public final class SettingsModuleBuilder {
     // MARK: Public Methods
 
     public func build() -> UIViewController {
-        let interactor = SettingsInteractor()
+        let interactor = SettingsInteractor(repository: Repository())
         let presenter = SettingsPresenter(interactor: interactor)
         let viewController = SettingsViewController(output: presenter)
 

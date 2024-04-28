@@ -61,6 +61,10 @@ extension TicketsListPresenter: TicketsListInteractorOutput {}
 
 extension TicketsListPresenter: TicketsListViewOutput {
 
+    func isOfflineMode() -> Bool {
+        interactor.getOfflineModeState()
+    }
+
     func viewWantsToChangeOfflineMode() {
         if interactor.getOfflineModeState() {
             view.mapOrLog { $0.showAlert(prepareChangeOfflineModeData()) }
@@ -133,7 +137,6 @@ extension TicketsListPresenter: TicketsListViewOutput {
                 }
 
             case let .failure(error):
-                print(error)
                 if case RemoteServiceError.offline = error {
                     self.state = .error(prepareOfflineErrorDisplayData())
                 } else if case RemoteServiceError.noVPN = error  {
@@ -176,7 +179,10 @@ extension TicketsListPresenter: TicketsListViewOutput {
                 }
 
             case .failure:
-                self.state = .error(prepareErrorDisplayData())
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.view.mapOrLog { $0.finishUpdating() }
+                    self.state = .error(self.prepareErrorDisplayData())
+                }
             }
         }
     }
@@ -304,7 +310,6 @@ private extension TicketsListPresenter {
                 buttonTitle: "Оффлайн-режим",
                 action: { [weak self] in
                     guard let self else { return }
-                    print("hello")
                     self.interactor.setOfflineModeState(true)
                     { [weak self] result in
                         guard let self else { return }
@@ -344,7 +349,6 @@ private extension TicketsListPresenter {
                 buttonTitle: "Оффлайн-режим",
                 action: { [weak self] in
                     guard let self else { return }
-                    print("hello")
                     self.interactor.setOfflineModeState(true)
                     { [weak self] result in
                         guard let self else { return }

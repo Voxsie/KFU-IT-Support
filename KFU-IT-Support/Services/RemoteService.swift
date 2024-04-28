@@ -189,6 +189,7 @@ final class RemoteService: RemoteServiceProtocol {
     }
 
     private func handleStatusCode(_ code: Int) -> Error {
+        print("debug: \(code)")
         switch code {
         case 403:
             return RemoteServiceError.noVPN()

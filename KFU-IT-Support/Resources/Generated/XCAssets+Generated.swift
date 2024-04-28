@@ -29,6 +29,8 @@ internal enum Asset {
     internal static let primaryKFU = ColorAsset(name: "PrimaryKFU")
   }
   internal enum General {
+    internal static let kpfuLogo = ImageAsset(name: "kpfuLogo")
+    internal static let launchscreen = ImageAsset(name: "launchscreen")
   }
   internal enum Icons {
     internal static let closeIcon = ImageAsset(name: "CloseIcon")
@@ -38,11 +40,11 @@ internal enum Asset {
     internal static let textFieldPasswordEyeHide = ImageAsset(name: "TextFieldPasswordEyeHide")
     internal static let vpnError = ImageAsset(name: "VpnError")
     internal static let wifiError = ImageAsset(name: "WifiError")
-    internal static let kpfuLogo = ImageAsset(name: "kpfuLogo")
     internal static let offlineModeIcon = ImageAsset(name: "offlineModeIcon")
   }
   internal enum Shapes {
     internal static let arrowDown = ImageAsset(name: "ArrowDown")
+    internal static let loader = ImageAsset(name: "Loader")
     internal static let multiRadioNotSelected = ImageAsset(name: "MultiRadioNotSelected")
     internal static let multiRadioSelected = ImageAsset(name: "MultiRadioSelected")
     internal static let singleRadioNotSelected = ImageAsset(name: "SingleRadioNotSelected")

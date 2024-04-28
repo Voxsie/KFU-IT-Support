@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         rootFlowCoordinator.start(animated: true, in: self.window ?? window)
 
-//        FirebaseApp.configure()
+        FirebaseApp.configure()
 
         return true
     }

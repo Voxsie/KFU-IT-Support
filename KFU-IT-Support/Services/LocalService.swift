@@ -56,6 +56,8 @@ protocol LocalServiceProtocol {
     )
 
     func fetchOfflineModeState() -> Bool
+
+    func deleteAllData()
 }
 
 final class LocalService: LocalServiceProtocol {
@@ -207,11 +209,21 @@ final class LocalService: LocalServiceProtocol {
         if let result {
             completion(.success(result))
         } else {
-            completion(.failure(LocalServiceError.unknownError()))
+            completion(.failure(RemoteServiceError.notAuthenticated()))
         }
     }
 
     func fetchOfflineModeState() -> Bool {
         userDefault.getBool(for: UserDefaultsKey.offlineMode)
+    }
+
+    func deleteAllData() {
+        UserDefaultsKey.allCases.forEach {
+            userDefault.remove(for: $0)
+        }
+        keychain.clear()
+        let persistentContainer = NSPersistentContainer(name: "KFU_IT_Support")
+        persistentContainer.deleteAllData()
+
     }
 }

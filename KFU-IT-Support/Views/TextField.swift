@@ -85,6 +85,7 @@ class TextField: UIView {
 
     var text: String = "" {
         willSet {
+            print(newValue)
             if newValue.count != 0, text == "" {
                 textEntered()
             } else if text != "", newValue.count == 0 {

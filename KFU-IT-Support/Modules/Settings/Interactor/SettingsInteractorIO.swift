@@ -7,6 +7,8 @@
 
 import Foundation
 
-protocol SettingsInteractorInput: AnyObject {}
+protocol SettingsInteractorInput: AnyObject {
+    func cleanAllData()
+}
 
 protocol SettingsInteractorOutput: AnyObject {}

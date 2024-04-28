@@ -28,6 +28,7 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 1
         label.textAlignment = .center
+        label.isHiddenWhenSkeletonIsActive = true
         label.isSkeletonable = true
         return label
     }()
@@ -56,6 +57,11 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
         setupView()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.layoutSkeletonIfNeeded()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -77,20 +83,20 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
 
     func configure(state: CellState) {
         switch state {
+        case .loading:
+            let animation = GradientDirection.leftRight.slidingAnimation()
+            titleLabel.text = "*********"
+            titleLabel.textColor = .clear
+            self.contentView.showAnimatedGradientSkeleton(
+                usingGradient: .init(baseColor: .tertiarySystemFill),
+                animation: animation
+            )
+
         case let .content(displayData):
             contentView.hideSkeleton()
             titleLabel.text = displayData.title
             titleLabel.textColor = .label
             self.isSelected = displayData.isSelected
-
-        case .loading:
-            titleLabel.text = "*********"
-            titleLabel.textColor = .clear
-            let animation = GradientDirection.leftRight.slidingAnimation()
-            self.contentView.showAnimatedGradientSkeleton(
-                usingGradient: .init(baseColor: .tertiarySystemFill),
-                animation: animation
-            )
         }
     }
 }

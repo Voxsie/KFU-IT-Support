@@ -84,8 +84,17 @@ extension AuthPresenter: AuthViewOutput {
                     $0.moduleWantsToOpenAuthorizedZone(self)
                 }
 
-            case .failure:
-                state = .error(prepareErrorData())
+            case let .failure(error):
+                if case RemoteServiceError.offline = error {
+                    self.state = .error(prepareInternetErrorNotificationDisplayData())
+                } else if case RemoteServiceError.noVPN = error  {
+                    self.state = .error(prepareVPNErrorNotificationDisplayData())
+                } else if case RemoteServiceError.notAuthenticated = error {
+                    self.state = .error(prepareErrorData())
+                } else {
+                    self.state = .error(prepareErrorData())
+                }
+
             }
         }
     }
@@ -93,18 +102,34 @@ extension AuthPresenter: AuthViewOutput {
 
 private extension AuthPresenter {
 
-    func prepareErrorData() -> AuthViewState.NotificationDisplayData {
+    func prepareErrorData() -> NotificationDisplayData {
         .init(
             title: "Ошибка",
-            subtitle: "Возможно введенные данные некорректны.\nПопробуйте еще раз.",
+            subtitle: "Введенные данные некорректны.\nПопробуйте еще раз.",
             actions: [.init(buttonTitle: "OK", action: {}, style: .default)]
         )
     }
 
-    func prepareInsufficiencyErrorData() -> AuthViewState.NotificationDisplayData {
+    func prepareInsufficiencyErrorData() -> NotificationDisplayData {
         .init(
             title: "Ошибка",
             subtitle: "Некорректный формат номера телефона",
+            actions: [.init(buttonTitle: "OK", action: {}, style: .default)]
+        )
+    }
+
+    func prepareVPNErrorNotificationDisplayData() -> NotificationDisplayData {
+        .init(
+            title: "Отсутствие доступа к сервису",
+            subtitle: "Проверьте интернет-соединение и доступ к VPN и попробуйте еще раз",
+            actions: [.init(buttonTitle: "OK", action: {}, style: .default)]
+        )
+    }
+
+    func prepareInternetErrorNotificationDisplayData() -> NotificationDisplayData {
+        .init(
+            title: "Отсутствие интернета",
+            subtitle: "Проверьте интернет-соединение и попробуйте еще раз",
             actions: [.init(buttonTitle: "OK", action: {}, style: .default)]
         )
     }

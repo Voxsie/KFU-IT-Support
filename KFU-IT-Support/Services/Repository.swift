@@ -39,6 +39,10 @@ protocol RepositoryProtocol {
         completion: @escaping ((Result<[TicketItem], Error>) -> Void)
     )
 
+    func getUserInfo(
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    )
+
     func fetchTicket(
         using uuid: String,
         completion: @escaping ((Result<TicketItem, Error>) -> Void)
@@ -54,6 +58,10 @@ protocol RepositoryProtocol {
     )
 
     func getOfflineModeState() -> Bool
+
+    // MARK: Delete
+
+    func deleteAllData()
 }
 
 final class Repository: RepositoryProtocol {
@@ -192,6 +200,38 @@ final class Repository: RepositoryProtocol {
         }
     }
 
+    func getUserInfo(
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    ) {
+        var phone: String?
+        var accessKey: String?
+        fetchAuthToken { result in
+            switch result {
+            case let .success(authToken):
+                phone = authToken.components(separatedBy: ";").first
+                accessKey = authToken.components(separatedBy: ";").last
+
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+        guard let phone, let accessKey else { return }
+
+        apiService.getUserInfo(
+            phone: phone,
+            accessKey: accessKey
+        ) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case let .success(response):
+                completion(.success(()))
+
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     // MARK: Local
 
     func saveAuthToken(
@@ -223,6 +263,12 @@ final class Repository: RepositoryProtocol {
 
     func getOfflineModeState() -> Bool {
         localService.fetchOfflineModeState()
+    }
+
+    // MARK: Delete
+
+    func deleteAllData() {
+        localService.deleteAllData()
     }
 }
 

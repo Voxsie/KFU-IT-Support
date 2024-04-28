@@ -265,10 +265,10 @@ final class TicketClosingViewController: UIViewController {
         scrollView.addSubview(scrollViewContainer)
         scrollViewContainer.addArrangedSubview(dateRangeView)
         scrollViewContainer.addArrangedSubview(completedWorkTextView)
-        scrollViewContainer.addArrangedSubview(completedTechWorkTextView)
-        scrollViewContainer.addArrangedSubview(workCategoriesSelectorView)
+//        scrollViewContainer.addArrangedSubview(completedTechWorkTextView)
+//        scrollViewContainer.addArrangedSubview(workCategoriesSelectorView)
         scrollViewContainer.addArrangedSubview(workStatusSelectorView)
-        scrollViewContainer.addArrangedSubview(workerSelectorView)
+//        scrollViewContainer.addArrangedSubview(workerSelectorView)
         scrollViewContainer.addArrangedSubview(uploadFileViewContainer)
 
         uploadFileViewContainer.addArrangedSubview(uploadFileTitleView)

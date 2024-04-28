@@ -91,7 +91,7 @@ final class TicketsListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         let titleView = OfflineTitle(
             title: Constants.ticketsTitle,
-            showOffline: false
+            showOffline: output.isOfflineMode()
         )
         titleView.addActionByTarget { [weak self] in
             guard let self else { return }
@@ -145,7 +145,11 @@ extension TicketsListViewController: TicketsListViewInput {
         switch state {
         case .loading, .display:
             collectionView.collectionViewLayout = createCollectionViewLayout()
-            collectionView.setContentOffset(.init(x: 0, y: -100), animated: false)
+            collectionView.scrollToItem(
+                at: IndexPath.firstElement,
+                at: .bottom,
+                animated: false
+            )
 
         case .error:
             collectionView.collectionViewLayout = createFullscreenLayout()

@@ -57,9 +57,7 @@ extension SettingsPresenter: SettingsViewOutput {
                 action: { [weak self] in
                     guard let self else { return}
 
-                    // TODO: TASK-0000 - keychain.clear()
-                    // TODO: TASK-0000 - UserDefaults.clear()
-
+                    interactor.cleanAllData()
                     moduleOutput.mapOrLog { $0.moduleWantsToDeauthorize(self) }
                     fatalError()
             }),

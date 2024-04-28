@@ -21,7 +21,13 @@ final class SettingsInteractor {
 
     // MARK: Private Properties
 
+    private let repository: RepositoryProtocol
+
     // MARK: Lifecycle
+
+    init(repository: RepositoryProtocol) {
+        self.repository = repository
+    }
 
     // MARK: Public
 
@@ -32,5 +38,7 @@ final class SettingsInteractor {
 // MARK: - SettingsInteractorInput
 
 extension SettingsInteractor: SettingsInteractorInput {
-
+    func cleanAllData() {
+        repository.deleteAllData()
+    }
 }

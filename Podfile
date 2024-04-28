@@ -11,6 +11,9 @@ target 'KFU-IT-Support' do
   pod 'SkeletonView'
   pod 'Moya', '~> 15.0'
   pod 'FirebaseAnalytics'
+  pod 'FirebaseCrashlytics'
+  pod 'Crashlytics'
+  pod 'Firebase/Crashlytics'
   pod 'Swinject'
   pod "LetterAvatarKit", "1.2.5"
   pod 'KeychainSwift', '~> 22.0'
