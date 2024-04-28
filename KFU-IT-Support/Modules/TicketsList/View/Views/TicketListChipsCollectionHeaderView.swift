@@ -159,11 +159,9 @@ extension TicketsListChipsCollectionHeaderView: UICollectionViewDelegate, UIColl
 
         switch state {
         case .loading:
-            collectionView.isUserInteractionEnabled = false
             cell.configure(state: .loading)
 
         case let .content(items):
-            collectionView.isUserInteractionEnabled = true
             let item = items[indexPath.row]
             cell.configure(
                 state: .content(.init(

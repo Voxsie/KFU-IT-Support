@@ -119,7 +119,6 @@ final class Repository: RepositoryProtocol {
                 completion: completion
             )
         } else {
-
             if let accessKey = getAccessKey() {
                 apiService.addCommentToTicket(
                     body: body,

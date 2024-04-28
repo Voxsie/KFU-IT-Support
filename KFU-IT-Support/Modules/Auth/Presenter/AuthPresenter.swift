@@ -69,6 +69,11 @@ extension AuthPresenter: AuthViewOutput {
         login: String,
         password: String
     ) {
+        guard login.count > 16, login.count < 18
+        else {
+            self.state = .error(prepareInsufficiencyErrorData())
+            return
+        }
 
         self.state = .loading
         print(login, password)
@@ -125,7 +130,6 @@ private extension AuthPresenter {
             actions: [.init(buttonTitle: "OK", action: {}, style: .default)]
         )
     }
-
     func prepareInternetErrorNotificationDisplayData() -> NotificationDisplayData {
         .init(
             title: "Отсутствие интернета",

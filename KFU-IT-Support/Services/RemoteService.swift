@@ -58,31 +58,27 @@ final class RemoteService: RemoteServiceProtocol {
         provider.request(.addComment(
             body,
             accessKey: accessKey
-        )) { result in
+        )) { [weak self] result in
+            guard let self else { return }
             switch result {
             case let .success(moyaResponse):
-                let data = moyaResponse.data
-                let statusCode = moyaResponse.statusCode
-
-                let decoder = JSONDecoder()
-
+                if moyaResponse.statusCode != 200 {
+                    completion(.failure(handleStatusCode(moyaResponse.statusCode)))
+                    return
+                }
+                let data = normalizeJSON(data: moyaResponse.data) ?? Data()
                 do {
-                    let response: TicketsListResponse = try decoder.decode(TicketsListResponse.self, from: data)
-                    completion(.success(()))
-                } catch {
-                    if statusCode == 200 {
-                        do {
-                            let errorResponse: ErrorResponseModel = try decoder.decode(
-                                ErrorResponseModel.self,
-                                from: data
-                            )
-                            completion(.failure(self.handleError(errorResponse.error ?? "")))
-                        } catch {
-                            completion(.failure(error))
-                        }
+                    let response: TicketsListResponse = try JSONDecoder().decode(
+                        TicketsListResponse.self,
+                        from: data
+                    )
+                    if let error = response.error {
+                        completion(.failure(self.handleError(error)))
                     } else {
-                        completion(.failure(error))
+                        completion(.success(()))
                     }
+                } catch {
+                    completion(.failure(error))
                 }
 
             case let .failure(error):
@@ -160,14 +156,11 @@ final class RemoteService: RemoteServiceProtocol {
             guard let self else { return }
             switch result {
             case let .success(moyaResponse):
-
                 if moyaResponse.statusCode != 200 {
                     completion(.failure(handleStatusCode(moyaResponse.statusCode)))
                     return
                 }
-
                 let data = normalizeJSON(data: moyaResponse.data) ?? Data()
-
                 do {
                     let response: TicketsListResponse = try JSONDecoder().decode(
                         TicketsListResponse.self,

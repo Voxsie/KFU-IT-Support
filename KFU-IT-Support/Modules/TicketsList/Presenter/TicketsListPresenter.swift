@@ -206,32 +206,32 @@ private extension TicketsListPresenter {
                 type: .okay,
                 title: "Обычные",
                 isSelected: selectedType == .okay
-            ),
-            .init(
-                type: .small,
-                title: "small",
-                isSelected: selectedType == .small
-            ),
-            .init(
-                type: .large,
-                title: "large",
-                isSelected: selectedType == .large
-            ),
-            .init(
-                type: .medium,
-                title: "medium",
-                isSelected: selectedType == .medium
-            ),
-            .init(
-                type: .xlarge,
-                title: "xlarge",
-                isSelected: selectedType == .xlarge
-            ),
-            .init(
-                type: .xxlarge,
-                title: "xxlarge",
-                isSelected: selectedType == .xxlarge
             )
+//            .init(
+//                type: .small,
+//                title: "small",
+//                isSelected: selectedType == .small
+//            ),
+//            .init(
+//                type: .large,
+//                title: "large",
+//                isSelected: selectedType == .large
+//            ),
+//            .init(
+//                type: .medium,
+//                title: "medium",
+//                isSelected: selectedType == .medium
+//            ),
+//            .init(
+//                type: .xlarge,
+//                title: "xlarge",
+//                isSelected: selectedType == .xlarge
+//            ),
+//            .init(
+//                type: .xxlarge,
+//                title: "xxlarge",
+//                isSelected: selectedType == .xxlarge
+//            )
         ]
     }
 

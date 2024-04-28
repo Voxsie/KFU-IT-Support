@@ -29,6 +29,9 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 1
         label.textAlignment = .center
         label.isHiddenWhenSkeletonIsActive = true
+        label.skeletonLineSpacing = 4
+        label.lastLineFillPercent = 30
+        label.linesCornerRadius = 8
         label.isSkeletonable = true
         return label
     }()
@@ -53,7 +56,7 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-
+        isSkeletonable = true
         setupView()
     }
 
@@ -67,6 +70,10 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupView() {
+        contentView.layer.masksToBounds = true
+        layer.cornerRadius = 16
+        contentView.layer.cornerRadius = 16
+
         contentView.isSkeletonable = true
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
@@ -75,22 +82,15 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
             $0.center.equalToSuperview()
             $0.height.equalTo(22)
         }
-
-        contentView.layer.masksToBounds = true
-        layer.cornerRadius = 16
-        contentView.layer.cornerRadius = 16
     }
 
     func configure(state: CellState) {
         switch state {
         case .loading:
-            let animation = GradientDirection.leftRight.slidingAnimation()
             titleLabel.text = "*********"
             titleLabel.textColor = .clear
-            self.contentView.showAnimatedGradientSkeleton(
-                usingGradient: .init(baseColor: .tertiarySystemFill),
-                animation: animation
-            )
+            let animation = GradientDirection.leftRight.slidingAnimation()
+            self.contentView.showSkeleton()
 
         case let .content(displayData):
             contentView.hideSkeleton()
