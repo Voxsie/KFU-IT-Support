@@ -63,7 +63,7 @@ extension SelectListPresenter: SelectListViewOutput {
     }
 
     func viewDidTapSaveButton() {
-        moduleOutput.mapOrLog { $0.moduleWantsToClose(self) }
+        moduleOutput.mapOrLog { $0.moduleWantsToSave(self, items: state.items) }
     }
 
     func getData() -> [SelectListViewState.DisplayData] {

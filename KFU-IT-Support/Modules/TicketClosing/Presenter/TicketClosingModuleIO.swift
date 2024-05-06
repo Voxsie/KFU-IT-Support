@@ -8,7 +8,9 @@
 import Foundation
 
 public protocol TicketClosingModuleInput: AnyObject {
-
+    func moduleWantsToUpdateItems(
+        items: [SelectListViewState.DisplayData]
+    )
 }
 
 public protocol TicketClosingModuleOutput: AnyObject {

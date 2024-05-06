@@ -10,9 +10,14 @@ import UIKit
 
 protocol SelectListFlowCoordinatorInput: AnyObject {}
 
-protocol SelectListFlowCoordinatorOutput: AnyObject {}
+protocol SelectListFlowCoordinatorOutput: AnyObject {
+    func flowCoordinatorWantsToUpdateItems(
+        _ flowInput: SelectListFlowCoordinatorInput,
+        items: [SelectListViewState.DisplayData]
+    )
+}
 
-final class SelectListFlowCoordinator: FlowCoordinatorProtocol {
+final class SelectListFlowCoordinator: FlowCoordinatorProtocol, SelectListFlowCoordinatorInput {
 
     // MARK: Private propeties
 
@@ -70,24 +75,6 @@ final class SelectListFlowCoordinator: FlowCoordinatorProtocol {
         rootNavigationController = navigationController
 
         parentRootNavigationController.present(navigationController, animated: true)
-
-//        do {
-//            switch navigationFlow {
-//            case let .present(parentViewControllerWrapper):
-//                let parentViewController = try parentViewControllerWrapper.wrappedValue.unwrap()
-//                parentViewController.present(navigationController, animated: animated)
-//
-//            case let .push(parentNavControllerWrapper):
-//                let navigationController = try parentNavControllerWrapper.wrappedValue.unwrap()
-//                rootNavigationController = navigationController
-//                navigationController.pushViewController(
-//                    navigationController,
-//                    animated: true
-//                )
-//            }
-//        } catch {
-//            print(error)
-//        }
     }
 
     func finish(animated: Bool, completion: (() -> Void)?) {
@@ -123,6 +110,21 @@ final class SelectListFlowCoordinator: FlowCoordinatorProtocol {
 // MARK: - SelectListModuleOutput
 
 extension SelectListFlowCoordinator: SelectListModuleOutput {
+
+    func moduleWantsToSave(
+        _ module: SelectListModuleInput,
+        items: [SelectListViewState.DisplayData]
+    ) {
+        output.flowCoordinatorWantsToUpdateItems(self, items: items)
+        if rootViewController?.presentedViewController != nil || rootViewController?.presentingViewController != nil {
+            rootViewController?.dismiss(animated: true, completion: nil)
+        } else {
+            rootViewController.map {
+                _ = rootNavigationController?.popToViewController($0, animated: true)
+            }
+        }
+    }
+    
 
     func moduleDidLoad(_ module: SelectListModuleInput) {
         //

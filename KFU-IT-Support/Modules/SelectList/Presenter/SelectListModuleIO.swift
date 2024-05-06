@@ -13,6 +13,8 @@ public protocol SelectListModuleInput: AnyObject {
 
 public protocol SelectListModuleOutput: AnyObject {
 
+    func moduleWantsToSave(_ module: SelectListModuleInput, items: [SelectListViewState.DisplayData])
+
     func moduleDidLoad(_ module: SelectListModuleInput)
     func moduleDidClose(_ module: SelectListModuleInput)
 

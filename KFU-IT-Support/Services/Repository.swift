@@ -134,7 +134,11 @@ final class Repository: RepositoryProtocol {
                         )
 
                     case let .failure(error):
-                        completion(.failure(error))
+                        localService.updateComment(
+                            body: body,
+                            hasSent: true,
+                            completion: completion
+                        )
                     }
                 }
             } else {

@@ -50,7 +50,31 @@ final class TicketClosingPresenter {
 // MARK: - TicketClosingModuleInput
 
 extension TicketClosingPresenter: TicketClosingModuleInput {
-
+    func moduleWantsToUpdateItems(items: [SelectListViewState.DisplayData]) {
+        var title = "Не выбрано..."
+        items.forEach {
+            if $0.isSelected {
+                title = $0.title
+            }
+        }
+        var displayData = self.state.displayData
+        displayData.workStatus = .init(
+            string: title,
+            items: items,
+            type: .single,
+            action: { [weak self] in
+                guard let self else { return }
+                moduleOutput.mapOrLog {
+                    $0.moduleWantsToOpenSelectList(
+                        self,
+                        title: "Работы выполнены",
+                        items: items,
+                        type: .single
+                    )
+                }
+            }
+        )
+    }
 }
 
 // MARK: - TicketClosingInteractorOutput
@@ -66,7 +90,7 @@ extension TicketClosingPresenter: TicketClosingViewOutput {
     func isOfflineMode() -> Bool {
         interactor.fetchOfflineModeState()
     }
-    
+
     func getState() -> TicketClosingViewState {
         state
     }
@@ -170,8 +194,29 @@ private extension TicketClosingPresenter {
             startDate: dateFormatter.date(fromOptionalString: item.beginDate),
             endDate: dateFormatter.date(fromOptionalString: item.endDate),
             completedWorkText: item.comment,
-            completedTechWorkText: item.techComment
-        )
+            completedTechWorkText: item.techComment,
+            workStatus: .init(
+                string: "Полностью",
+                items: [
+                    .init(uuid: "0", title: "Полностью", isSelected: false),
+                    .init(uuid: "1", title: "Частично", isSelected: false)
+                ],
+                type: .single,
+                action: { [weak self] in
+                    guard let self else { return }
+                    moduleOutput.mapOrLog {
+                        $0.moduleWantsToOpenSelectList(
+                            self,
+                            title: "Работы выполнены",
+                            items: [
+                                .init(uuid: "0", title: "Полностью", isSelected: false),
+                                .init(uuid: "1", title: "Частично", isSelected: false)
+                            ],
+                            type: .single
+                        )
+                    }
+                }
+            ))
         return item
     }
 
@@ -213,7 +258,7 @@ private extension TicketClosingPresenter {
             workStatus: .init(
                 string: "Полностью",
                 items: [
-                    .init(uuid: "0", title: "Полностью", isSelected: true),
+                    .init(uuid: "0", title: "Полностью", isSelected: false),
                     .init(uuid: "1", title: "Частично", isSelected: false)
                 ],
                 type: .single,
@@ -224,7 +269,7 @@ private extension TicketClosingPresenter {
                             self,
                             title: "Работы выполнены",
                             items: [
-                                .init(uuid: "0", title: "Полностью", isSelected: true),
+                                .init(uuid: "0", title: "Полностью", isSelected: false),
                                 .init(uuid: "1", title: "Частично", isSelected: false)
                             ],
                             type: .single

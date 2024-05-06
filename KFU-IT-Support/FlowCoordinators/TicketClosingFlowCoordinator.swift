@@ -34,6 +34,8 @@ final class TicketClosingFlowCoordinator: FlowCoordinatorProtocol {
     private weak var rootViewController: UIViewController?
     private weak var rootNavigationController: UINavigationController?
 
+    private weak var moduleInput: TicketClosingModuleInput?
+
     var childFlowCoordinators: [FlowCoordinatorProtocol] = []
 
     init(
@@ -166,7 +168,7 @@ extension TicketClosingFlowCoordinator: TicketClosingModuleOutput {
     func moduleUnload(_ module: TicketClosingModuleInput) {
         didFinish()
     }
-
+    
     func moduleWantsToClose(_ input: TicketClosingModuleInput) {
         if rootViewController?.presentedViewController != nil || rootViewController?.presentingViewController != nil {
             rootViewController?.dismiss(animated: true, completion: nil)
@@ -181,5 +183,10 @@ extension TicketClosingFlowCoordinator: TicketClosingModuleOutput {
 // MARK: - TicketClosingFlowCoordinatorOutput
 
 extension TicketClosingFlowCoordinator: SelectListFlowCoordinatorOutput {
-
+    func flowCoordinatorWantsToUpdateItems(
+        _ flowInput: SelectListFlowCoordinatorInput,
+        items: [SelectListViewState.DisplayData]
+    ) {
+        moduleInput?.moduleWantsToUpdateItems(items: items)
+    }
 }

@@ -166,7 +166,14 @@ extension RootFlowCoordinator: RootModuleOutput {
     }
 }
 
-extension RootFlowCoordinator: SelectListFlowCoordinatorOutput {}
+extension RootFlowCoordinator: SelectListFlowCoordinatorOutput {
+    func flowCoordinatorWantsToUpdateItems(
+        _ flowInput: SelectListFlowCoordinatorInput,
+                                           items: [SelectListViewState.DisplayData]
+    ) {
+        // ununsed
+    }
+}
 
 private extension RootFlowCoordinator {
     func openExample() {

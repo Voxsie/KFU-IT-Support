@@ -25,7 +25,7 @@ enum TicketClosingViewState {
         var attachment: UIImage?
 
         struct SelectorDisplayData {
-            var string: String
+            var string: String?
             var items: [SelectListViewState.DisplayData]
             var type: SelectListViewState.SelectType
             var action: () -> Void
