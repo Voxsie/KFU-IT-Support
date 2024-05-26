@@ -37,6 +37,8 @@ protocol LocalServiceProtocol {
         completion: @escaping ((Result<Void, Error>) -> Void)
     )
 
+    func fetchAuthorizedState() -> Bool
+
     func fetchComment(
         using uuid: String,
         completion: @escaping ((Result<CommentItem, Error>) -> Void)
@@ -69,8 +71,7 @@ final class LocalService: LocalServiceProtocol {
     private let userDefault: UserDefaultManager
 
     init() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            fatalError("Unable to access AppDelegate")
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {            fatalError("Unable to access AppDelegate")
         }
         self.context = appDelegate.persistentContainer.viewContext
         self.keychain = KeychainSwift()
@@ -130,6 +131,10 @@ final class LocalService: LocalServiceProtocol {
     ) {
         userDefault.set(isAuthorized, for: UserDefaultsKey.isAuthorized)
         completion(.success(()))
+    }
+
+    func fetchAuthorizedState() -> Bool {
+        userDefault.getBool(for: .isAuthorized)
     }
 
     func updateComment(

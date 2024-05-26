@@ -48,6 +48,12 @@ protocol RepositoryProtocol {
         completion: @escaping ((Result<TicketItem, Error>) -> Void)
     )
 
+    func fetchTicketsList(
+        completion: @escaping ((Result<[TicketItem], Error>) -> Void)
+    )
+
+    func fetchAuthorizedState() -> Bool
+
     func fetchAuthToken(
         completion: @escaping ((Result<String, Error>) -> Void)
     )
@@ -201,6 +207,16 @@ final class Repository: RepositoryProtocol {
                 completion(.failure(error))
             }
         }
+    }
+
+    func fetchTicketsList(
+        completion: @escaping ((Result<[TicketItem], Error>) -> Void)
+    ) {
+        localService.fetchTicketList(completion: completion)
+    }
+
+    func fetchAuthorizedState() -> Bool {
+        localService.fetchAuthorizedState()
     }
 
     func getUserInfo(

@@ -54,6 +54,9 @@ final class RootViewController: UIViewController {
     // MARK: Private methods
 
     private func setupView() {
+        requestAuthorization { bool in
+            print(bool)
+        }
         view.backgroundColor = .systemBackground
 
         view.addSubview(logoImageView)
@@ -96,5 +99,11 @@ extension RootViewController: RootViewInput {
             alert.addAction(action)
         }
         self.present(alert, animated: true)
+    }
+
+    func requestAuthorization(
+        completion: @escaping  (Bool) -> Void
+    ) {
+        LocalNotificationsManager.shared.requestAuthorization()
     }
 }

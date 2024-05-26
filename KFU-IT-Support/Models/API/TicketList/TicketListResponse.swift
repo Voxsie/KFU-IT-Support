@@ -27,7 +27,8 @@ struct TicketsListData: Codable {
 }
 
 // MARK: - TicketsListRequest
-struct TicketItem: Codable {
+struct TicketItem: Codable, Equatable {
+    
     let id, number, requestType, description: String?
     let clientName, clientAddress, addressID, buildingID: String?
     let clientRoom, clientPhone, requestDate, deadline: String?
@@ -69,6 +70,23 @@ struct TicketItem: Codable {
         self.ishot = managedObject.ishot
         self.coExecutors = managedObject.coExecutors
         self.comments = []
+    }
+
+    static func == (lhs: TicketItem, rhs: TicketItem) -> Bool {
+        lhs.id == rhs.id &&
+        lhs.number == rhs.number &&
+        lhs.requestType == rhs.requestType &&
+        lhs.description == rhs.description &&
+        lhs.clientName == rhs.clientName &&
+        lhs.clientAddress == rhs.clientAddress &&
+        lhs.addressID == rhs.addressID &&
+        lhs.buildingID == rhs.buildingID &&
+        lhs.clientRoom == rhs.clientRoom &&
+        lhs.clientPhone == rhs.clientPhone &&
+        lhs.requestDate == rhs.requestDate &&
+        lhs.deadline == rhs.deadline &&
+        lhs.ishot == rhs.ishot &&
+        lhs.coExecutors == rhs.coExecutors
     }
 }
 

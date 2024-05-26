@@ -169,7 +169,7 @@ extension RootFlowCoordinator: RootModuleOutput {
 extension RootFlowCoordinator: SelectListFlowCoordinatorOutput {
     func flowCoordinatorWantsToUpdateItems(
         _ flowInput: SelectListFlowCoordinatorInput,
-                                           items: [SelectListViewState.DisplayData]
+        items: [SelectListViewState.DisplayData]
     ) {
         // ununsed
     }

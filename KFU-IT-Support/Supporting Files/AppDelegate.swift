@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Private properties
 
-    let resolver = Container(defaultObjectScope: .container)
+    let pollingManager = ShortPollingManager(interval: 900)
 
     private lazy var rootFlowCoordinator = RootFlowCoordinator(
         userDefaults: UserDefaultManager.shared
@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        pollingManager.stopPolling()
+        pollingManager.repository = Repository()
 
         let window = UIWindow()
         self.window = window
@@ -41,6 +43,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        pollingManager.startPolling()
+    }
+
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentContainer = {
@@ -68,4 +75,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+
 }

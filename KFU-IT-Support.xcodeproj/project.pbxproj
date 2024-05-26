@@ -152,6 +152,8 @@
 		AA6190BA2BDA835800E8A78B /* UserResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6190B92BDA835800E8A78B /* UserResponseModel.swift */; };
 		AA6190BD2BDBA0A200E8A78B /* ErrorResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6190BC2BDBA0A200E8A78B /* ErrorResponseModel.swift */; };
 		AA6190BF2BDD7D4700E8A78B /* File.json in Resources */ = {isa = PBXBuildFile; fileRef = AA6190BE2BDD7D4700E8A78B /* File.json */; };
+		AA97A5722C036EAD00CE8729 /* ShortPollingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97A5712C036EAD00CE8729 /* ShortPollingManager.swift */; };
+		AA97A5742C037D0200CE8729 /* LocalNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97A5732C037D0200CE8729 /* LocalNotificationsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -303,6 +305,8 @@
 		AA6190B92BDA835800E8A78B /* UserResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseModel.swift; sourceTree = "<group>"; };
 		AA6190BC2BDBA0A200E8A78B /* ErrorResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponseModel.swift; sourceTree = "<group>"; };
 		AA6190BE2BDD7D4700E8A78B /* File.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = File.json; sourceTree = "<group>"; };
+		AA97A5712C036EAD00CE8729 /* ShortPollingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortPollingManager.swift; sourceTree = "<group>"; };
+		AA97A5732C037D0200CE8729 /* LocalNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsManager.swift; sourceTree = "<group>"; };
 		BC4364558DF5E7C90C77BAB1 /* Pods-KFU-IT-Support.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KFU-IT-Support.debug.xcconfig"; path = "Target Support Files/Pods-KFU-IT-Support/Pods-KFU-IT-Support.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -409,6 +413,8 @@
 				419FDDD92BD1715C00EFD189 /* LocalService.swift */,
 				410454A02BD3C2610011885C /* KeychainSwift.swift */,
 				419C02602BD8DC9D001AD688 /* UserDefaultsManager.swift */,
+				AA97A5712C036EAD00CE8729 /* ShortPollingManager.swift */,
+				AA97A5732C037D0200CE8729 /* LocalNotificationsManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1116,6 +1122,7 @@
 				4119561D2BB758AD0046CCE0 /* Repository.swift in Sources */,
 				411956552BB89A1F0046CCE0 /* AuthPresenter.swift in Sources */,
 				410472542BD54A590011885C /* Array+Extensions.swift in Sources */,
+				AA97A5722C036EAD00CE8729 /* ShortPollingManager.swift in Sources */,
 				4119565B2BB89A3A0046CCE0 /* AuthInteractorIO.swift in Sources */,
 				AA3694532BDE87CC0007BCB4 /* RootInteractorIO.swift in Sources */,
 				41622D742BC171E7001EB7AE /* SettingsViewState.swift in Sources */,
@@ -1137,6 +1144,7 @@
 				416257562BC5D5A0001EB7AE /* TicketListChipsCollectionViewCell.swift in Sources */,
 				411956492BB76EEC0046CCE0 /* RootFlowCoordinator.swift in Sources */,
 				41E52B412BC97D03002F203E /* SelectListViewController.swift in Sources */,
+				AA97A5742C037D0200CE8729 /* LocalNotificationsManager.swift in Sources */,
 				41E52B3E2BC97D03002F203E /* SelectListModuleIO.swift in Sources */,
 				416239CC2BC312FC001EB7AE /* TicketDetailsHeaderView.swift in Sources */,
 				41622D762BC171FA001EB7AE /* SettingsViewController.swift in Sources */,
