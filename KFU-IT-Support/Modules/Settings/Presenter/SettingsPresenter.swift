@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseCrashlytics
 
 final class SettingsPresenter {
 
@@ -59,6 +60,7 @@ extension SettingsPresenter: SettingsViewOutput {
 
                     interactor.cleanAllData()
                     moduleOutput.mapOrLog { $0.moduleWantsToDeauthorize(self) }
+                    Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
                     fatalError()
             }),
             .init(

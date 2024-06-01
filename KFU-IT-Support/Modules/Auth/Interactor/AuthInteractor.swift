@@ -43,7 +43,11 @@ final class AuthInteractor {
 
 extension AuthInteractor: AuthInteractorInput {
 
-    func tryToAuthorize(login: String, password: String, completion: @escaping ((Result<Void, Error>) -> Void)) {
+    func tryToAuthorize(
+        login: String,
+        password: String,
+        completion: @escaping ((Result<Void, Error>) -> Void)
+    ) {
         repository.tryToAuthorize(
             login: login,
             password: password,

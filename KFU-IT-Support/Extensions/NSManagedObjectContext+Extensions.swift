@@ -90,26 +90,3 @@ extension NSManagedObjectContext {
         }
     }
 }
-
-extension NSPersistentContainer {
-    func deleteAllData() {
-        let managedContext = viewContext
-
-        // Загрузка всех сущностей (entities)
-        let entityNames = managedObjectModel.entities.compactMap({ $0.name })
-
-        // Удаление всех объектов в каждой сущности
-        entityNames.forEach { entityName in
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-            do {
-                try managedContext.execute(deleteRequest)
-                try managedContext.save()
-                print("Deleted all data from entity: \(entityName)")
-            } catch let error {
-                print("Error deleting data from entity \(entityName): \(error.localizedDescription)")
-            }
-        }
-    }
-}

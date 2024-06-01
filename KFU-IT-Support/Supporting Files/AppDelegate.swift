@@ -7,6 +7,7 @@
 
 import CoreData
 import FirebaseCore
+import FirebaseCrashlytics
 import Swinject
 import UIKit
 
@@ -40,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootFlowCoordinator.start(animated: true, in: self.window ?? window)
 
         FirebaseApp.configure()
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
 
         return true
     }

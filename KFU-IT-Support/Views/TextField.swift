@@ -79,10 +79,6 @@ class TextField: UIView {
 
     weak var delegate: PrimaryTextFieldViewDelegate?
 
-    var textFieldDelegate: UITextFieldDelegate? {
-        get { textField.delegate }
-    }
-
     var text: String = "" {
         willSet {
             print(newValue)
@@ -210,7 +206,11 @@ class TextField: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
 
         textField.clearButtonMode = .whileEditing
-        textField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
+        textField.addTarget(
+            self,
+            action: #selector(textFieldValueChanged),
+            for: .editingChanged
+        )
         textField.delegate = self
         textField.borderStyle = .none
         textField.placeholder = ""
@@ -286,8 +286,8 @@ class TextField: UIView {
 
     private func textRemoved() {
         passwordEyeButton.isHidden = true
-        placeholderLabel.alpha = 1
-        titleLabel.alpha = 0
+        placeholderLabel.alpha = 0
+        titleLabel.alpha = 1
     }
 
     func setTextFieldTag(tag: Int) {
@@ -324,6 +324,7 @@ extension TextField: UITextFieldDelegate {
         UIView.animate(withDuration: 0.5) {
             self.placeholderLabel.isHidden = true
             self.bottomLineView.backgroundColor = .label
+            self.titleLabel.alpha = 1
         }
         return true
     }
@@ -332,7 +333,9 @@ extension TextField: UITextFieldDelegate {
         delegate?.didEditingWith(text)
         UIView.animate(withDuration: 0.5) {
             if textField.text == "" {
+                self.titleLabel.alpha = 0
                 self.placeholderLabel.isHidden = false
+                self.placeholderLabel.alpha = 1
             }
             self.bottomLineView.backgroundColor = .separator
         }

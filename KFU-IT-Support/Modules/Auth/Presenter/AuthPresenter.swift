@@ -69,14 +69,13 @@ extension AuthPresenter: AuthViewOutput {
         login: String,
         password: String
     ) {
-        guard login.count > 16, login.count < 18
+        guard login.count > 10, login.count < 13
         else {
             self.state = .error(prepareInsufficiencyErrorData())
             return
         }
 
         self.state = .loading
-        print(login, password)
         interactor.tryToAuthorize(
             login: login,
             password: password

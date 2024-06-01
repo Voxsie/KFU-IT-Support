@@ -227,8 +227,24 @@ final class LocalService: LocalServiceProtocol {
             userDefault.remove(for: $0)
         }
         keychain.clear()
-        let persistentContainer = NSPersistentContainer(name: "KFU_IT_Support")
-        persistentContainer.deleteAllData()
+        deleteAllEntities()
+    }
 
+    func deleteAllEntities() {
+        let persistentContainer = NSPersistentContainer(name: "KFU_IT_Support")
+        let entities = persistentContainer.managedObjectModel.entities
+        for entity in entities {
+            delete(entityName: entity.name!)
+        }
+    }
+    func delete(entityName: String) {
+        let persistentContainer = NSPersistentContainer(name: "KFU_IT_Support")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        do {
+            try persistentContainer.viewContext.execute(deleteRequest)
+        } catch let error as NSError {
+            debugPrint(error)
+        }
     }
 }
