@@ -33,5 +33,27 @@ extension TicketCommentManagedObject {
 
         return commentMO
     }
+
+    @discardableResult
+    static func `import`(
+        from remoteItem: TicketsListComment,
+        for ticket: TicketItem,
+        hasSent: Bool = true,
+        in context: NSManagedObjectContext
+    ) throws -> TicketCommentManagedObject {
+        let commentMO = context.findOrCreateManagedObjectByID(
+            entityName: "TicketCommentManagedObject",
+            propertyID: "id",
+            value: ticket.id
+        ) as! TicketCommentManagedObject
+        commentMO.id = ticket.id
+        commentMO.beginDate = remoteItem.beginDate
+        commentMO.endDate = remoteItem.endDate
+        commentMO.comment = remoteItem.comment
+        commentMO.techComment = remoteItem.comment
+        commentMO.hasSent = NSNumber(value: hasSent)
+
+        return commentMO
+    }
 }
 

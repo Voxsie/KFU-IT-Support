@@ -95,9 +95,13 @@ struct TicketItem: Codable, Equatable {
 struct TicketsListComment: Codable {
     let executor: String?
     let comment: String?
+    let beginDate: String?
+    let endDate: String?
 
     enum CodingKeys: String, CodingKey {
         case executor = "Executor"
         case comment = "Comment"
+        case beginDate = "beginDate"
+        case endDate = "endDate"
     }
 }

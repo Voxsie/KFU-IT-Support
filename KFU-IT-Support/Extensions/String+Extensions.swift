@@ -33,3 +33,13 @@ extension String {
         return components(separatedBy: .whitespaces).joined()
     }
 }
+
+extension String {
+    func toDate(withFormat format: String? = nil) -> Date? {
+        let dateFormatter = DateFormatter()
+        if let format {
+            dateFormatter.dateFormat = format
+        }
+        return dateFormatter.date(from: self)
+    }
+}

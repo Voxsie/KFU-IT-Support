@@ -93,7 +93,18 @@ final class LocalService: LocalServiceProtocol {
                     return numA > numB
                 }
                 sortedArray.forEach { ticket in
-                    _ = try? TicketManagedObject.import(from: ticket, in: self.context)
+                    _ = try? TicketManagedObject.import(
+                        from: ticket,
+                        in: self.context
+                    )
+                    if let comment = ticket.comments?.first {
+                        _ = try? TicketCommentManagedObject.import(
+                            from: comment,
+                            for: ticket,
+                            in: self.context
+                        )
+                    }
+
                 }
                 try self.context.save()
                 completion(.success(()))
