@@ -15,5 +15,6 @@ struct TargetBody {
         let techComment: String
         let beginDate: String
         let endDate: String
+        let photo: Data?
     }
 }

@@ -90,7 +90,10 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
             titleLabel.text = "*********"
             titleLabel.textColor = .clear
             let animation = GradientDirection.leftRight.slidingAnimation()
-            self.contentView.showSkeleton()
+            self.contentView.showAnimatedGradientSkeleton(
+                usingGradient: .init(baseColor: .tertiarySystemFill),
+                animation: animation
+            )
 
         case let .content(displayData):
             contentView.hideSkeleton()

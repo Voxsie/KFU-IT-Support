@@ -31,6 +31,10 @@ extension TicketCommentManagedObject {
         commentMO.techComment = body.techComment
         commentMO.hasSent = NSNumber(value: hasSent)
 
+        if let photo = body.photo {
+            commentMO.photo = photo
+        }
+
         return commentMO
     }
 

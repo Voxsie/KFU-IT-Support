@@ -38,6 +38,7 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
     ) {
         self.userDefaults = userDefaults
         isAuthorized = userDefaults.getBool(for: .isAuthorized)
+        print(isAuthorized)
     }
 
     // MARK: Public methods
@@ -48,12 +49,12 @@ final class RootFlowCoordinator: WindowableFlowCoordinator {
     }
 
     func start(animated: Bool) {
-        UserDefaultManager.shared.set(false, for: .offlineMode)
+        userDefaults.set(false, for: .offlineMode)
         let builder = RootModuleBuilder(
             moduleOutput: self
         )
-        let ticketsListViewController = builder.build()
-        rootViewController = ticketsListViewController
+        let viewController = builder.build()
+        rootViewController = viewController
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
     }

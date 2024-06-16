@@ -110,7 +110,8 @@ extension TicketClosingPresenter: TicketClosingViewOutput {
                 comment: state.displayData.completedWorkText,
                 techComment: state.displayData.completedTechWorkText,
                 beginDate: dateFormatter.string(from: state.displayData.startDate),
-                endDate: dateFormatter.string(from: state.displayData.endDate)
+                endDate: dateFormatter.string(from: state.displayData.endDate),
+                photo: state.displayData.attachment?.pngData()
             )
         ) { [weak self] result in
             guard let self else { return }
@@ -216,7 +217,9 @@ private extension TicketClosingPresenter {
                         )
                     }
                 }
-            ))
+            ),
+            attachment: item.photo
+        )
         return item
     }
 

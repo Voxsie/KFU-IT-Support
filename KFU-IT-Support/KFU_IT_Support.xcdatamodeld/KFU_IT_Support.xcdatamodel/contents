@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="22G436" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23A5337a" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="TicketCommentManagedObject" representedClassName="TicketCommentManagedObject" syncable="YES">
         <attribute name="beginDate" optional="YES" attributeType="String"/>
         <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="endDate" optional="YES" attributeType="String"/>
         <attribute name="hasSent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="photo" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="techComment" optional="YES" attributeType="String"/>
     </entity>
     <entity name="TicketManagedObject" representedClassName="TicketManagedObject" syncable="YES">

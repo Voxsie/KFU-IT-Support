@@ -46,6 +46,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.isSkeletonable = true
         label.linesCornerRadius = 8
+        label.isHiddenWhenSkeletonIsActive = true
         return label
     }()
 
@@ -65,6 +66,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.isSkeletonable = true
         label.linesCornerRadius = 8
+        label.isHiddenWhenSkeletonIsActive = true
         return label
     }()
 

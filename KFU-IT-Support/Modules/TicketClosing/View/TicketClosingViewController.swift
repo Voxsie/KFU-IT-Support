@@ -227,7 +227,8 @@ final class TicketClosingViewController: UIViewController {
                                 items: displayData.selectedWorkers?.items ?? [],
                                 type: displayData.selectedWorkers?.type ?? .single,
                                 action: displayData.selectedWorkers?.action ?? {}
-                            )
+                            ),
+                    attachment: uploadFileView.getPhoto()
                 )
             )
         )
@@ -350,6 +351,7 @@ extension TicketClosingViewController: TicketClosingViewInput {
         workerSelectorView.addAction {
             displayData.selectedWorkers?.action()
         }
+        uploadFileView.setPreviewImage(displayData.attachment)
     }
 }
 

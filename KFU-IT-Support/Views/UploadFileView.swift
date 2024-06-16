@@ -11,6 +11,8 @@ final class UploadFileView: UIView {
 
     // MARK: Lifecycle
 
+    private var photo: UIImage?
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 14))
@@ -107,8 +109,13 @@ final class UploadFileView: UIView {
     }
 
     func setPreviewImage(_ image: UIImage?) {
+        photo = image
         previewFileImageView.isHidden = image == nil
         fileLabel.isHidden = image != nil
         previewFileImageView.image = image
+    }
+
+    func getPhoto() -> UIImage? {
+        photo
     }
 }

@@ -68,7 +68,7 @@ extension SettingsPresenter: SettingsViewOutput {
                 subtitle: nil,
                 action: { [weak self] in
                     guard let self else { return}
-
+                    interactor.cleanAllData()
                     moduleOutput.mapOrLog { $0.moduleWantsToDeauthorize(self) }
             }),
             .init(
