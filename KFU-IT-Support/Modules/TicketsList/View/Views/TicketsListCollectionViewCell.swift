@@ -137,7 +137,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         }
 
         expireSubtitle.snp.makeConstraints {
-            $0.height.equalTo(18)
+            $0.height.greaterThanOrEqualTo(18)
         }
 
         ticketTitle.snp.makeConstraints {
@@ -145,7 +145,7 @@ class TicketsListCollectionViewCell: UICollectionViewCell {
         }
 
         capsuleView.snp.makeConstraints { make in
-            make.height.equalTo(30)
+            make.height.greaterThanOrEqualTo(30)
         }
 
         addSeparator()

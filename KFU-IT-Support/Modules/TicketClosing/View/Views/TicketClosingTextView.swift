@@ -29,7 +29,8 @@ final class TicketClosingTextView: UIView {
         textView.textContainerInset = .init(
             top: 16, left: 16, bottom: 16, right: 16
         )
-        textView.font = .systemFont(ofSize: 16)
+        textView.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 16))
+        textView.adjustsFontForContentSizeCategory = true
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.isEditable = true
         textView.delegate = self

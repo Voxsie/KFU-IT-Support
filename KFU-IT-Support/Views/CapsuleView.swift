@@ -36,7 +36,7 @@ final class CapsuleView: UIView {
             $0.edges.equalToSuperview().inset(8)
         }
         snp.makeConstraints {
-            $0.height.equalTo(30)
+            $0.height.greaterThanOrEqualTo(30)
         }
 
         layer.cornerRadius = 15

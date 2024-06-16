@@ -30,7 +30,8 @@ final class UploadFileView: UIView {
         button.setTitle("Выберите файл", for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.contentHorizontalAlignment = .center
-        button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.titleLabel?.font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12))
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.backgroundColor = .systemBackground
         button.layer.cornerRadius = 10
         return button
@@ -92,7 +93,7 @@ final class UploadFileView: UIView {
         }
 
         uploadFileButton.snp.makeConstraints {
-            $0.width.equalTo(120)
+            $0.width.greaterThanOrEqualTo(120)
         }
 
         previewFileImageView.snp.makeConstraints {

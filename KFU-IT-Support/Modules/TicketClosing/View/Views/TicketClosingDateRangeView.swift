@@ -59,7 +59,7 @@ final class TicketClosingDateRangeView: UIView {
         stack.axis = .horizontal
         stack.spacing = 4
         stack.distribution = .fill
-        stack.alignment = .center
+        stack.alignment = .fill
         return stack
     }()
 
@@ -105,11 +105,12 @@ final class TicketClosingDateRangeView: UIView {
         }
 
         startDateRangeDatePicker.snp.makeConstraints {
-            $0.height.equalTo(32)
+            $0.height.greaterThanOrEqualTo(32)
         }
 
         endDateRangeDatePicker.snp.makeConstraints {
-            $0.height.equalTo(32)
+            $0.height.greaterThanOrEqualTo(32)
+            $0.width.equalTo(startDateRangeDatePicker)
         }
     }
 

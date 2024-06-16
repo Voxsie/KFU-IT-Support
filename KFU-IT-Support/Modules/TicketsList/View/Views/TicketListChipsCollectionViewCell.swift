@@ -80,7 +80,7 @@ final class TicketsListChipsCollectionViewCell: UICollectionViewCell {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.top.bottom.equalToSuperview().inset(4)
             $0.center.equalToSuperview()
-            $0.height.equalTo(22)
+            $0.height.greaterThanOrEqualTo(22)
         }
     }
 
